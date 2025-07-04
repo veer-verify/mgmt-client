@@ -1,0 +1,15 @@
+.close {
+  position: relative;
+  left: -50px;
+}
+
+.site-detail {
+  margin: 38px 0 0 -44px;
+}
+
+@media screen and (max-width: 768px) {
+  .close {
+    left: 300px;
+    top: 0;
+  }
+}

@@ -1,0 +1,488 @@
+<div class="container-fluid">
+
+  <!-- header -->
+  <div class="d-flex justify-content-between my-2">
+    <div class="users-header">
+
+      <!-- count -->
+      <div class="row">
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-blue"></div>
+          <div class="mx-2">
+            <div class="status">Total Users</div>
+            <div class="count">{{userTableData.length}}</div>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-green"></div>
+          <div class="mx-2">
+            <div class="status">Active</div>
+            <!-- <div class="count">{{activeUsers.length}}</div> -->
+            <div class="count">{{userTableData | count: 'status' : 'IVISUSA'}}</div>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-red"></div>
+          <div class="mx-2">
+            <div class="status">Inactive</div>
+            <!-- <div class="count">{{inactiveUsers.length}}</div> -->
+            <div class="count">{{userTableData | count: 'status' : ''}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="create-btn" (click)="show('user')">Create User</button>
+    </div>
+  </div>
+
+  <!-- form starts -->
+  <div class="search-form">
+    <div class="col-lg-3 col-md-3 col-sm-12">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- table starts -->
+  <!-- <app-table [fields]="fields" [data]="newTableData"></app-table> -->
+
+  <div class="table-resp">
+    <table class="table" id="mytable">
+      <thead>
+        <tr class="form1">
+          <!-- <th>
+              <input type="checkbox" class="form-check-input" [(ngModel)]="selectedAll" (change)="selectAll()"
+              id="allcheck" style="
+              background-color: #00000000;
+              border-color: #fff;
+              margin-left: 10px;
+              " />
+            </th> -->
+          <th>
+            <p class="d-inline-flex">
+              <span style="white-space: nowrap;">User Id</span>
+              <img (click)="sort('user_id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+          <th>
+            <span>Name</span>
+            <img (click)="sort('user_id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Username/Email</span>
+            <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Department</span>
+            <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>User</span>
+            <!-- <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+          <th (click)="sort('address')">Address</th>
+          <th>
+            <p class="d-inline-flex">
+              <span style="white-space: nowrap;">Contact Number</span>
+              <img (click)="sort('contactNo1')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+          <th>Sites</th>
+          <!-- <th (click)="sort('custType')">Role</th> -->
+          <!-- <th (click)="sort('contactPerson')">#Sites</th> -->
+          <!-- <th (click)="sort('contactPerson')">Safety Escort</th> -->
+          <!-- <th>
+            <span>Role</span>
+            <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th> -->
+          <th>
+            <p class="d-inline-flex">
+              <span style="white-space: nowrap;">Status</span>
+              <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="!showLoader">
+          <tr *ngFor="let cust of userTableData | search : searchText; let i = index;">
+            <!-- [style.background]="rowIndex == i ? '#ababab' : ''" -->
+            <!-- <td>
+              <input type="checkbox" name="foo" class="form-check-input" [(ngModel)]="cust.selected" (change)="
+              checkIfAllSelected();
+              deleteMultiRecords(cust, i, $event);
+              ViewByCheckbox(cust, i, $event);
+              EditByCheckbox(cust, i, $event)
+              " id="singleCheck" />
+            </td> -->
+            <td>
+              <p>{{ cust.user_id }}</p>
+            </td>
+            <td>
+              <p>{{ cust.firstName }} {{ cust.lastName }}</p>
+            </td>
+            <td>
+              <p>{{ cust.User_Name }}</p>
+              <p *ngIf="cust.User_Name !== cust.email">{{ cust.email }}</p>
+            </td>
+            <td>
+              <p *ngFor="let cat of cust.dept_category" class="d-inline-flex"><span>{{ cat.department
+                  }}</span>&nbsp;-&nbsp;<strong>{{ cat.category }}</strong></p>
+            </td>
+            <td>
+              <button [disabled]="!isAdmin(cust)" (click)="opencreateuser(cust)"
+                style="background-color: transparent; border: none;">Create</button>
+              <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> -->
+            </td>
+            <td>
+              <p class="text-primary pointer" [matMenuTriggerFor]="userAddress" (click)="getUserInfoForUserId(cust)">
+                View
+              </p>
+
+              <mat-menu #userAddress>
+                <div class="address-sec" *ngIf="userInfo">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td class="address-label">Address Line1</td>
+                        <td>{{ userInfo?.address_line1 ?? 'hdahsd' }}</td>
+                      </tr>
+                      <tr>
+                        <td class="address-label">Address Line2</td>
+                        <td>{{ userInfo?.address_line2 }}</td>
+                      </tr>
+                      <tr>
+                        <td class="address-label">City</td>
+                        <td>{{ userInfo?.city }}</td>
+                      </tr>
+                      <tr>
+                        <td class="address-label">Country</td>
+                        <td>{{ userInfo?.country }}</td>
+                      </tr>
+                      <tr>
+                        <td class="address-label">State</td>
+                        <td>{{ userInfo?.state }}</td>
+                      </tr>
+                      <tr>
+                        <td class="address-label">Zip Code</td>
+                        <td>{{ userInfo?.pin }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="address-sec text-center" *ngIf="!userInfo">No Data</div>
+              </mat-menu>
+            </td>
+            <td>
+              <p>{{ cust.contactNo1 }}</p>
+            </td>
+
+
+            <td>
+              <p>{{ cust.assignSite }}</p>
+              <a class="pointer mx-1" (click)="getSitesListForUserName(cust)">
+                View
+              </a>
+            </td>
+
+            <!-- <td style="width: 250px;">
+              <p *ngFor="let role of cust.roles">{{ role.roleName }}</p>
+            </td> -->
+
+            <td>
+              <p [style.color]="cust.status == 'IVISUSA' ? '#00A44C' : '#fa500f'">
+                {{ cust.status == 'IVISUSA' ? 'Active' : 'Inactive' }}
+              </p>
+            </td>
+
+            <td class="text-center">
+              <div class="d-inline-flex">
+                <button class="action-btns" matTooltip="View" (click)="openViewProfileDialog(cust)">
+                  <img src="assets/icons/view.svg">
+                </button>
+                <button class="action-btns" matTooltip="Edit" (click)="openEditProfileDialog(cust)"
+                  [disabled]="cust.status == ''">
+                  <img src="assets/icons/edit.svg">
+                </button>
+                <button class="action-btns" value="Delete"
+                  [matTooltip]="cust.status == 'IVISUSA' ? 'Deactivate' : 'Alredy deactivated!'"
+                  (click)="confirmDeleteRow(cust)" [disabled]="cust.status == ''">
+                  <img src="assets/icons/delete.svg">
+                </button>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    <!-- error info -->
+    <div class="err-info" style="height: 45vh;" *ngIf="userTableData.length == 0 && !showLoader">
+      <h1 class="text-secondary">No Users</h1>
+    </div>
+
+    <!-- loader -->
+    <div *ngIf="showLoader" class="d-flex justify-content-center align-items-center" style="height: 45vh;">
+      <app-loader></app-loader>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #assignSitesDialog>
+  <div class="d-flex justify-content-between align-items-center" style="background-color: #084982;">
+    <p class="text-white p-1">Assign Sites - {{currentItem?.User_Name}}</p>
+    <img src="assets/icons/close_form.svg" alt="" width="28px" mat-dialog-close>
+  </div>
+
+  <div class="dialog-content" style="width: 500px;">
+    <div class="srh p-2">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="assignText" (ngModelChange)="searchSites()">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="m-1">
+      <mat-button-toggle-group name="fontStyle" [(ngModel)]="selectedFilter">
+        <mat-button-toggle *ngFor="let item of filters" [value]="item.id" (click)=" filterAssigned(item)">{{item.label}}
+          - {{item.call(userSites)}}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="menu-items">
+      <ng-container *ngIf="showLoading">
+        <p class="text-center">Loading...</p>
+      </ng-container>
+
+      <ng-container *ngIf="!showLoading">
+        <span class="site-name ms-1" *ngIf="selectedFilter !== 1 && newUserSites?.length !== 0">
+          <input type="checkbox" id="all" [(ngModel)]="selectAllSites" (change)="toggleAllSites()">
+          <label class="ms-1" for="all">Select All</label>
+        </span>
+
+        <div class="site-list" *ngFor="let site of newUserSites | search: assignText; let i = index">
+          <span class="site-name" [style.color]="site?.isAssigned ? 'green' : 'red'">
+            <input type="checkbox" [id]="site.siteId" class="form-check-input me-1" [(ngModel)]="site.assigned"
+              (ngModelChange)="toggleAllIndividual()" *ngIf="selectedFilter !== 1">
+            <label [for]="site.siteId">{{site.siteName}}</label>
+          </span>
+        </div>
+        <div class="text-center" *ngIf="newUserSites?.length === 0 && !showLoading">NO SITES</div>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center pb-2" *ngIf="selectedFilter !== 1">
+      <button class="assign-btn" (click)="submitAssignSite()">{{ selectedFilter == 2 ? 'Unassign' : 'Assign' }}</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #editprofileDialog>
+  <div style="background-color: #084982;">
+    <p class="text-white p-1">MODIFY - {{ currentUser?.userName | titlecase }}</p>
+  </div>
+
+  <div class="dialog-content" *ngIf="currentUser">
+    <div class="row m-0">
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email Address</mat-label>
+          <input matInput [(ngModel)]="currentUser.email">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>First Name</mat-label>
+          <input matInput [(ngModel)]="currentUser.firstName">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Last Name</mat-label>
+          <input matInput [(ngModel)]="currentUser.lastName">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Account Id</mat-label>
+          <input matInput [(ngModel)]="currentUser.accountId">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Address line 1</mat-label>
+          <input matInput [(ngModel)]="currentUser.address_line1">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Address line 2</mat-label>
+          <input matInput [(ngModel)]="currentUser.address_line2">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>ContactNo 1</mat-label>
+          <input matInput [(ngModel)]="currentUser.contactNo1">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>ContactNo 2</mat-label>
+          <input matInput [(ngModel)]="currentUser.contactNo2">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Verification Id</mat-label>
+          <input matInput [(ngModel)]="currentUser.verificationId">
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Modified Time</mat-label>
+          <input matInput [(ngModel)]="currentUser.modifiedTime">
+        </mat-form-field>
+      </div> -->
+      <app-country-state-city
+        [data]="{ country: currentUser.country, state: currentUser.state, city: currentUser.city }"
+        (sendData)="getFormData($event)"></app-country-state-city>
+<!-- 
+      <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Created Time</mat-label>
+          <input matInput [(ngModel)]="currentUser.createdTime">
+        </mat-form-field>
+      </div> -->
+      <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Zip code</mat-label>
+          <input matInput [(ngModel)]="currentUser.pin">
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>CreatedBy</mat-label>
+          <input matInput [(ngModel)]="currentUser.createdBy">
+        </mat-form-field>
+      </div> -->
+      <!-- <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>ModifiedBy</mat-label>
+          <input matInput [(ngModel)]="currentUser.modifiedBy">
+        </mat-form-field>
+      </div> -->
+
+      <div class="col-lg-12 mb-2">
+        <p>Employee</p>
+        <mat-radio-group [(ngModel)]="currentUser.employee">
+          <mat-radio-button value="T" class="me-5">Yes</mat-radio-button>
+          <mat-radio-button value="F">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="col-lg-12" *ngIf="currentUser.employee === 'T'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>empId</mat-label>
+          <input matInput [(ngModel)]="currentUser.empId">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end mt-2">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    <button class="dialog-submit-btn" mat-dialog-close (click)="updateUser()">Update</button>
+  </div>
+</ng-template>
+
+<ng-template #createUser>
+  <div style="background-color: #084982;">
+    <p class="text-white p-1">CREATE</p>
+  </div>
+
+  <div class="dialog-content">
+    <form class="p-0" [formGroup]="userCreateForm">
+      <div class="row m-0">
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="userName">
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select Department</mat-label>
+            <mat-select formControlName="department">
+              <mat-option *ngFor="let item of departmentsAll" [value]="item" (click)="userDepartments1(item)"
+                [disabled]="storageSer.isAdmin()">{{ item }}</mat-option>
+            </mat-select>
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select Role</mat-label>
+            <mat-select formControlName="roleList" multiple>
+              <mat-option *ngFor="let item of userRoles" [value]="item.deptId">{{ item.category }}</mat-option>
+            </mat-select>
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email Address</mat-label>
+            <input matInput formControlName="emailId">
+            <mat-error>*required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Remarks</mat-label>
+            <input matInput formControlName="remarks">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-end mt-2">
+        <button class="dialog-close-btn" mat-dialog-close>Close</button>
+        <button class="dialog-submit-btn" (click)="oncreateUserSubmit()">Create</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+
+
+<div *ngIf="showAddUser">
+  <app-add-new-user (newItemEvent)="closenow('user'); listUsers()"></app-add-new-user>
+</div>
+
+<div *ngIf="showAddSite">
+  <app-add-additional-site (newItemEvent)="closenow('additionalSite')"></app-add-additional-site>
+</div>
+

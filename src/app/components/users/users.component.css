@@ -1,0 +1,64 @@
+.menu-items {
+    padding: 10px;
+    height: 50vh;
+    overflow-y: auto;
+}
+
+.site-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+
+}
+
+.site-list .site-name {
+    /* width: 500px;
+    text-overflow: ellipsis; */
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    font-size: 14px !important;
+    cursor: pointer;
+}
+
+.assign-btn {
+    width: 66px;
+    background-color: #084982;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+    border: none;
+}
+
+.assign-btn-active {
+    background-color: #D34124;
+}
+
+.address-sec {
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    font-size: 14px;
+}
+
+.address-label {
+    color: #ababab;
+}
+
+.action-btns {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 3px;
+}
+
+.srh ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+    line-height: 2 !important;
+}
+
+/* ::ng-deep .mat-mdc-menu-panel {
+    max-width: 100% !important;
+} */

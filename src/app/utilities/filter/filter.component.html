@@ -1,0 +1,84 @@
+<div class="filter">
+    <div class="row">
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Site</mat-label>
+            <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="siteId" (keyup)="searchSites($event)">
+            <button matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-autocomplete #site="matAutocomplete">
+              <mat-option value="All" (click)="filterWithSites(filterType)" *ngIf="filterType != 'users'">All</mat-option>
+              <mat-option *ngFor="let item of sitesList | search: siteSearch" [value]="item.siteId" (click)="filterWithSites(filterType)">
+                {{ item.siteId }} - {{ item.siteName }}
+              </mat-option>
+              <mat-option *ngIf="sitesList.length == 0" disabled>No Sites</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3" *ngIf="filterType === 'wifi'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Device</mat-label>
+            <input matInput #deviceIdInput type="text" [matAutocomplete]="device" [(ngModel)]="deviceId" (keyup)="searchDevices($event)">
+            <button matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-autocomplete #device="matAutocomplete">
+              <mat-option value="All" (click)="filterWithSites(filterType)">All</mat-option>
+              <mat-option *ngFor="let device of devicesList | search: deviceSearch" [value]="device.deviceId" (click)="filterWithSites(filterType)" [hidden]="device.deviceTypeId !== 3">{{ device.deviceId }}- {{device.deviceDescription}}</mat-option>
+              <mat-option *ngIf="devicesList.length == 0" disabled>No Devices</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <!-- <div class="col-lg-3" *ngIf="filterType === 'newdevices'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Device Type</mat-label>
+            <mat-select [(ngModel)]="deviceTypeId">
+              <mat-option *ngFor="let device of deviceTypes | search: deviceSearch" [value]="device.keyId" (click)="filterWithSites(filterType)">{{ device.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        
+        <div class="col-lg-3 from-date"  *ngIf="filterType === 'wifi'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="rangePicker">
+              <input matStartDate placeholder="Created from" [(ngModel)]="ticketStatusObj.doif" >
+              <input matEndDate placeholder="Created to" [(ngModel)]="ticketStatusObj.doit">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+      
+            <mat-date-range-picker #rangePicker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDateRangePickerApply (click)="filterWithSites(filterType)">Apply</button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+        </div>
+
+        <!-- <div class="col-lg-3" *ngIf="filterType == 'devices'">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="status">
+                <mat-option value="All" (click)="filterWithSites(filterType)">All</mat-option>
+                <mat-option [value]="1" (click)="filterWithSites(filterType)">Online</mat-option>
+                <mat-option [value]="2" (click)="filterWithSites(filterType)">Offline</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div> -->
+
+        <div class="col-lg-3" *ngIf="filterType !== 'sensors' && filterType !== 'users'">
+          <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+            <mat-label>Search</mat-label>
+            <input matInput type="text" [(ngModel)]="searchText" (ngModelChange)="searchTableData()">
+            <button matSuffix mat-icon-button>
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      
+      </div>
+</div>

@@ -1,0 +1,95 @@
+/* .table tbody tr td {
+  padding: 0 5px;
+} */
+
+.create-centeral-box-button{
+  width: 100px;
+  border-radius: 8px;
+  background-color:#084982;
+  /* margin-bottom: 20px; */
+  color: aliceblue;
+  font-size: 12px;
+
+}
+
+.blod{
+font-weight: bold;
+}
+
+a {
+  /* border: none; */
+  /* outline: none;  */
+  color: #084982;
+  cursor: pointer;
+}
+
+table {
+  width: 100%; /* Optional: Makes the table take the full width */
+  border-collapse: collapse; /* Optional: Collapses borders */
+}
+
+th, td {
+  padding: 6px; /* Adjust padding as needed */
+  text-align: left; /* Align text to the left (optional) */
+}
+
+
+.text-ellipsis {
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+ /* Adjust as needed */
+}
+::ng-deep mat-expansion-panel-header {
+  min-height: 85px; 
+  /* width: 46vw; */
+}
+
+.circle-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+mat-panel-description {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between items */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.first-card {
+  background-color: rgb(247, 247, 240);
+  border-radius: 36px;
+  height: 46px;
+  width: 76px;
+  text-align: center;
+  padding: 6px;
+}
+
+.btn-card {
+  background-color: rgb(60, 189, 114);
+  border-radius: 36px;
+  height: 40px;
+  width: 56px;
+  text-align: center;
+  padding: 12px;
+  border-style: none;
+  border-width: 0px;
+}
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+
+/* th {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 85vw; 
+} */
+

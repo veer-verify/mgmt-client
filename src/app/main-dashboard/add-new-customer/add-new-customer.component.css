@@ -1,0 +1,38 @@
+.address {
+    margin: 10px 0 10px 0;
+}
+.address p {
+    font-size: 13px;
+    font-weight: 600;
+    color: #000000;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+.address button {
+    color: #084982;
+    background-color: #fff;
+    border: 1px solid #084982;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px 9px 5px 9px;
+    display: flex;
+    align-items: center;
+}
+.address-add {
+    border: 1px solid #EFEFEF;
+    padding: 5px 10px 5px 0;
+    background-color: #FCFCFC;
+    border-radius: 5px;
+    margin: 10px -8px 10px 10px;
+}
+#address1 > option > span{
+    font-size: 5px !important;
+}
+
+.address-add a img {
+    float: right;
+    margin: -28px -50px;
+}

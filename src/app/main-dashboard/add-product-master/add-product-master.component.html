@@ -1,0 +1,78 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-4"></div>
+  <div class="col-lg-6 col-8 add-form" id="user" @inOutPaneAnimation>
+    <div>
+      <a class="close-main pointer" (click)="closeAddUser()"><img src="assets/icons/close_form.svg" /></a>
+      <span class="form-heading">add product master</span>
+    </div>
+
+    <!-- Form -->
+    <div>
+      <form autocomplete="off" [formGroup]="UserForm" #addUserForm="ngForm" (ngSubmit)="submit()">
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>materialDescription</mat-label>
+              <input matInput formControlName="materialDescription" [(ngModel)]="prductMasterObj.materialDescription">
+              <mat-error >materialDescription is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>uomId</mat-label>
+              <mat-select formControlName="uomId" [(ngModel)]="prductMasterObj.uomId">
+                <mat-option *ngFor="let item of uomId" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+              <mat-error >uomId is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>partType</mat-label>
+              <mat-select formControlName="partType" [(ngModel)]="prductMasterObj.partType">
+                <mat-option *ngFor="let item of partType" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+              <mat-error >partType is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>partCategory</mat-label>
+              <mat-select formControlName="partCategory" [(ngModel)]="prductMasterObj.partCategory">
+                <mat-option *ngFor="let item of partCategory" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+              <mat-error >partCategory is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>partCode</mat-label>
+              <mat-select formControlName="partCode" [(ngModel)]="prductMasterObj.partCode">
+                <mat-option *ngFor="let item of partCode" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+              <mat-error >partCode is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>buildType</mat-label>
+              <mat-select formControlName="buildType" [(ngModel)]="prductMasterObj.buildType">
+                <mat-option *ngFor="let item of buildType" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+              <mat-error >buildType is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="text-center my-3">
+            <button type="submit" class="btn add-btn">ADD</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

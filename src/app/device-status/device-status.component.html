@@ -1,0 +1,435 @@
+<div class="container-fluid">
+
+  <!-- count -->
+  <div class="row my-2">
+    <div class="col-lg-1 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Tota Devices</div>
+        <div class="count">{{ newDeviceData?.length }}</div>
+      </div>
+    </div>
+    <div class="col-lg-1 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Online</div>
+        <div class="count">{{ active?.length }}</div>
+      </div>
+    </div>
+    <div class="col-lg-1 d-flex justify-content-start">
+      <div class="vl-red"></div>
+      <div class="mx-2">
+        <div class="status">Offline</div>
+        <div class="count">{{ inActive?.length }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- form -->
+  <div class="row">
+    <div class="col-lg-4">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-1">
+      <button (click)="getStatus()" class="btn btn-primary"><img src="assets/icons/restart.svg" alt="" title="Refresh"></button>
+    </div>
+  </div>
+
+  <!-- table -->
+  <app-table [fields]="fields" [data]="newDeviceData" [search]="searchText"></app-table>
+</div>
+
+<!-- <div *ngIf="showAddDevice">
+  <app-add-new-device (newItemEvent)="closenow('device'); devicesStatus()"></app-add-new-device>
+</div>
+
+<div *ngIf="showDeviceInfo">
+  <app-device-info (newItemEvent)="closenow('device-info')"></app-device-info>
+</div> -->
+
+<ng-template #viewSiteDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view device</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="row m-0" *ngIf="currentItem">
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Site Id</mat-label>
+          <input matInput [(ngModel)]="currentItem.siteId" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device Id</mat-label>
+          <input matInput [(ngModel)]="currentItem.deviceId" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device Type</mat-label>
+          <mat-select [(ngModel)]="currentItem.deviceTypeId" disabled>
+            <mat-option *ngFor="let item of deviceType" [value]="item.keyId">{{ item.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device Mode</mat-label>
+          <mat-select [(ngModel)]="currentItem.deviceModeId" disabled>
+            <mat-option *ngFor="let item of deviceMode" [value]="item.keyId">{{ item.remarks }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ad hours</mat-label>
+          <mat-select [(ngModel)]="currentItem.adsHours" disabled>
+            <mat-option [value]="currentItem.adsHours">{{ currentItem.adsHours }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Working Days</mat-label>
+          <mat-select multiple [(ngModel)]="currentWorkingDays" disabled>
+            <mat-option *ngFor="let day of workingDay" [value]="day.keyId">{{ day.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <input matInput [(ngModel)]="currentItem.deviceDescription" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device Call Frequency</mat-label>
+          <input matInput [(ngModel)]="currentItem.deviceCallFreq" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="currentItem.status" disabled>
+            <mat-option *ngFor="let item of deviceStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Remarks</mat-label>
+          <input matInput [(ngModel)]="currentItem.remarks" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4" *ngIf="currentItem?.deviceModeId == 2 || currentItem?.deviceModeId == 3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Weather Interval</mat-label>
+          <mat-select [(ngModel)]="currentItem.weatherInterval" disabled>
+            <mat-option [value]="currentItem.weatherInterval">{{ currentItem.weatherInterval }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 col-md-4" *ngIf="currentItem?.deviceModeId == 3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Camera Id</mat-label>
+          <mat-select [(ngModel)]="currentItem.cameraId" disabled>
+            <mat-option [value]="currentItem.cameraId">{{ currentItem.cameraId }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <span class="row" *ngIf="currentItem?.deviceModeId == 3">
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Logger Frequency</mat-label>
+            <input matInput [(ngModel)]="currentItem.loggerFreq" disabled>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Model Name</mat-label>
+            <mat-select [(ngModel)]="currentItem.modelName" disabled>
+              <mat-option [value]="currentItem.modelName">{{ currentItem.modelName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Model Object Type</mat-label>
+            <mat-select [(ngModel)]="currentItem.modelObjectTypeId" disabled>
+              <mat-option [value]="currentItem.modelObjectTypeId">{{ currentItem.modelObjectTypeId }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Model Height</mat-label>
+            <input matInput [(ngModel)]="currentItem.modelHeight" disabled>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Model Width</mat-label>
+            <input matInput [(ngModel)]="currentItem.modelWidth" disabled>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Threshold</mat-label>
+            <mat-select [(ngModel)]="currentItem.modelThreshold" disabled>
+              <mat-option [value]="currentItem.modelThreshold">{{ currentItem.modelThreshold }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Max Results</mat-label>
+            <mat-select [(ngModel)]="currentItem.modelMaxResults" disabled>
+              <mat-option [value]="currentItem.modelMaxResults">{{ currentItem.modelMaxResults }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6"></div>
+      </span>
+
+      <div class="col-lg-4 mt-2" *ngIf="currentItem.deviceModeId == 3" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group class="w-50" [(ngModel)]="currentItem.debugOn" disabled>
+          <mat-label>Debug On</mat-label>
+          <mat-radio-button class="ms-3" name="logs" [value]="1">True</mat-radio-button>
+          <mat-radio-button class="ms-3" name="logs" [value]="0" checked>False</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="col-lg-4 mt-2" *ngIf="currentItem.deviceModeId == 3" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group class="w-50" [(ngModel)]="currentItem.debugLogs" disabled>
+          <mat-label>Debug Logs</mat-label>
+          <mat-radio-button class="ms-3" name="display" [value]='1'>True</mat-radio-button>
+          <mat-radio-button class="ms-3" name="display" [value]='0' checked>False</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="col-lg-4 mt-2" *ngIf="currentItem.deviceModeId == 3" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group class="w-50" [(ngModel)]="currentItem.refreshRules" disabled>
+          <mat-label>Refresh Rules</mat-label>
+          <mat-radio-button class="ms-3" name="refresh" [value]='1'>True</mat-radio-button>
+          <mat-radio-button class="ms-3" name="refresh" [value]='0' checked>False</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #editSiteDialog>
+  <app-edit-device-form [currentItem]="currentItem"></app-edit-device-form>
+</ng-template>
+
+<ng-template #rebootDeviceDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">reboot device</p>
+  </div>
+
+  <div class="dialog-content">
+    <p>Do you want to reboot this device?</p>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close (click)="rebootDevice(currentItem.deviceId)">Reboot</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #speedtestDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">speed test</p>
+  </div>
+
+  <div class="dialog-content">
+    <p><span class="fw-bold">Download Speed:</span>&nbsp;{{speedTestDetail?.download_speed}}</p>
+    <p><span class="fw-bold">Upload Speed:</span>&nbsp;{{speedTestDetail?.upload_speed}}</p>
+    <p><span class="fw-bold">Ping:</span>&nbsp;{{speedTestDetail?.ping}}</p>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rtspDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">RTSP</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="address-sec">
+      <table class="table">
+        <thead>
+          <th>Camera Id</th>
+          <th>URL</th>
+          <th>Actions</th>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of rtspUrls; let i=index">
+            <td>{{item.cameraId}}</td>
+            <td>
+              <ng-container *ngIf="rtspIndex !== i">
+                <p style="width: 400px;">{{item.source}}</p>
+              </ng-container>
+
+              <ng-container *ngIf="rtspIndex === i">
+                <div class="d-flex">
+                  <input type="text" style="width: 400px;" [(ngModel)]="currentRTSPURL.source">
+                  <button class="btn btn-success p-1 ms-1" style="font-size: 12px;" (click)="updateRTSP()">Update</button>
+                  <button class="btn btn-danger p-1 ms-1" style="font-size: 12px;" (click)="rtspIndex = -1">Cancel</button>
+                </div>
+              </ng-container>
+
+            </td>
+            <td><a class="mx-1 pointer" (click)="editRTSP(item)" matTooltip="update"><img
+                  src="assets/icons/edit.svg"></a></td>
+          </tr>
+
+          <!-- <tr><a (click)="rtspUrls.push({cameraId: 'IMG050525C1', source: 'rtsp://admin:Ivis123-789@192.168.0.262:554/media/101'})">+</a></tr> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #sensorDialog>
+  <div class="main">
+    <div class="text-center">
+      <p class="dialog-title">Sensors</p>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-start">
+    <div class="users-header mt-2 mx-3">
+      <p class="m-0 mb-2">Sensors - <span>{{ newGetDataForDevice?.length }}</span></p>
+    </div>
+    <div class="users-header mt-2 mx-3">
+      <p class="m-0 mb-2">Zones - <span>{{ newGetDataForDevice?.length }}</span></p>
+    </div>
+  </div>
+  <div class="dialog-content" style="min-width: 950px; min-height: 300px;">
+    <!-- <div class="row"> -->
+    <!-- <app-filter [filterType]="'sensors'" (tableDataFromChild)="getDevicesFromChild1($event)">
+      </app-filter> -->
+
+    <div class="row">
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Site</mat-label>
+          <mat-select [(ngModel)]="siteId">
+            <mat-option *ngFor="let item of tableData" [value]="item.siteId" (click)="getData(item)">{{ item.siteId }} -
+              {{item.siteName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device</mat-label>
+          <mat-select [(ngModel)]="deviceId">
+            <mat-option *ngFor="let item of deviceData" [value]="item.deviceId" (click)="getData(item)">{{ item.deviceId
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- </div> -->
+
+    <div class="device-list">
+      <!-- <div class="device-item" *ngFor="let item of getDataForDevice">
+            <p class="mb-2 heading"><span style="color: brown;">Device Name:&nbsp;</span>{{item.device_name}}</p>
+            <span *ngFor="let val of item.devices_data">
+              <div>
+                <p><span  style="color: darkcyan;">Date:&nbsp;</span>{{val.dateTime}}</p>
+              </div>
+              <p><span style="color: darkcyan;">sensor_id:&nbsp;</span>{{val.sensor_id}}</p>
+              <div class="mb-2">
+                <p><span style="color: darkcyan;">status:&nbsp;</span>{{val.status}}</p>
+              </div>
+            </span>
+          </div> -->
+      <ng-container *ngIf="!showLoader1">
+        <div class="device-item mb-3" *ngFor="let item of newGetDataForDevice">
+          <mat-card>
+            <div class="d-flex justify-content-around align-items-center mx-3">
+              <h2 class="text-center mt-3">ZONE:&nbsp;{{item?.zoneId}}</h2>
+              <!-- <h2>SiteId:&nbsp;{{item?.site_id}}</h2> -->
+            </div>
+          </mat-card>
+          <div class="d-flex justify-content-around align-items-center">
+            <h2 class=" heading dialog-title  mb-1" style=" width: 100px;"><span class="">Device</span></h2>
+            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Name</span></h2>
+            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Type</span></h2>
+            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Status</span></h2>
+            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Time</span></h2>
+          </div>
+          <div *ngFor="let val of item.devices_data">
+            <div class="d-flex justify-content-around align-items-center">
+              <p class="dialog-title" style="width: 100px;">{{val.sensorDeviceId}} </p>
+              <p class="dialog-title" style="width: 100px;">{{val.sensorId}}</p>
+              <p class="dialog-title" style="width: 100px;">{{val.sensorType}}</p>
+              <p class="dialog-title" style="width: 100px;">{{val.status}}</p>
+              <p class="dialog-title" style="width: 100px;">{{val.latestTimeStamp | date:'shortTime'}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div *ngIf="showLoader1">
+        <app-loader class="d-flex justify-content-center align-items-center" style="height: 30vh;"></app-loader>
+      </div>
+      <div class="d-flex justify-content-center align-items-center"
+        style="height: 50vh;font-weight: 600; font-size: larger;" *ngIf="getDataForDevice.length == 0 && !showLoader1">
+        No
+        Data</div>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+  </div>
+</ng-template>

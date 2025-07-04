@@ -1,0 +1,45 @@
+<div >
+  <div class="col-12 d-flex justify-content-evenly mb-2">
+      <button class="create-btn" (click)="openDefenderForm('showCamForm')">Add Camera Details</button>
+      <button class="create-btn" (click)="openDefenderForm('showRouterForm')">Add Camera Details</button>
+
+  </div>
+
+    <div class="table-resp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="bg-conatiner" *ngFor="let item of headerItems">{{item}}</th>
+          </tr>
+        </thead>  
+        <tbody>
+          <tr  *ngFor="let item of defenderDetails ; let i =index">
+
+
+            <td scope="row">{{i+1}}</td>
+            <td scope="row">{{item.cameraUnitId}}</td>
+            <td scope="row">{{item.make}}</td>
+            
+            <td scope="row">{{item.serialNumber}}</td>
+            <td scope="row">{{item.ip}}</td>
+            <td scope="row">{{item.position}}</td>
+
+            <td scope="row">{{item.routerSerial}}</td>
+            <td scope="row">{{item.serialNumber}}</td>
+
+          </tr> 
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<ng-container *ngIf="showCamForm">
+    <app-add-defender-cam (newItemEvent)="close(); showDefenderDetails()"></app-add-defender-cam>
+</ng-container>
+
+<ng-container *ngIf="showRouterForm">
+  <app-add-defender-router (newItemEvent)="close(); showDefenderDetails()"></app-add-defender-router>
+</ng-container>
+
+
+

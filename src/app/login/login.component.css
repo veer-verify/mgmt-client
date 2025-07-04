@@ -1,0 +1,44 @@
+.login-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.login {
+  background-image: linear-gradient(325deg, #D34124, #084982);
+  /* background: linear-gradient(325deg, rgba(20, 31, 77, 0.9) 18%, rgba(90, 13, 3, 0.9) 66%), url("/assets/icons/background.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form .btn {
+  color: #fff;
+  background-color: #084982;
+  width: 200px;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+form .btn:hover {
+  color: #fff;
+  background-color: #0b4170;
+}
+
+.login ::ng-deep .mat-mdc-raised-button:not(:disabled) {
+  background-color: #084982 !important;
+  border-radius: 50px !important;
+}
+
+.login ::ng-deep .mat-mdc-card {
+  border-radius: 16px !important;
+  width: 500px !important;
+  margin: 10px;
+  background-color: #e8f0fe !important;
+}

@@ -1,0 +1,6 @@
+.table-data {
+  width: 200px;
+  text-wrap: wrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

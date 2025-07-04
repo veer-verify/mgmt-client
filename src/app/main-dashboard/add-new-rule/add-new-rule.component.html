@@ -1,0 +1,171 @@
+<div class="row formModal">
+    <div class="col-lg-6 col-4"></div>
+  
+    <div class="col-lg-6 col-8 add-form" id="camera" @inOutPaneAnimation>
+      <div>
+        <a class="close-main pointer" (click)="closenow()"><img src="assets/icons/close_form.svg" /></a>
+        <span class="form-heading">Add Rule For <span >- {{inputData?.adName? inputData?.adName : finalName}}</span></span>
+        <!-- <span class="form-heading"  *ngIf="!inputData">Add Rule For <span *ngIf="finalName"> ( {{finalName}} )</span></span> -->
+      </div>
+  
+      <!-- form -->
+      <div>
+        <form autocomplete="off" [formGroup]="addAssetForm" (ngSubmit)="addNewAsset()">
+          <div class="row">
+            <p>Select Time</p>
+            <mat-card class="mb-1 mt-2">
+                <div class="col-lg-12 mb-1">
+                  <div class="d-flex flex-wrap">
+                    <mat-checkbox [checked]="selectAllAddTimes"  (change)="setAll($event.checked)">
+                      {{adTimes.name}}
+                    </mat-checkbox>
+                    
+                    <div *ngFor="let subtask of adTimes.subtasks">
+                      <mat-checkbox [(ngModel)]="subtask.completed" formControlName="adHours" (ngModelChange)="updateAllComplete()">
+                        {{subtask.name}}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+            </mat-card>
+
+
+            <p class="mt-2">WorkingDays</p>
+            <mat-card class="mb-1 mt-2">
+                <div class="col-lg-12 mb-1">
+                  <div class="d-flex flex-wrap">
+                    <mat-checkbox [checked]="selectAllAddDays"  (change)="setAll1($event.checked)">
+                      {{adTimes.name}}
+                    </mat-checkbox>
+                    <div *ngFor="let subtask of adDays.subtasks">
+                      <mat-checkbox [(ngModel)]="subtask.completed" formControlName="workingDays" (ngModelChange)="updateAllComplete1()">
+                        {{subtask.first}}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+            </mat-card>
+            
+          <mat-card class="mt-2">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 mt-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Temp from</mat-label>
+                  <mat-select formControlName="tempFrom" >
+                    <mat-option *ngFor="let item of temp_ranges" [value]="item.value">{{item.value}}</mat-option>
+                  
+                  </mat-select>
+                  <mat-error>Temperature from required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 col-md-4 mt-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Temp to</mat-label>
+                  <mat-select formControlName="tempTo" >
+                    <mat-option *ngFor="let item of temp_ranges" [value]="item.value">{{item.value}}</mat-option>
+                  </mat-select>
+                  <mat-error>Temperature to required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <!-- <div class="row">
+              <div class="col-lg-6 col-md-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Temperature From</mat-label>
+                  <input matInput type="text" formControlName="temp"  placeholder=" Temperature From ">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6 col-md-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Temperature To</mat-label>
+                  <input matInput type="text" formControlName="temp"  placeholder="Temperature to">
+                </mat-form-field>
+              </div>
+            </div> -->
+          
+
+          </mat-card>
+  
+            <div class="col-lg-12 mt-3">
+              <div class="col-lg-6 col-md-6 d-flex justify-content-start align-items-center">
+                <p class="m-0">Object(Person/Vehicle)</p>
+  
+                <div class="on-off-toggle ms-4">
+                  <input class="on-off-toggle__input" type="checkbox" id="object" formControlName="objectRule" [(ngModel)]="objectRule" (change)="toggleShowOnOff($event)">
+                  <label for="object" class="on-off-toggle__slider"></label>
+                  <!-- <span class="ms-2">{{ personshow ? 'Yes' : 'No' }}</span> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-1" *ngIf="personshow">
+              <mat-radio-group name="radioOpt3" class="w-100"  formControlName="modelObjectTypeId" [(ngModel)]="person">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <mat-radio-button class="ms-3" name="time1" [value]="1" >Person</mat-radio-button>
+                    <mat-radio-button class="ms-3" name="time2" [value]="2">Vehicle</mat-radio-button>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </div>
+  
+            <div class="col-lg-12" *ngIf="personshow">
+              <div>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Object Count</mat-label>
+                  <input matInput type="number" formControlName="objectCount">
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <!-- <div class="col-lg-12 mt-2">
+              <p style="font-size: 14px;"> <span style="font-weight: 500;">Note:</span>&nbsp;For Special Cases, Please Contact
+                <a href="https://www.ivisecurity.com/contact" target="_blank" style="text-decoration: none">support@ivisecurity.com</a>
+              </p>
+            </div> -->
+
+
+
+            <div class="row" *ngIf="personshow">
+              <div class="col-lg-12 mt-2" style="font-size: 10px; font-weight: 700;">
+                <mat-radio-group class="w-50" [(ngModel)]="deviceCam" formControlName="deviceCam">
+                  <mat-label>Camera Type</mat-label>
+                  <mat-radio-button class="ms-3" name="camera" [value]="0">Device camera</mat-radio-button>
+                  <mat-radio-button class="ms-3" name="camera" [value]="1">Existing camera list</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="col-lg-12 col-md-12" *ngIf="deviceCam == 1">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Camera Details</mat-label>
+                  <mat-select formControlName="cameraId" [(ngModel)]="camera">
+                    <mat-option *ngFor="let item of cameras" [value]="item.cameraId"><span style="font-size: 11px;">{{item.cameraId}}-{{item.name}}-{{item.rtspUrl}}</span></mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+             </div>
+
+             <!-- <div class="row"> -->
+              
+             <!-- </div> -->
+
+  
+            <div class="text-center my-5">
+              <button class="add-btn">ADD</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- /form -->
+      <!-- <div>
+        <mat-slider min="200" max="500">
+          <input value="300" matSliderStartThumb>
+          <input value="400" matSliderEndThumb>
+        </mat-slider>
+      </div> -->
+    </div>
+
+  
+  </div>
+  
+  

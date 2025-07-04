@@ -1,0 +1,1285 @@
+<div class="container-fluid" id="top">
+  <!-- header -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="users-header">
+      <p class="m-0">Total Tickets - <span>{{frTickets?.length}}</span></p>
+    </div>
+
+    <div class="d-lg-flex flex-lg-row flex-md-column">
+      <div class="me-1">
+        <button class="create-btn" (click)="getlistByCreatedBy('list')">List Dc</button>
+      </div>
+
+      <div>
+        <button class="create-btn" (click)="show('showDcFr')">Create Dc</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- form -->
+  <div class="">
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Site Name</mat-label>
+          <mat-select [(ngModel)]="siteNg">
+            <mat-option value="All" (click)="filterSites('All')">All</mat-option>
+            <mat-option *ngFor="let data of siteIds" (click)="filterSites(data.siteName)" [value]="data.siteName">{{  data.siteId }} - {{ data.siteShortName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-2 col-sm-12">
+        <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" [(ngModel)]="searchText">
+          <button matSuffix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-7 mt-2">
+        <div class="d-flex justify-content-end">
+          <div>
+            <button class="filter-btn m-1" (click)="openStatusItems(user?.UserId, null)">Instock</button>
+          </div>
+
+          <div>
+            <button class="filter-btn m-1" (click)="openStatusItems(user?.UserId, 1)">Requested</button>
+          </div>
+
+          <div>
+            <button class="filter-btn m-1" (click)="openStatusItems(user?.UserId, 2)">Dispatched</button>
+          </div>
+
+          <div>
+            <button class="filter-btn m-1" (click)="openStatusItems(user?.UserId, 5)">Removed</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- table -->
+  <div class="table-resp">
+    <table class="table table-hover" id="mytable">
+      <thead>
+        <tr class="form1">
+          <th>
+            <p class="d-inline-flex">
+              <span>id</span>
+              <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+            <!-- <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+
+          <th>
+            <span>Site</span>
+          </th>
+
+          <th>
+            <span>View tasks</span>
+          </th>
+
+          <th>
+            <p class="d-inline-flex">
+              <span>Ticket type</span>
+              <img (click)="sort('ticketType')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <!-- <th>
+            <p class="d-inline-flex">
+              <span>Site id</span>
+              <img (click)="sort('siteId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th> -->
+
+          <th>
+            <p class="d-inline-flex">
+              <span>Site name</span>
+              <img (click)="sort('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <span>Indent</span>
+          </th>
+
+          <th>
+            <span>View indent</span>
+          </th>
+
+          <th>
+            <span></span>
+            <p class="d-inline-flex">
+              <span>Reason</span>
+              <img (click)="sort('reasonDescription')" class="pointer ms-1" src="assets/icons/sorticon.svg"
+                width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p class="d-inline-flex">
+              <span>Created time</span>
+              <img (click)="sort('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p class="d-inline-flex">
+              <span>Status</span>
+              <!-- <img (click)="sort('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </p>
+          </th>
+
+          <th>
+            <span>Site</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="!showLoader">
+        <tr *ngFor="let cust of newFrTickets; let i = index">
+          <td>
+            <p>{{ i+1 }}</p>
+          </td>
+          <td>
+            <p class="pointer text-primary" (click)="openSitesDialog(); fieldVisitEntry(cust)" matTooltip="Enter into site">Enter</p>
+          </td>
+          <td>
+            <p class="pointer text-primary" (click)="openTasksDialog(cust)" *ngIf="cust?.typeId == 1">View</p>
+            <p class="pointer text-primary" (click)="openTasksDialog(cust)" *ngIf="cust?.typeId == 2">View</p>
+          </td>
+          <td>
+            <p>{{ cust.ticketType }}</p>
+          </td>
+
+          <!-- <td>
+            <p>{{ cust.siteId }}</p>
+          </td> -->
+
+          <td>
+            <p>{{ cust.siteName }}</p>
+          </td>
+
+          <td>
+            <a class="pointer" (click)="show('showIndent'); ticketIdToFr(cust)" matTooltip="Add indent">
+              <img src="assets/icons/add.svg" width="40">
+            </a>
+          </td>
+
+          <td>
+            <p class="text-primary pointer" (click)="openDetailsDialog(cust)">View</p>
+          </td>
+
+          <td>
+            <p>{{ cust.reasonDescription }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.createdTime | date:'short' }}</p>
+          </td>
+
+          <td>
+            <p
+              [style.color]="cust.status == 'Open' ? 'green' : cust.status == 'Indent Requested' ? 'orange' : cust.status == 'In Progress' ? 'violet' : cust.status == 'Indent Delivered' ? 'purple' : 'blue' ">
+              {{ cust.status }}</p>
+          </td>
+
+          <td>
+            <p class="pointer text-primary" (click)="openVisitExit()" matTooltip="Exit from site">Exit</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- error info -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 45vh;" *ngIf="errInfo">
+      <h1 class="text-secondary">{{ errInfo }}</h1>
+    </div>
+  
+    <!-- loader -->
+    <div *ngIf="showLoader">
+      <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showIndent">
+  <app-add-new-indent (newItemEvent)="closenow('showIndent')"></app-add-new-indent>
+</div>
+
+<div *ngIf="showDcFr">
+  <app-add-new-dc [show]="'fromFr'" (newItemEvent)="closenow('showDcFr')"></app-add-new-dc>
+</div>
+
+
+<ng-template #currentTasksDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">tasks detail</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table table-hover" id="mytable">
+        <thead>
+          <tr class="form1">
+            <th>
+              <p class="d-inline-flex">
+                <span>Id</span>
+                <img (click)="sortCurrentTasks('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+              <!-- <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+
+            <th>
+
+              <p class="d-inline-flex">
+                <span>Category</span>
+                <img (click)="sortCurrentTasks('category')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Sub category</span>
+                <img (click)="sortCurrentTasks('subCategory')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <!-- <th>
+              <p class="d-inline-flex">
+                <span>Reason</span>
+                <img (click)="sort('reason')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th> -->
+
+            <th class="text-center">
+              <span>Status</span>
+            </th>
+
+            <th *ngIf="ticketType == 1">
+              <span>Replace</span>
+            </th>
+
+            <th *ngIf="ticketType == 2">
+              <span>Install</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cust of tasks">
+            <td>
+              <p>{{ cust.id }}</p>
+            </td>
+            <td>
+              <p>{{ cust.category }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.subCategory }}</p>
+            </td>
+
+            <!-- <td>
+              <p>{{ cust.reason }}</p>
+            </td> -->
+
+            <td>
+              <!-- <a class="mx-1 pointer" (click)="logTaskStatus(cust, 2)">
+                <img src="assets/icons/forward.svg" width="20">
+              </a> -->
+
+              <a class="mx-1 pointer" (click)="openCnfrmStatusDialogt(cust, 'pause')">
+                <!-- <img src="assets/icons/pause.svg" width="20"> -->
+                Pause
+              </a>
+
+              <a class="mx-1 pointer" (click)="openCnfrmStatusDialogt(cust, 'shedule')">
+                <!-- <img src="assets/icons/scheduled.svg" width="20"> -->
+                Schedule
+              </a>
+
+              <a class="mx-1 pointer" (click)="openCnfrmStatusDialogt(cust, 'close')">
+                <!-- <img src="assets/icons/close_black.svg" width="20"> -->
+                Close
+              </a>
+            </td>
+
+            <td *ngIf="ticketType == 1">
+              <a class="mx-1 pointer" (click)="openReplaceComponent(cust)">
+                <!-- <img src="assets/icons/add.svg" width="35"> -->
+                Replace
+              </a>
+            </td>
+
+            <td *ngIf="ticketType == 2">
+              <a class="mx-1 pointer" (click)="openCreateOrder(cust)">
+                <!-- <img src="assets/icons/add.svg" width="35"> -->
+                Install
+              </a>
+            </td>
+
+            <ng-template #replaceStatusDialog>
+              <div style="background-color: #084982;">
+                <p class="dialog-title">modify status</p>
+              </div>
+
+              <div class="row dialog-content">
+                <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Old inventoryid</mat-label>
+                    <mat-select [(ngModel)]="body.oldInventoryId">
+                      <mat-option *ngFor="let item of duplicateInventoryId" [value]="item.inventorySlNo">{{ item.inventorySlNo }} - {{ item.name }} </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>New inventoryid</mat-label>
+                    <mat-select [(ngModel)]="body.newInventoryId">
+                      <mat-option *ngFor="let val of inventoryId2" [value]="val.inventoryId">{{ val.inventoryId }} - {{ val.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Edit Status</mat-label>
+                    <mat-select [(ngModel)]="statusObj.statusId">
+                      <mat-option *ngFor="let item of indentStatus" [value]="item.keyId" [hidden]="item?.keyId == 1">{{ item.value }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <!-- <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>FR inventory</mat-label>
+                    <mat-select [(ngModel)]="body.newInventoryId" (focus)="latestFun(user?.UserId, null)">
+                      <mat-option *ngFor="let val of statusItems" [value]="val.invNo">{{ val.invNo }} - {{ val.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+                <!-- <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Remarks</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div> -->
+              </div>
+
+              <div class="d-flex align-items-center justify-content-end">
+                <div>
+                  <button class="dialog-close-btn" mat-dialog-close>Close</button>
+                </div>
+                <div>
+                  <button class="dialog-submit-btn" mat-dialog-close (click)="replaceComponent()">Update</button>
+                </div>
+              </div>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex align-items-center justify-content-center" style="height: 20vh;" *ngIf="tasks.length == 0">
+        <h1 class="text-secondary">No Tasks</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #statusItemsDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <!-- <th>
+              <input type="checkbox" class="form-check-input" [(ngModel)]="selectedAll" (change)="selectAll()"
+                id="allcheck" style="background-color: #00000000;border-color: #fff;">
+            </th> -->
+            <th>Item Code</th>
+            <th>Name</th>
+            <th>Serial no</th>
+            <th>Quantity</th>
+            <!-- <th>Data</th> -->
+            <!-- <th *ngIf="currentStatusItem == 5">status</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let task of latestValue; let i = index">
+
+            <!-- <td>
+              <input type="checkbox" name="foo" class="form-check-input" [(ngModel)]="task.selected"
+                (change)="checkIfAllSelected(task, $event);" id="singleCheck" />
+            </td> -->
+            <td>
+              <p>{{ task.itemCode }}</p>
+            </td>
+
+            <td>
+              <p>{{ task.name }}</p>
+            </td>
+
+            <td>
+              <p>{{ task.invNo }}</p>
+            </td>
+
+            <td>
+              <p>{{ task.count ? task.count : 1 }}</p>
+            </td>
+
+
+            <!-- <td>
+              <p class="pointer text-primary" matTooltip="dispatch to inventory" (click)="open(task)">Dispatch</p>
+            </td> -->
+
+            <!-- <td>
+              <p>{{ task.siteName }}</p>
+            </td> -->
+            <!-- <td *ngIf="currentStatusItem == 5">
+              <p (click)="openEditStatus(task)">
+              {{
+                task.statusId  == 1 ? 'Requested'
+                : task.statusId == 2 ? 'Dispatched'
+                : task.statusId == 3 ? 'Received'
+                : task.statusId == 4 ? 'Installed'
+                : task.statusId == 5 ? 'Returned'
+                : ''
+              }} </p>
+            </td> -->
+
+            <!-- <ng-template #editStatusDialog>
+              <div style="background-color: #084982;">
+                <p class="dialog-title">view status</p>
+              </div>
+
+              <mat-dialog-content>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Edit Status</mat-label>
+                  <mat-select [(ngModel)]="statusObj.statusId">
+                    <mat-option *ngFor="let item of inventoryStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-dialog-content>
+
+              <div class="d-flex align-items-center justify-content-end">
+                <div>
+                  <button class="dialog-close-btn" mat-dialog-close>Close</button>
+                </div>
+                <div>
+                  <button class="dialog-submit-btn" mat-dialog-close (click)="updateInventoryStatus()">Update</button>
+                </div>
+              </div>
+            </ng-template> -->
+            <!-- <div  >
+              <button mat-raised-button color="warn" matDialogClose>close</button>
+            </div> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center" style="height: 10vh;" *ngIf="latestValue == 0">
+      <h1 class="text-secondary">No data</h1>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close (click)="updateDispatchToInventory()">Dispatch</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #cnfrmStatusDialog>
+  <div *ngIf="currentStatusType == 'pause'">
+    <div style="background-color: #084982;">
+      <p class="dialog-title">pause status</p>
+    </div>
+
+    <div class="dialog-content">
+      <p>Are you want to pause the status <span style="font-weight: 600;">{{currentStatusItem?.subCategory}}</span></p>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="logTaskStatus(currentStatusItem, 3)">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentStatusType == 'shedule'">
+    <div style="background-color: #084982;">
+      <p class="dialog-title">shedule status</p>
+    </div>
+
+    <div class="dialog-content">
+      <p>Are you want to shedule the status <span style="font-weight: 600;">{{currentStatusItem?.subCategory}}</span>
+      </p>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="logTaskStatus(currentStatusItem, 4)">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentStatusType == 'close'">
+    <div style="background-color: #084982;">
+      <p class="dialog-title">close status</p>
+    </div>
+
+    <div class="dialog-content">
+      <p>Are you want to close the status <span style="font-weight: 600;">{{currentStatusItem?.subCategory}}</span></p>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" mat-dialog-close >Close</button>
+      </div>
+      <div>
+
+        <!-- <button class="dialog-submit-btn" mat-dialog-close (click)="logTaskStatus(currentStatusItem, 5)">Submit</button> -->
+          <button class="dialog-submit-btn" mat-dialog-close (click)="openVisitExit()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #ticketTaskDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view tasks</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <th>
+              <p class="d-inline-flex">
+                <span>Task id</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Category</span>
+                <img (click)="sort('categoryId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>SubCategory</span>
+                <img (click)="sort('subCategoryId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Reason</span>
+                <img (click)="sort('reasonId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Created time</span>
+                <img (click)="sort('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Priority</span>
+                <img (click)="sort('priorityId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cust of ticketTasks; let i = index">
+            <td>
+              <p>{{ cust.id }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.categoryId == 1 ? 'Camera' : cust.categoryId == 2 ? 'Assets' : '' }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.subCategoryId == 1 ? 'Site Down' : cust.subCategoryId == 2 ? 'Footage Required' :
+                cust.subCategoryId == 3 ? 'Blank Screen' : '' }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.reasonId }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.createdTime }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.priorityId == 1 ? 'Low' : cust.priorityId == 2 ? 'Medium' :cust.priorityId == 3 ? 'High' : ''
+                }}</p>
+            </td>
+
+            <!-- <td>
+              <p>{{ cust.statusId == 1 ? 'Open' : cust.statusId == 2 ? 'In-Progress' : cust.statusId == 3 ? 'Closed' : cust.statusId == 4 ? 'Rejected' : '' }}</p>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #viewSitesDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view site</p>
+  </div>
+
+  <div class="row dialog-content">
+    <div class="col-lg-12 col-md-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Sites</mat-label>
+        <mat-select [(ngModel)]="assignedObj.statusId">
+          <mat-option *ngFor="let item of sites" [value]="item.siteId">{{item.siteName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close (click)="fieldVisitEntry(assignedObj.statusId)">Entry</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #exitDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">exit site</p>
+  </div>
+
+  <div class="row dialog-content">
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>travelAllowance</mat-label>
+        <input matInput [(ngModel)]="fieldExitBody.travelAllowance">
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>foodAllowance</mat-label>
+        <input matInput [(ngModel)]="fieldExitBody.foodAllowance">
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>otherAllowance</mat-label>
+        <input matInput [(ngModel)]="fieldExitBody.otherAllowance">
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>remarks</mat-label>
+        <input matInput [(ngModel)]="fieldExitBody.remarks">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close (click)="logTaskStatus(currentStatusItem, 5); fieldVisitExit(); ">Submit</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #viewIndentDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view indent</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <th>
+              <p>
+                <span>No</span>
+                <img (click)="sortIndentViewIndent('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Name</span>
+                <img (click)="sortIndentViewIndent('itemCode')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Serial no</span>
+                <img (click)="sortIndentViewIndent('serialNo')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Created time</span>
+                <img (click)="sortIndentViewIndent('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Modified time</span>
+                <img (click)="sortIndentViewIndent('modifiedTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Status</span>
+                <img (click)="sortIndentViewIndent('statusId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let inven of indentItems; let i = index">
+            <td>
+              <p>{{ i+1 }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.name }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.serialNo }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.createdTime }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.modifiedTime }}</p>
+            </td>
+
+            <td>
+              <p>
+                <span class="d-flex">
+                  <span style="width: 60px;">
+                    {{ inven.statusId == 1 ? "Requested" : inven.statusId == 2 ? "Dispatched" : inven.statusId == 3 ? "Received" : inven.statusId == 4 ? "Installed" : inven.statusId == 5 ? "Returned" : '' }}
+                  </span>
+
+                  <a (click)="openEditStatus(inven)" class="ms-2 pointer">
+                    <img src="assets/icons/edit.svg"  width="13">
+                  </a>
+                </span>
+              </p>
+
+              <ng-template #editStatusDialog>
+                <div style="background-color: #084982;">
+                  <p class="dialog-title">edit status</p>
+                </div>
+
+                <div class="dialog-content">
+                  <div class="col-lg-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Edit Status</mat-label>
+                      <mat-select [(ngModel)]="statusObj.statusId">
+                        <mat-option *ngFor="let item of indentStatus" [value]="item.keyId" [hidden]="item?.keyId == 1">{{ item.value }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <div>
+                    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+                  </div>
+                  <div>
+                    <button class="dialog-submit-btn mx-2" mat-dialog-close (click)="updateInventoryStatus()">Update</button>
+                  </div>
+                </div>
+              </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+  </div>
+  <!-- error message -->
+  <div class="d-flex align-items-center justify-content-center" style="height: 10vh;" *ngIf="indentItems.length == 0">
+    <h1 class="text-secondary">No Data</h1>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #replaceDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">replace</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <th>
+              <p class="d-inline-flex">
+                <span>Sl No</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Name</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Serial no</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Created time</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Modified time</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Install</span>
+                <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let inven of indentItems; let i = index">
+            <td>
+              <p>{{ i+1 }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.name }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.serialNo }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.createdTime | date: 'mediumDate' }}</p>
+            </td>
+
+            <td>
+              <p>{{ inven.modifiedTime }}</p>
+            </td>
+
+            <td>
+              <!-- <span class="d-inline-flex">
+                <p>
+                  {{ inven.statusId == 1 ? "Requested" : inven.statusId == 2 ? "Dispatched" : inven.statusId == 3 ? "Received" : inven.statusId == 4 ? "Installed" : inven.statusId == 5 ? "Returned" : '' }}
+                </p>
+
+                <a (click)="openReplaceComponent(inven)" class="ms-2 pointer">
+                  <img src="assets/icons/edit.svg"  width="13">
+                </a>
+              </span> -->
+
+              <p>
+                <span class="text-primary pointer" (click)="changeToInstall(inven)" *ngIf="inven.statusId == 3">Install</span>
+                <span *ngIf="inven.statusId != 3">{{ inven.statusId == 1 ? "Requested" : inven.statusId == 2 ? "Dispatched" : inven.statusId == 3 ? "Received" : inven.statusId == 4 ? "Installed" : inven.statusId == 5 ? "Returned" : '' }}</span>
+              </p>
+
+              <!-- <ng-template #editStatusDialog>
+                <div style="background-color: #084982;">
+                  <p class="dialog-title">view status</p>
+                </div>
+
+                <mat-dialog-content>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Edit Status</mat-label>
+                    <mat-select [(ngModel)]="statusObj.statusId">
+                      <mat-option *ngFor="let item of indentStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-dialog-content>
+
+                <div class="d-flex align-items-center justify-content-end">
+                  <div>
+                    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+                  </div>
+                  <div  >
+                    <button class="dialog-submit-btn" mat-dialog-close (click)="updateInventoryStatus()">Update</button>
+                  </div>
+                </div>
+              </ng-template> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #dcItemsDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">dc list</p>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4 from-date mx-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="filterDcDate" [(ngModel)]="filterBody1.dateOfChallan">
+        <mat-datepicker-toggle matIconSuffix [for]="filterDcDate"></mat-datepicker-toggle>
+        <mat-datepicker #filterDcDate>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply (click)="getlistByCreatedBy('filter')">Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <th>
+              <p>dcNumber</p>
+            </th>
+            <th>
+              <p class="d-inline-flex">
+                <span>dateOfChallan</span>
+              </p>
+            </th>
+            <th>
+              <p class="d-inline-flex">
+                <span>name</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Details</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Amount</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Receipt No</span>
+              </p>
+            </th>
+
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of newDuplicateDc; let i = index">
+            <td>
+              <p>{{item.dcNumber}}</p>
+            </td>
+            <td>
+              <p>{{ item.dateOfChallan }}</p>
+            </td>
+
+            <td>
+              <p>{{ item.name}}</p>
+            </td>
+
+            <td>
+              <p class="pointer text-primary" (click)="listDescriptionOfGoodsByDcNumber(item)">view</p>
+              <ng-template #dcDescriptionDialog>
+                <div style="background-color: #084982;">
+                  <p class="dialog-title">dc description</p>
+                </div>
+                <div class="dialog-content">
+                  <div class="table-res">
+                    <table class="table" id="mytable">
+                      <thead>
+                        <tr class="task-table">
+                          <th>
+                            <p>slNO</p>
+                          </th>
+                          <th>
+                            <p class="d-inline-flex">
+                              <span>descriptionOfGoods</span>
+                            </p>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of descriptionGoods; let i = index">
+                          <td>
+                            <p>{{i+1}}</p>
+                          </td>
+                          <td>
+                            <p>{{ item }}</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <div>
+                    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+                  </div>
+                </div>
+              </ng-template>
+            </td>
+
+            <td>
+              <p>{{ item.amount }}</p>
+            </td>
+
+            <td>
+              <p>{{ item.receiptNo }}</p>
+            </td>
+
+            <td>
+              <button class="mx-1 pointer" style="border: none;" matTooltip="Update DC" (click)="openDcUpdateDialog(item)" [disabled]="item?.receiptNo != null && item?.amount != null">
+                <img src="assets/icons/edit.svg">
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- error message -->
+    <div class="err-info" *ngIf="newDuplicateDc == null">
+      <p>No Data</p>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #dcUpdateDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">UPDATE DC</p>
+  </div>
+
+  <div class="row dialog-content">
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Receipt No</mat-label>
+        <input matInput [(ngModel)]="updateDcBody.receiptNo">
+      </mat-form-field>
+    </div>
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" [(ngModel)]="updateDcBody.amount">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close  (click)="updateDC()">Update</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #dcChallan>
+  <div class="d-flex justify-content-between align-items-center mt-2 mx-3">
+    <div>
+      <img src="http://usmgmt.iviscloud.net:777/clientPortalUs/assets/IVISsecurity_logo.png" alt="" width="150px">
+    </div>
+    <div>
+      <span>ivisecurity</span>
+      <span>Mangalagiri</span>
+      <span>Pincode-302001</span>
+      <span>Mobile No-9876543899</span>
+      <span>GSTIN-27#PR5$$95N1</span>
+    </div>
+  </div>
+
+  <!-- <div>
+    <h1>Challan No</h1>
+  </div> -->
+  <div class="text-center">
+    <h1 style="font-weight: bold; margin-bottom: 3px;">Delivery Challan</h1>
+  </div>
+  <div>
+    <h1 style="font-weight: 500;">Detail of Receiver</h1>
+    <span>Name:</span>
+    <span>Address:</span>
+    <span>State:</span>
+    <span>code:</span>
+  </div>
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="task-table">
+            <th>
+              <p class="d-inline-flex">
+                <span>S.No</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Category</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>SubCategory</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Reason</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Created time</span>
+              </p>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Priority</span>
+              </p>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cust of ticketTasks; let i = index">
+            <td>
+              <p>{{ cust.id }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.categoryId == 1 ? 'Camera' : cust.categoryId == 2 ? 'Assets' : '' }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.subCategoryId == 1 ? 'Site Down' : cust.subCategoryId == 2 ? 'Footage Required' :
+                cust.subCategoryId == 3 ? 'Blank Screen' : '' }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.reasonId }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.createdTime }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.priorityId == 1 ? 'Low' : cust.priorityId == 2 ? 'Medium' :cust.priorityId == 3 ? 'High' : ''
+                }}</p>
+            </td>
+
+            <!-- <td>
+            <p>{{ cust.statusId == 1 ? 'Open' : cust.statusId == 2 ? 'In-Progress' : cust.statusId == 3 ? 'Closed' : cust.statusId == 4 ? 'Rejected' : '' }}</p>
+          </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

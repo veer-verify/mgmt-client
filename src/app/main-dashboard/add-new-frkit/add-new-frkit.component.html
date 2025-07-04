@@ -1,0 +1,118 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-4"></div>
+
+  <div class="col-lg-6 col-8 add-form" id="user" @inOutPaneAnimation>
+    <div>
+      <a class="close-main pointer" (click)="closeAddUser()"><img src="assets/icons/close_form.svg" /></a>
+      <span class="form-heading">add fr-kit</span>
+    </div>
+
+    <!-- form -->
+    <div>
+      <form autocomplete="off" [formGroup]="UserForm">
+        <!-- <div class="row" *ngFor="let item of inventoryBody.items; let i = index">
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>itemCode</mat-label>
+              <mat-select formControlName="productId" [(ngModel)]="inventoryBody.items[i].itemCode">
+                <mat-option *ngFor="let item of productIds" [value]="item.suggestedItemCode">{{ item.materialDescription }}</mat-option>
+              </mat-select>
+              <mat-error >Product Id is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Quantity</mat-label>
+              <input matInput formControlName="quantity" [(ngModel)]="inventoryBody.items[i].quantity">
+              <mat-error >Quantity is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Remarks</mat-label>
+              <input matInput formControlName="remarks" [(ngModel)]="inventoryBody.remarks">
+              <mat-error >Quantity is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-2 col-md-2">
+            <button mat-stroked-button class="mt-2" style="color: #084982" (click)="onTaskAdd(item)">Add Item</button>
+          </div>
+
+          <div class="col-lg-12 col-md-12 mt-2" *ngIf="items.length > 0">
+            <div class="list-header d-flex justify-content-between">
+              <p>itemCode</p>
+              <p>quantity</p>
+            </div>
+            <div *ngFor="let item of items" class="list-item d-flex justify-content-between">
+              <p>{{ item.itemCode }}</p>
+              <p>{{ item.quantity }}</p>
+            </div>
+          </div>
+
+          <div class="text-center my-3">
+            <button type="submit" class="btn add-btn" (click)="submit()">ADD</button>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>inventorySlNo</mat-label>
+              <mat-select formControlName="productId" [(ngModel)]="inventoryBody">
+                <mat-option *ngFor="let item of productIds" [value]="item.suggestedItemCode">{{ item.materialDescription }}</mat-option>
+              </mat-select>
+              <mat-error >Product Id is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Fr Name</mat-label>
+              <mat-select formControlName="frId" [(ngModel)]="inventoryBody.frId">
+                <!-- <mat-option [value]="user?.UserId">{{user?.UserName}}</mat-option> -->
+                <mat-option [value]="1619">Installer</mat-option>
+              </mat-select>
+              <mat-error >Fr Name is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>inventorySlNo</mat-label>
+              <input matInput type="number" formControlName="inventorySlNo" [(ngModel)]="inventoryBody.inventorySlNo" (keyup)="getItemCodes(inventoryBody.inventorySlNo)">
+              <mat-error >inventorySlNo is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>itemCode</mat-label>
+              <mat-select formControlName="itemCode" [(ngModel)]="inventoryBody.itemCode">
+                <!-- <mat-option *ngFor="let item of productIds" [value]="item.suggestedItemCode">{{ item.materialDescription }}</mat-option> -->
+                <mat-option [value]="itemCodes?.code" (click)="listInventoryByItemCode(itemCodes?.code)">{{itemCodes?.code}}</mat-option>
+              </mat-select>
+              <mat-error >itemCode is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Name</mat-label>
+              <mat-select formControlName="name" [(ngModel)]="inventoryBody.name">
+                <mat-option *ngFor="let item of names" [value]="item.name">{{ item.name }}</mat-option>
+              </mat-select>
+              <mat-error >Name is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="text-center my-3">
+          <button type="submit" class="btn add-btn" (click)="submit()">ADD</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

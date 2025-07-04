@@ -1,0 +1,85 @@
+<div class="row formModal" >
+        <div class="col-6"></div>
+        <div class="col-6 add-form" @inOutPaneAnimation>
+            
+            <div class="mt-4">
+            <form [formGroup]="createCenteralBox">
+                <img src="assets/icons/close_form.svg" (click)="close()" class="cam-form-close">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline" >
+                            <mat-label>Camera Unit Id</mat-label>
+                            <input matInput formControlName="cameraUnitId" placeholder="GISDUS9001" value="GISDUS9001">
+                          </mat-form-field>
+                    </div>
+        
+                    <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Make</mat-label>
+                            <mat-select formControlName="make">
+                                <mat-option *ngFor="let make of makes" [value]="make.value" >
+                                  {{make.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                    </div>
+        
+        
+                    
+                    <!-- <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Make</mat-label>
+                            <input matInput placeholder="Ex. Pizza" value="UNV">
+                          </mat-form-field>
+                    </div> -->
+        
+        
+        
+        
+                    
+        
+                    <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Serial Number</mat-label>
+                            <input matInput placeholder="" value="" formControlName="serialNumber">
+                          </mat-form-field>
+                    </div>
+        
+                    <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>IP</mat-label>
+                            <input matInput placeholder="192.168.2.6" value="192.168.2.6" formControlName="ip">
+                          </mat-form-field>
+                    </div>
+        
+                    <!-- <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Postion</mat-label>
+                            <input matInput placeholder="Ex. Pizza" value="Left">
+                          </mat-form-field>
+                    </div> -->
+        
+        
+                    <div class="col-lg-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Postion</mat-label>
+                            <mat-select formControlName="position">
+                                <mat-option *ngFor="let postion of postions" [value]="postion.value" >
+                                  {{postion.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                    </div>
+            
+                </div>
+        
+                <div>
+                    <button mat-flat-button color="primary" (click)="sudmit()">Submit</button>
+        
+                </div>
+            </form>
+
+
+    </div>
+    
+    

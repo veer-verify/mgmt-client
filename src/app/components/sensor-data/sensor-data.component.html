@@ -1,0 +1,380 @@
+
+
+<div class="container-fluid" id="top">
+  <!-- header -->
+  <div class="d-flex align-items-center justify-content-between my-2 ">
+    <div class="row mb-3">
+      <div class="col-lg-3 d-flex justify-content-start">
+        <div class="vl-yellow"></div>
+        <div class="mx-2">
+          <div class="status">Total Devices</div>
+          <div class="count">{{ newSiteData?.length}}</div>
+        </div>
+      </div>
+      <div class="col-lg-3 d-flex justify-content-start">
+        <div class="vl-yellow"></div>
+        <div class="mx-2">
+          <div class="status">Light ON Status</div>
+          <div class="count">{{ pending?.length}}</div>
+        </div>
+      </div>
+      <div class="col-lg-3 d-flex justify-content-start">
+        <div class="vl-yellow"></div>
+        <div class="mx-2">
+          <div class="status">Light OFF Status</div>
+          <div class="count">{{ added?.length}}</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="create-btn mx-2" (click)="showAddAsset('rule')">Configure Zone</button>
+      <button class="create-btn" (click)="showAddAsset('asset')">Associate Device</button>
+    </div>
+  </div>
+  <div class="row">
+    <!-- <div class="col-lg-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Select siteId</mat-label>
+          <mat-select [(ngModel)]="siteId">
+            <mat-option value="All" (click)="filter('All')" >All</mat-option>
+            <mat-option *ngFor="let item of siteDataForUser | removeDuplicates:'siteId'" [value]="item.siteId" (click)="filter(item.siteId)">{{item.siteId}}-{{item.siteName}}</mat-option>
+          </mat-select>
+          <mat-error>siteId is required</mat-error>
+      </mat-form-field>
+    </div> -->
+    <div class="col-lg-2">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Select site</mat-label>
+        <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="siteId" (keyup)="searchSites($event)">
+        <button matSuffix mat-icon-button>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-autocomplete #site="matAutocomplete">
+          <mat-option value="All" (click)="zoneId = 'All'; sensorDeviceId = 'All';  filter('All')">All</mat-option>
+          <mat-option *ngFor="let item of siteDataForUser | search: siteSearch" [value]="item.siteId" (click)="zoneId = 'All'; filter(item.siteId)"> {{ item.siteId }} {{ item.siteName }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Select Zone</mat-label>
+          <mat-select [(ngModel)]="zoneId">
+            <mat-option value="All" (click)="filter('All')">All</mat-option>
+            <mat-option *ngFor="let item of zones | removeDuplicates: 'zoneName'" [value]="item.zoneId" (click)="sensorDeviceId = 'All'; filter(item.zoneId)">{{item.zoneName }}</mat-option>              
+          </mat-select>
+          <mat-error>Zone is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Select deviceId</mat-label>
+          <mat-select [(ngModel)]="sensorDeviceId">
+            <mat-option value="All" (click)="filter('All')">All</mat-option>
+            <mat-option *ngFor="let item of sensorDevicesData" [value]="item.slice(0,9)" (click)="filter(item)">{{item}}</mat-option>              
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- <div class="col-lg-3 from-date">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="rangePicker">
+          <input matStartDate placeholder="Created from" [(ngModel)]="ticketStatusObj.fromDate">
+          <input matEndDate placeholder="Created to" [(ngModel)]="ticketStatusObj.toDate">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker>
+          <mat-date-range-picker-actions>
+            <button mat-button matDateRangePickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDateRangePickerApply (click)="filter(ticketStatusObj)">Apply</button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+      </mat-form-field>
+    </div> -->
+    <div class="col-lg-3">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <!-- table -->
+  <div class="table-resp extra w-100">
+    <table class="table table-hover" id="mytable">
+      <thead>
+        <tr class="form1 text-center">
+          <th>
+            <span>Id</span>
+            <img (click)="sort('issueId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>SiteId</span>
+            <img (click)="sort('siteId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>ZoneName</p>
+            <img (click)="sort('zoneName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>DeviceId</p>
+            <img (click)="sort('sensorDeviceId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Name</span>
+            <img (click)="sort('sensorName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Type</span>
+            <img (click)="sort('sensorsType')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Light Status</span>
+            <img (click)="sort('lightStatus')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Temperature</span>
+            <img (click)="sort('tempStatus')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Battery Percentage</span>
+            <img (click)="sort('battery_percentage')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Status</span>
+            <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>CreatedBy</span>
+            <img (click)="sort('createdBy')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!tableLoader">
+        <tr *ngFor="let item of newSiteData | search: searchText; let i=index;" class="text-center">
+          <td>
+            <p>{{ i+1 }}</p>
+          </td>
+          <td>
+            <p>{{ item.siteId }}</p>
+          </td>
+          <td>
+            <p class="text-center">{{item.zoneName}}</p>
+          </td>
+          <td>
+            <p>{{item.sensorDeviceId}}</p>
+          </td>
+          <td>
+            <p>{{item.sensorName}}</p>
+          </td>
+          <td>
+            <p>{{item.sensorsType ? item.sensorsType : '-'}}</p>
+          </td>
+          <td>
+            <p [style.color]="item.lightStatus == 0 ? 'Red' : 'Green' ">{{item.lightStatus == 1 ? 'ON' :item.lightStatus == 0?  'OFF' : '-'}}</p>
+          </td>
+          <td>
+            <p [style.color]="item.tempStatus > 28 ? 'blue' : 'Green' ">{{item.tempStatus ? item.tempStatus : '-'}} <span *ngIf="item.tempStatus">{{'°C'}}</span></p>
+          </td>
+          <td>
+            <p>{{item.battery_percentage ? item.battery_percentage : '-'}}</p>
+          </td>
+          <td>
+            <p [style.color]="item.status == 'T' ? 'Green' : 'Red' ">{{item.status == 'T' ? 'Active' : 'InActive'}}</p>
+          </td>
+          <td>
+            <p>{{item.createdBy}}</p>
+          </td>
+          <td class="table-icons">
+            <!-- <a class="mx-1 pointer" matTooltip="View" (click)="openViewPopup(item)">
+              <img src="assets/icons/view.svg">
+            </a> -->
+            <a class="mx-1 pointer" (click)="openEditPopupp(item)" matTooltip="edit">
+              <img src="assets/icons/edit.svg">
+            </a>
+            <a class="mx-1 pointer" value="Delete" (click)="openDeletePopup(item)" matTooltip="delete">
+              <img src="assets/icons/delete.svg">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- error info -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 45vh;"
+      *ngIf="newSiteData?.length == 0 && !tableLoader">
+      <h1 class="text-secondary">No Data</h1>
+    </div>
+
+    <!-- loader -->
+    <div *ngIf="tableLoader">
+      <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #editAssetDialog>
+  <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+    <p  class="dialog-title">Update</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="row m-0" *ngIf="currentItem">
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>siteId</mat-label>
+          <mat-select [(ngModel)]="currentItem.siteId" disabled>
+            <mat-option *ngFor="let item of siteData" [value]="item.siteId" >{{item.siteId}}</mat-option>
+            <!-- <mat-option *ngIf="filteredDevices.length == 0" disabled>No Devices</mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>sensorDeviceId</mat-label>
+          <input matInput [(ngModel)]="currentItem.sensorDeviceId" disabled>
+          <mat-error>sensorDeviceId is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Zone</mat-label>
+          <mat-select [(ngModel)]="currentItem.zoneId">
+            <mat-option *ngFor="let item of listZonesForSiteIdData " [value]="item.zoneId">{{item.zoneName}}</mat-option>
+            <!-- <mat-option *ngIf="filteredDevices.length == 0" disabled>No Devices</mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>zoneId</mat-label>
+          <input matInput [(ngModel)]="currentItem.zoneId">
+          <mat-error>zoneId is required</mat-error>
+        </mat-form-field>
+      </div> -->
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>sensorName</mat-label>
+          <input matInput [(ngModel)]="currentItem.sensorName">
+          <mat-error>sensorName is required</mat-error>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>updatedBy</mat-label>
+          <input matInput [(ngModel)]="currentItem.updatedBy">
+          <mat-error>updatedBy is required</mat-error>
+        </mat-form-field>
+      </div> -->
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>remarks</mat-label>
+          <input matInput [(ngModel)]="currentItem.remarks">
+          <mat-error>remarks is required</mat-error>
+        </mat-form-field>
+      </div> -->
+     
+    </div>
+  </div>
+
+
+  <div class="d-flex align-items-center justify-content-end">
+    <div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div>
+      <button class="dialog-submit-btn" mat-dialog-close (click)="updateAd()">Update</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteAssetDialog>
+  <div style="background-color: #084982;" >
+    <p class="dialog-title">Delete</p>
+  </div>
+  <div class="dialog-content">
+    <p>Do You Want to Delete this Item?</p>
+  </div>
+  <div class="d-flex justify-content-end p-2">
+    <button class="btn  btn-danger btn-sm mx-2" mat-dialog-close>Close</button>
+    <button class="btn btn-sm btn-success" mat-dialog-close (click)="confirmDeleteRow()">Delete</button>
+  </div>
+</ng-template>
+
+<ng-template #viewitemsDialog>
+  <div style="background-color: #084982;" >
+    <p class="dialog-title">View Details - {{currentcomment1.siteId}}</p>
+  </div>
+
+ <mat-dialog-content>
+  <div class="table-resp extra w-100 mt-2" >
+    <table class="table table-hover" id="mytable">
+      <thead>
+        <tr class="form1 text-center">
+          <th>
+            <span>Id</span>
+          </th>
+          <th>
+            <p>sensorDeviceId</p>
+            <img (click)="sort1('sensorDeviceId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>sensorName</span>
+            <img (click)="sort1('sensorName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+              <p>zoneName</p>
+              <img (click)="sort1('zoneName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!tableLoader">
+        <tr  *ngFor="let item of newSiteData | search: searchText; let i=index;" class="text-center">
+          <td>
+              <p>{{i+1}}</p>
+          </td>
+          <td>
+            <p>{{item.sensorDeviceId}}</p>
+          </td>
+          <td>
+            <p>{{item.sensorName}}</p>
+          </td>
+            <td>
+                <p class="text-center">{{item.zoneName}}</p>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- error info -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 45vh;"
+      *ngIf="newSiteData?.length == 0 && !tableLoader">
+      <h1 class="text-secondary">No Issues found</h1>
+    </div>
+
+    <!-- loader -->
+    <div *ngIf="tableLoader">
+      <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+    </div>
+  </div>
+
+ </mat-dialog-content>
+
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+
+<div *ngIf="showAsset">
+  <app-create-sensor-device (newItemEvent)="closenow('asset'); listSensorDeviceDetails()"></app-create-sensor-device>
+</div>
+<div *ngIf="addRule">
+  <app-create-zone  (newItemEvent)="closenow('rule');"></app-create-zone>
+</div>

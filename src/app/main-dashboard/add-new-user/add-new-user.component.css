@@ -1,0 +1,60 @@
+.main {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+input[type=checkbox] {
+  visibility: hidden;
+}
+
+.geekmark {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  height: 15px;
+  width: 15px;
+  background-color: #fff !important;
+  border: 1px solid #000;
+}
+
+.main input:checked~.geekmark {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+}
+
+.geekmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.main input:checked~.geekmark:after {
+  display: block;
+}
+
+.main .geekmark:after {
+  left: 4px;
+  bottom: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.add-form .main {
+  color: #000;
+  font-size: 13px;
+}
+
+.help-block {
+  color: red;
+  margin-left: 10px;
+}

@@ -1,0 +1,232 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-4"></div>
+
+  <div class="col-lg-6 col-8 add-form" id="user" @inOutPaneAnimation>
+    <div>
+      <a class="close-main pointer" (click)="closeAddUser()"><img src="assets/icons/close_form.svg" /></a>
+      <span class="form-heading">add inventory</span>
+    </div>
+
+    <div>
+      <!-- <div class="row" style="padding: 0 46px;">
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>partType</mat-label>
+            <mat-select [(ngModel)]="itemCodeBody.partType">
+              <mat-option *ngFor="let item of partType" [value]="item.keyId">{{ item.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>partCategory</mat-label>
+            <mat-select [(ngModel)]="itemCodeBody.partCategory">
+              <mat-option *ngFor="let item of partCategory" [value]="item.keyId">{{ item.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-5">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>partCode</mat-label>
+            <mat-select [(ngModel)]="itemCodeBody.partCode">
+              <mat-option *ngFor="let item of partCode" [value]="item.keyId">{{ item.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-5">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>buildType</mat-label>
+            <mat-select [(ngModel)]="itemCodeBody.buildType">
+              <mat-option *ngFor="let item of buildType" [value]="item.keyId">{{ item.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-2">
+          <button mat-stroked-button class="mt-2" style="color: #084982" (click)="listItemCode()">Submit</button>
+        </div>
+      </div> -->
+
+      <form autocomplete="off" [formGroup]="UserForm" #addUserForm="ngForm">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>name</mat-label>
+              <mat-select formControlName="name">
+                <mat-option *ngFor="let item of productData" [value]="item.materialDescription" (click)="listInventoryByItemCode(item); getItemCode(item)">{{ item.materialDescription }}</mat-option>
+              </mat-select>
+              <mat-error >name is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>itemCode</mat-label>
+              <mat-select formControlName="itemCode" [(ngModel)]="inventoryBody.inventory.itemCode">
+                <mat-option [value]="itemCodes?.code">{{ itemCodes?.code }}</mat-option>
+              </mat-select>
+              <mat-error >itemCode is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>itemCode</mat-label>
+              <input matInput formControlName="itemCode" [(ngModel)]="inventoryBody.inventory.name">
+              <mat-error >itemCode is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Brand</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="brand"
+                [(ngModel)]="inventoryBody.inventory.brand"
+                [matAutocomplete]="brand"
+                placeholder="Create new brand"
+              >
+              <button matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </button>
+              <mat-autocomplete #brand="matAutocomplete">
+                <mat-option *ngFor="let br of brandNames | removeDuplicates: 'productBrand'" [value]="br.brand" (click)="listBrandAndModel(br)">{{br.brand}}</mat-option>
+              </mat-autocomplete>
+              <mat-error >brand is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>brand</mat-label>
+              <mat-select formControlName="brand" [(ngModel)]="inventoryBody.inventory.brand" (focus)="removeDuplicates()">
+                <mat-option *ngFor="let br of filteredBrandNames" [value]="br.brand" (click)="listBrandAndModel(br)">{{br.brand}}</mat-option>
+              </mat-select>
+              <mat-error >brand is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Model</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="model"
+                [(ngModel)]="inventoryBody.inventory.model"
+                [matAutocomplete]="model"
+                placeholder="Create new model"
+              >
+              <button matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </button>
+              <mat-autocomplete #model="matAutocomplete">
+                <mat-option [value]="modelNames?.model">{{modelNames?.model}}</mat-option>
+              </mat-autocomplete>
+              <mat-error >model is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>model</mat-label>
+              <mat-select formControlName="model" [(ngModel)]="inventoryBody.inventory.model">
+                <mat-option *ngFor="let mo of modelNames" [value]="mo">{{mo}}</mat-option>
+              </mat-select>
+              <mat-error >model is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>department</mat-label>
+              <mat-select formControlName="department" [(ngModel)]="inventoryBody.inventory.department">
+                <!-- <mat-option *ngFor="let item of productData" [value]="item.suggestedItemCode">{{ item.suggestedItemCode }}</mat-option> -->
+                <mat-option value="Inventory">Inventory</mat-option>
+                <mat-option value="OfficeAssets">OfficeAssets</mat-option>
+                <mat-option value="Testing">Testing</mat-option>
+                <mat-option value="Display Board">Display Board</mat-option>
+                <mat-option value="Marketing">Marketing</mat-option>
+                <mat-option value="Tools">Tools</mat-option>
+              </mat-select>
+              <mat-error >department is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>quantity</mat-label>
+              <input matInput type="number" formControlName="quantity" [(ngModel)]="inventoryBody.quantity">
+              <mat-error >quantity is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>serialNo</mat-label>
+              <input matInput formControlName="serialnos" [(ngModel)]="inventoryBody.serialnos">
+              <mat-error >serialNo is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>remarks</mat-label>
+              <input matInput formControlName="remarks" [(ngModel)]="inventoryBody.inventory.remarks">
+              <mat-error >remarks is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 d-flex justify-content-start align-items-center my-2">
+            <p class="m-0">Warranty Cover</p>
+
+            <div class="on-off-toggle mx-5">
+              <input class="on-off-toggle__input" type="checkbox" id="warrantyDetail"  formControlName="warrantyDetail" [(ngModel)]="warrantyDetail" [ngModel]="warrantyDetail=='Y' ? true : false" (ngModelChange)="warrantyDetail = $event ? 'Y' : 'N'">
+              <label for="warrantyDetail" class="on-off-toggle__slider"></label>
+            </div>
+          </div>
+
+
+          <div class="row col-lg-12" *ngIf="warrantyDetail == 'Y'">
+
+            <div class="col-lg-6 col-md-6" >
+              <mat-form-field appearance="outline" class="w-100">
+                <input matInput [matDatepicker]="picker1" placeholder="Start Date" formControlName="startDate" [(ngModel)]="inventoryBody.warranty.startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error >Start Date is required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <input matInput [matDatepicker]="picker2" placeholder="End Date" formControlName="endDate" [(ngModel)]="inventoryBody.warranty.endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error >End Date is required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Remarks</mat-label>
+                <input matInput formControlName="wremarks" [(ngModel)]="inventoryBody.warranty.remarks">
+                <mat-error >Remarks is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="text-center my-3">
+            <button type="submit" class="btn add-btn" (click)="submit()">ADD</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<!-- <div class="d-flex justify-content-end align-items-center mt-3">
+    <button  class="btn btn-light" (click)="openButton()">
+        <span><img src="assets/icons/edit.svg" alt="" class="mx-2" width="16px"></span>
+        <span >Compose</span>
+        </button>
+</div> -->
+
+
+<!-- <ng-template #mailItemsDialog> -->
+  <div class="emailForm">
+    <div style="background-color: rgb(225, 235, 235);" class="d-flex justify-content-between align-items-center p-2">
+        <p>New Email</p>
+        <span ></span>
+        <p mat-dialog-close><img src="assets\icons\close_24dp_000000.svg" alt="" width="14px"></p>
+    </div>
+    <!-- <mat-dialog-content> -->
+     <div class="dialog-content">
+        <form autocomplete="off" [formGroup]="userForm" >
+            <div class="">
+               <div class="text-end pointer">
+                <a><span class="mx-2 text-secondary" (click)="openFirst()">BCC</span></a>
+                <a><span class="text-secondary" (click)="openSecond()">CC</span></a>
+               </div>
+
+    
+                <div class="">
+                    <mat-form-field  class="w-100">
+                        <mat-label>RecipientEmails</mat-label>
+                        <input matInput formControlName="recipientEmails">
+                        <mat-error>RecipientEmails is required</mat-error>
+                      </mat-form-field>
+                </div>
+               
+                <div *ngIf="openForm">
+                    <mat-form-field  class="w-100">
+                        <mat-label>Bcc</mat-label>
+                        <input matInput type="text" formControlName="Bcc">
+                      </mat-form-field>
+                </div>
+                <div *ngIf="openForm2">
+                    <mat-form-field  class="w-100">
+                        <mat-label>Cc</mat-label>
+                        <input matInput type="text" formControlName="Cc">
+                      </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field  class="w-100">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error>Name is required</mat-error>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field  class="w-100">
+                        <mat-label>subject </mat-label>
+                        <input matInput   formControlName="subject">
+                        <mat-error>subject is required</mat-error>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field  class="w-100">
+                        <mat-label>body </mat-label>
+                        <input matInput formControlName="body">
+                    </mat-form-field>
+                </div>
+                <!-- <div>
+                    <textarea class="form-control" placeholder="body here" id="floatingTextarea2" style="height: 80px" formControlName="body"></textarea>
+                </div> -->
+
+                <div class="mt-3">
+                    <mat-form-field  class="w-100">
+                        <mat-label>FileName </mat-label>
+                        <input matInput   formControlName="fileName">
+                        <mat-error>fileName is required</mat-error>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field  class="w-100">
+                        <mat-label>Regards From</mat-label>
+                        <input matInput   formControlName="regardsFrom">
+                        <mat-error>Regards is required</mat-error>
+                      </mat-form-field>
+                </div>
+                <!-- <div>
+                    <mat-form-field  class="w-100" >
+                        <mat-label>Footer</mat-label>
+                        <input matInput  formControlName="footer" [value]=" 'helloo'">
+                        <mat-error>Footer is required</mat-error>
+                      </mat-form-field>
+                </div> -->
+                <div class="">
+                    <input class="form-control" type="file" id="formFileMultiple" multiple formControlName="files" (change)="fileUpload($event)">
+                    <!-- <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple formControlName="files" (change)="fileUpload($event)">
+                      </div> -->
+                    <!-- <mat-card *ngIf="selectedFile.length !== 0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>{{selectedFile.name}}</span>
+                            <span><img src="assets/icons/delete.svg" alt=""></span>
+                        </div>
+                    </mat-card> -->
+                </div>
+
+                  <div class="mt-2 d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" (click)="submit()" mat-dialog-close>Send</button>
+                  </div>
+            </div>
+        </form>
+     </div>
+        
+  </div>
+    <!-- </mat-dialog-content> -->
+    
+<!-- </ng-template> -->

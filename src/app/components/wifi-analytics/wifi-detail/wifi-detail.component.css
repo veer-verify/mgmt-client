@@ -1,0 +1,59 @@
+.info {
+  cursor: pointer;
+  display: flex;
+  color: #000;
+}
+
+.form-text {
+  position: relative;
+  left: -40px;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.text-dark {
+  font-size: 26px;
+  /* margin-left: 16px; */
+  text-decoration: none;
+}
+
+.box {
+  border: 1px solid #ababab;
+  width: 98%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-family: TP, sans-serif;
+}
+
+.setbox {
+  text-align: center;
+  width: 60%;
+}
+
+.inbox {
+  /* background-color: #fff; */
+  padding: 8px 10px;
+  color: #fff;
+  margin-right: 0;
+  margin-left: auto;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 1px solid #fff;
+}
+
+.charts-container {
+  height: 70vh;
+  overflow-y: auto;
+}
+
+#chart4, #chart1, #chart2, #chart3, #chart04, #chart01, #chart02, #chart03 {
+  /* width: 48%; */
+  height: 275px;
+  border: 1px solid #EFEFEF;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px #0000000D;
+  margin-bottom: 10px;
+  font-weight: 800;
+}

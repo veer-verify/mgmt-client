@@ -1,0 +1,458 @@
+<div class="container-fluid" id="top">
+    <!-- header -->
+    <div class="d-flex align-items-center justify-content-between my-2">
+      <div class="row">
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-yellow"></div>
+          <div class="mx-2">
+            <div class="status">Total Ads</div>
+            <div class="count">{{ newlistAdsInfoData.length }}</div>
+          </div>
+        </div>
+        <!-- <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+          <div class="vl-green"></div>
+          <div class="mx-2">
+            <div class="status">Added</div>
+            <div class="count">{{ addedAd?.length }}</div>
+          </div>
+        </div> -->
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-blue"></div>
+          <div class="mx-2">
+            <div class="status">Activated</div>
+            <div class="count">{{ newlistAdsInfoData | count: 'status' : 4 }}</div>
+          </div>
+        </div>
+        <!-- <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+          <div class="vl-red"></div>
+          <div class="mx-2">
+            <div class="status">Removed</div>
+            <div class="count">{{ removed?.length }}</div>
+          </div>
+        </div> -->
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Deactivated</div>
+            <div class="count">{{ newlistAdsInfoData | count: 'status' : 5 }}</div>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Pending</div>
+            <div class="count">{{ newlistAdsInfoData | count: 'status' : 1 || 2 || 3 }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="create-btn" (click)="showAddAsset('asset')">Create Ad</button>
+      </div>
+    </div>
+  
+   
+    <!-- <div>
+      <div class="col-lg-12">
+        <app-filter [filterType]="'advertisements'" (tableDataFromChild)="getAdsFromChild($event)"
+          (searchFromChild)="getSearchFromChild($event)" (loaderFromChild)="getLoaderFromChild($event)">
+        </app-filter>
+      </div>
+    </div> -->
+
+
+    <div class="row">
+      <div class="col-lg-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Site</mat-label>
+          <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="siteId" (keyup)="searchSites($event)">
+          <button matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #site="matAutocomplete">
+            <mat-option value="All" (click)="filter('All')">All</mat-option>
+            <mat-option *ngFor="let item of siteData | search: searchSite" [value]="item.siteId" (click)="filter(item.siteId); listDevices(item)">{{item.siteId}}-{{item.siteName}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Device</mat-label>
+          <input matInput #deviceIdInput type="text" [matAutocomplete]="device" [(ngModel)]="deviceId" (keyup)="searchDevices($event)">
+          <button matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #device="matAutocomplete">
+            <mat-option value="All" (click)="filter('All')">All</mat-option>
+            <mat-option *ngFor="let item of devices | search: searchDevice" [value]="item.deviceId" (click)="filter(item.deviceId)">{{item.deviceId}}-{{item.deviceName}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-lg-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ads Name</mat-label>
+          <input matInput #addIdInput type="text" [matAutocomplete]="add" [(ngModel)]="adName">
+          <button matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #add="matAutocomplete">
+            <mat-option value="All" (click)="filter('All')">All</mat-option>
+            <mat-option *ngFor="let item of newlistAdsInfoData" [value]="item.adName" (click)="filter(item.deviceId)">{{item.adName}}</mat-option>
+            <mat-option></mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+      <div class="col-lg-3 from-date">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker">
+            <input matStartDate placeholder="Created from" [(ngModel)]="ticketStatusObj.fromDate">
+            <input matEndDate placeholder="Created to" [(ngModel)]="ticketStatusObj.toDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+  
+          <mat-date-range-picker #rangePicker>
+            <mat-date-range-picker-actions>
+              <button mat-button matDateRangePickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDateRangePickerApply (click)="filter(ticketStatusObj)">Apply</button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" [(ngModel)]="searchText">
+          <button matSuffix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+
+  
+  
+    <!-- table -->
+    <div class="table-resp extra w-100">
+      <table class="table table-hover" id="mytable">
+        <thead>
+          <tr class="form1">
+            <!-- <th><p>SiteName
+              <img (click)="sort('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+            </th> -->
+            <!-- <th>DeviceId
+              <img (click)="sort('deviceId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th> -->
+            <!-- <th>DeviceName
+              <img (click)="sort('deviceName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th> -->
+            <!-- <th>
+              <span>Id</span>
+              <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th> -->
+  
+            <th>
+              <span>AdName</span>
+              <img (click)="sort('adName')" class="pointer ms-1" src="assets/icons/sorticon.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">
+            </th>
+  
+            <th>
+              <span>Duration</span>
+              <img (click)="sort('duration')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+<!--   
+            <th>
+              <span></span>
+              <img (click)="sort('duration')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th> -->
+  
+            <th>
+              <span>Start Date</span>
+              <img (click)="sort('fromDate')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+  
+            <th>
+              <span>End Date</span>
+              <img (click)="sort('toDate')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+  
+            <th class="text-center">
+              <span>DeviceSyncStatus</span>
+              <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+  
+            <th class="text-center">Play</th>
+            <th class="text-center">Add Rule</th>
+             <th class="text-center"><p>Rules</p></th>
+            <th>
+              <p>Ad Status</p>
+              <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+  
+            <th class="text-center">Actions</th>
+            <!-- <th></th> -->
+          </tr>
+        </thead>
+  
+        <tbody *ngIf="!tableLoader">
+          <tr *ngFor="let item of newlistAdsInfoData | search: searchText; let i=index;" [ngClass]="{'highlight': isHighlighted(item.adId)}">
+            <!-- <td>{{item.siteName}}</td> -->
+            <!-- <td>{{item.deviceId}}</td> -->
+            <!-- <td>{{item.deviceName}}</td> -->
+            <!-- <td>{{i+1}}</td> -->
+            <td>
+              <p>{{ item.adName }}</p>
+            </td>
+            <td>
+              <p>{{item.duration + 's'}}</p>
+            </td>
+            <td>
+              <p>{{item.fromDate | date:'mediumDate' }}</p>
+            </td>
+            <td>
+              <p>{{ item.toDate | date:'mediumDate' }}</p>
+            </td>
+            <td class="text-center">
+              <!-- <div> -->
+                <span *ngIf="item.status == 1 || item.status == 2 || item.status == 3">
+                  <img src="assets\icons\pending.svg" alt="" height="20px" width="20px" matTooltip="Pending">
+                </span>
+                <span *ngIf="item.status == 4">
+                  Activated
+                </span>
+                <span *ngIf="item.status == 5">
+                  Deactivated
+                </span>
+                <span *ngIf="item.status != 1 && item.status != 2 && item.status != 3 && item.status != 4 && item.status != 5">
+                </span>
+              <!-- </div> -->
+              <!-- {{ item.status == 1 ? 'Pending': item.status == 2 ? 'Pending' : item.status == 3 ? 'Pending' : item.status == 4 ? 'Activated' : item.status == 5 ? 'Deactivated' : ''}} -->
+              <!-- <select class="form-control custom-form-control" [(ngModel)]="item.status">
+                <option *ngFor="let status of addStatus" [value]="status.keyId">{{status.value}}</option>
+              </select> -->
+            </td>
+
+            <td class="text-center">
+              <!-- <a class="pointer" [href]="item.url" target="_blank">
+                <img style="color: #bdb8b8;" src="assets/icons/play.svg" width="25" height="25" />
+              </a> -->
+              <a class="pointer" (click)="openPlayerDialog(item)">
+                <img style="color: #bdb8b8;" src="assets/icons/play.svg" height="20px" width="20px"/>
+              </a>
+            </td>
+  
+            <!-- <td class="text-center" *ngIf="item.active == 1">
+              <a class="pointer" *ngIf="item.rules === 0" (click)="showAddAsset('rule', item)" matTooltip="Add Rule">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"   />
+              </a>
+              <span  *ngIf="item.rules !== 0" (click)="openView(item)" matTooltip="View Ads">View</span>
+            </td> -->
+            <td class="text-center">
+              <a class="pointer" (click)="showAddAsset('rule', item)" matTooltip="Add Rule">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a>
+            </td>
+
+            <td (click)="openView(item)" matTooltip="View Ads">
+              <p>View</p>
+            </td>
+
+
+            <!-- <td *ngIf="item.active !==1" class="text-center"><img src="assets\icons\minus.svg" alt=""></td> -->
+
+            <td [style.color]="item.active == 1 ? 'Green' : item.active == 0 ? 'Red' : ''">{{item.active == 1 ? 'Active' : item.active == 0 ? 'Inactive':''}}</td>
+  
+           
+  
+            <td class="table-icons">
+              <!-- <a class="mx-1 pointer" (click)="openViewPopup(item)">
+                <img src="assets/icons/view.svg">
+              </a> -->
+              <a class="mx-1 pointer" (click)="openEditPopupp(item)" matTooltip="edit">
+                <img src="assets/icons/edit.svg">
+              </a>
+              <a class="mx-1 pointer" value="Delete" (click)="openDeletePopup(item)" matTooltip="delete">
+                <img src="assets/icons/delete.svg">
+              </a>
+            </td>
+            <!-- <td><h1 *ngIf="item.new">New</h1></td> -->
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- error info -->
+      <div class="d-flex align-items-center justify-content-center" style="height: 45vh;"
+        *ngIf="newlistAdsInfoData.length == 0 && !tableLoader">
+        <h1 class="text-secondary">No Advertisements</h1>
+      </div>
+  
+      <!-- loader -->
+      <div *ngIf="tableLoader">
+        <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #usedItemsDialog>
+    <div style="background-color: #084982;" >
+      <p class="dialog-title">Rule Details</p>
+    </div>
+  
+    <div class="dialog-content">
+      <div class="table-res">
+        <table class="table" id="mytable">
+          <thead>
+            <tr class="form1">
+              <th>
+                <span>Id</span>
+                <img (click)="sort('time_connected')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <span>workingDays</span>
+                <img (click)="sort('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <span>temp</span>
+                <img (click)="sort('inactive_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+  
+              <th>
+                <span>status</span>
+                <img (click)="sort('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>objectCount
+                <img (click)="sort('avg_time_spent')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th >
+                <span>modelObjectTypeId</span>
+                <img (click)="sort('avg_time_spent')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr  *ngFor="let task of ruleData; let i = index">
+              <td>
+                <p>{{i+1 }}</p>
+              </td>
+              <td>
+                <!-- <select class="form-control custom-form-control" [(ngModel)]="task.workingDays" multiple>
+                  <option *ngFor="let status of workingDays" [value]="status.keyId">{{status.value}}</option>
+                </select> -->
+                <span class="custom-select">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Working Days</mat-label>
+                    <mat-select multiple [(ngModel)]="task.workingDays">
+                      <mat-option *ngFor="let day of workingDays" [value]="day.keyId">{{ day.value }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </span>
+              </td>
+              <td>
+                <p>{{ task.temp}}</p>
+              </td>
+              <td>
+                <select class="form-control custom-form-control" [(ngModel)]="task.status">
+                  <option *ngFor="let status of addStatus" [value]="status.keyId">{{status.value}}</option>
+                </select>
+              </td>
+              <td>
+                <p>{{ task.objectCount }}</p>
+              </td>
+              <td > <select class="form-control custom-form-control" [(ngModel)]="task.modelObjectTypeId">
+                <option *ngFor="let status of model_object_type" [value]="status.keyId">{{status.value}}</option>
+              </select></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+  </ng-template>
+  
+  <ng-template #editAssetDialog>
+    <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+      <p class="dialog-title">MODIFY Ad - {{ currentItem?.adName }} ({{ currentItem?.mimeType.slice(0, -4) }})</p>
+      <p  class="dialog-title">{{currentItem?.deviceName}}</p>
+    </div>
+  
+    <div class="dialog-content">
+      <div class="row m-0" *ngIf="currentItem">
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>From date</mat-label>
+            <input  matInput [matDatepicker]="picker1" [(ngModel)]="currentItem.fromDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>To date</mat-label>
+            <input matInput [matDatepicker]="picker2" [(ngModel)]="currentItem.toDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select  [(ngModel)]="currentItem.status" (ngModelChange)="isStatusChanged = true">
+              <!-- <mat-option *ngFor="let item of addStatus" [value]="item.keyId" [hidden]="item.keyId !== 4 && item.keyId !== 5  && item.keyId !== 3">
+                {{ item.value }}
+              </mat-option> -->
+              <!-- <mat-option >Pending</mat-option> -->
+              <mat-option [value]="2" hidden>Pending</mat-option>
+              <mat-option [value]="3" hidden>Pending</mat-option>
+
+              <mat-option [value]="4">Activated</mat-option>
+              <mat-option [value]="5">DeActivated</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="updateAd()">Update</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #addPlayerDialog>
+    <div style="background-color: #084982;">
+      <p class="dialog-title">ADD FILE</p>
+    </div>
+    <div class="dialog-content">
+      <video [src]="currentItem?.adUrl" width="500px" height="300px" autoplay controls></video>
+    </div>
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" mat-dialog-close>Close</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <div *ngIf="showAsset">
+    <app-add-new-advertisement [newData]="null" (newItemEvent)="closenow('asset'); listAdsInfo()"></app-add-new-advertisement>
+  </div>
+
+  <div *ngIf="addRule">
+    <app-add-new-rule [inputData]="final" (newItemEvent)="closenow('rule'); listAdsInfo()"> </app-add-new-rule>
+  </div>
+  
+ 

@@ -1,0 +1,850 @@
+
+<div class="container-fluid" id="top">
+    <!-- header -->
+    <div class="d-flex align-items-center justify-content-between my-2 ">
+      <div class="row mb-3">
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-yellow"></div>
+          <div class="mx-2">
+            <div class="status">Total</div>
+            <div class="count">{{ newSiteData?.length }}</div>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-blue"></div>
+          <div class="mx-2">
+            <div class="status">New</div>
+            <div class="count">{{ newSiteData | count:"statusId":1 }}</div>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Pending</div>
+            <div class="count">{{newSiteData | count:"statusId":2}}</div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Inprogress</div>
+            <div class="count">{{ newSiteData | count:"statusId":4}}</div>
+          </div>
+        </div> 
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Resolved</div>
+            <div class="count">{{ newSiteData | count:"statusId":5}}</div>
+          </div>
+        </div>
+       
+        <!-- <div class="col-lg-1 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">onHold</div>
+            <div class="count">{{ onHold.length }}</div>
+          </div>
+        </div> -->
+        <div class="col-lg-2 d-flex justify-content-start">
+          <div class="vl-orange"></div>
+          <div class="mx-2">
+            <div class="status">Inactive</div>
+            <div class="count">{{ newSiteData | count:"statusId":6 }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="create-btn" (click)="showAddAsset('asset')">Create New Issue</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select site</mat-label>
+          <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="siteName" (keyup)="searchSites($event)">
+          <button matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #site="matAutocomplete">
+            <mat-option value="All" (click)="filter('All')" >All</mat-option>
+            <mat-option *ngFor="let item of alldevicelist | search: siteSearch" [value]="item.siteId"
+              (click)="filter(siteName)">
+              {{ item.siteId }} - {{ item.sitename }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select Category</mat-label>
+            <mat-select [(ngModel)]="Category">
+              <mat-option value="All" (click)="openSubcategoryList('All'); filter('All')" >All</mat-option>
+              <mat-option *ngFor="let item of categoryList" [value]="item.catId" (click)="openSubcategoryList(item); filter(item.catId)" >{{item.catName}}</mat-option>
+            </mat-select>
+            <mat-error>Category is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select subCategory</mat-label>
+            <mat-select [(ngModel)]="subcategoryId">
+              <!-- <mat-option value="All" (click)="filter('All')">All</mat-option> -->
+              <mat-option *ngFor="let item of subCategoryList" [value]="item.serviceSubcatId" (click)="filter(item.serviceSubcatId)">{{item.serviceSubcatName}}</mat-option>              
+            </mat-select>
+            <mat-error>Subcategory is required</mat-error>
+        </mat-form-field>
+      </div>
+ <!-- <div class="col-lg-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select deviceId</mat-label>
+            <mat-select [(ngModel)]="deviceId">
+              <mat-option value="All" (click)="filter('All')">All</mat-option>
+              <mat-option *ngFor="let item of newDeviceData" [value]="item?.deviceId" (click)="filter(item?.deviceId)">{{item?.deviceId}}</mat-option>              
+            </mat-select>
+          </mat-form-field>
+      </div>  -->
+      <div class="col-lg-2 from-date">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker">
+            <input matStartDate placeholder="Created from" [(ngModel)]="ticketStatusObj.fromDate">
+            <input matEndDate placeholder="Created to" [(ngModel)]="ticketStatusObj.toDate" >
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker>
+            <mat-date-range-picker-actions>
+              <button mat-button matDateRangePickerCancel (click)="ticketStatusObj.fromDate=null;ticketStatusObj.toDate=null;filter(filteritem)">Cancel</button>
+              <button mat-raised-button color="primary" matDateRangePickerApply (click)="filter(ticketStatusObj)">Apply</button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2">
+        <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" [(ngModel)]="searchText">
+          <button matSuffix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- table -->
+    <div class="table-resp extra w-100">
+      <table class="table table-hover" id="mytable">
+        <thead>
+          <tr class="form1 text-start">
+            <th>
+              <span>S.No</span>
+              <!-- <img (click)="sort('issueId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+            <th>
+              <span>Issue Name</span>
+              <img (click)="sort('issueName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Issue Date</p>
+                <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Category</p>
+                <img (click)="sort('categoryId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                  <p>Sub Category</p>
+                  <img (click)="sort('subCategoryId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+                </th>
+              <th>
+              <span>Description</span>
+              <img (click)="sort('issueDescription')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+            <th>
+              <span>Comments</span>
+              <!-- <img (click)="sort('commentsCount')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+            <!-- <th>
+              <span>Add Comments</span>
+            </th> -->
+            <th>
+              <span>Approaches</span>
+              <!-- <img (click)="sort('approachCount')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+            <th >
+              <span>Devices</span>
+              <!-- <img (click)="sort('approachCount')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+            <!-- <th>
+              <span>Add Approaches</span>
+            </th> -->
+              <!-- <th> 
+                <p>Attachments</p>
+                <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th> -->
+              <!-- <th>
+                <p>Created By</p>
+                <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th> -->
+              <th>
+                <p>Status</p>
+                <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!tableLoader">
+          <tr *ngFor="let item of newSiteData | search: searchText; let i=index;" class="text-start" [style.backgroundColor]="currentcommentindex==i?'#ababab':'' ">
+            <td>
+                <p>{{i+1}}</p>
+                <!-- <p>{{item.issueId}}</p> -->
+            </td>
+            <td style="max-width: 150px; overflow-wrap:break-word;">
+              <p>{{item.issueName}}</p>
+            </td>
+            <td>
+              <p>{{item.dateOfEffected| date:'mediumDate'}}</p>
+            </td>
+            <td>
+              <p >{{item.category}}</p>
+            </td>
+            <td>
+              <p>{{item.subCategory}}</p>
+              </td>
+            <td style="max-width: 150px; ">
+              <p class="truncet" [matTooltip]="item.issueDescription">{{item.issueDescription}}</p>
+            </td>
+            <td  *ngIf="item.commentsCount > 0 ">
+              <!-- <span > -->
+              <!-- <span style="color: #084982;cursor:pointer;" matTooltip="View more Comment's"> {{ item?.commentsInfo[0]?.comments }}</span> -->
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" (click)="openView(item,i)" [style.background-color]="colors[currentColorIndex]" matTooltip="View more Comments">View</button>
+              <!-- </span> -->
+            </td>
+            <td *ngIf="item.commentsCount == 0 ">
+              <a class="pointer"  matTooltip="Add Comment" (click)="showAddComment(item,i)">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a> 
+            </td>
+            <!-- <td>
+              <a class="pointer"  matTooltip="Add Comment">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a>
+            </td> -->
+            <td  *ngIf="item.approachCount> 0 " >
+              <span (click)="openViewApproach(item,i)">
+              <!-- <span style="color: #084982;cursor: pointer;" matTooltip="View more Approache's"> {{ item.approachInfo[0]?.approachName }}</span> -->
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" [style.background-color]="colors[currentColorIndex]" matTooltip="View more Approaches"> View</button>
+              </span>
+            </td>
+            <td *ngIf="item.approachCount == 0" >
+              <a class="pointer"  matTooltip="Add Approach"  (click)="showAddApproach(item,i)">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a>  
+            </td>
+            <td  *ngIf="item.deviceEffectedCount> 0 " >
+              <span (click)="listDevicesForIssue(item,i)">
+              <!-- <span style="color: #084982;cursor: pointer;" matTooltip="View more Approache's"> {{ item.approachInfo[0]?.approachName }}</span> -->
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" [style.background-color]="colors[currentColorIndex]" matTooltip="View Devices"> View</button>
+              </span>
+            </td>
+            <td *ngIf="item.deviceEffectedCount == 0" >
+              <a class="pointer"  matTooltip="Add Device"  (click)="showAddDevice(item,i)">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a>  
+            </td>
+            <!-- <td>
+              <a class="pointer" (click)="showAddApproach( item)" matTooltip="Add Approach">
+                <img style="color: #dd6868;" src="assets/icons/add.svg" width="50" height="25"/>
+              </a>
+            </td> -->
+            
+            <!-- <td>
+                <p>{{item.issueAttachements }}</p>
+            </td>  -->
+            <!-- <td>{{item.issueCreatedBy}}</td> -->
+            <td>
+              <p [style.color]="getStatusColor(item.statusId)">{{item.status}}</p>
+            </td>
+            <td class="table-icons">
+                <a class="mx-1 pointer" matTooltip="View" (click)="openViewPopup(item,i)">
+                <img  src="assets/icons/view.svg">
+              </a> 
+                <a class="mx-1 pointer" (click)="openEditPopupp(item,i)" matTooltip="edit">
+                    <img src="assets/icons/edit.svg">
+                </a>
+                <a class="mx-1 pointer" value="Delete" (click)="openDeletePopup(item,i)" matTooltip="delete">
+                    <img src="assets/icons/delete.svg">
+                </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- error info -->
+      <div class="d-flex align-items-center justify-content-center" style="height: 45vh;"
+        *ngIf="newSiteData?.length == 0 && !tableLoader">
+        <h1 class="text-secondary">No Issues found</h1>
+      </div>
+      <!-- loader -->
+      <div *ngIf="tableLoader">
+        <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #usedItemsDialog>
+    <div style="background-color: #084982;" >
+      <!-- <p class="dialog-title">Comments for Issue Id -  {{currentcommentindex+1}}</p> -->
+      <p class="dialog-title">Comments for Issue  -  {{currentcomment.issueName}}</p>
+    </div>
+    <div class="d-flex justify-content-end mt-2 mx-2">
+    
+      <button (click)="showAddComment1()"  class="btn btn-sm" style="background-color: #084982;color: white;">Create Comment</button>
+    </div>
+  
+    <div class="dialog-content">
+      <div class="table-res">
+        <table class="table" id="mytable">
+          <thead>
+            <tr class="form1 text-start">
+              <th>
+                <span>Id</span>
+                <!-- <img (click)="sort1('commentId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+              </th>
+              <th>
+                <span>CommentsInfo</span>
+                <img (click)="sort1('comment')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Created By</p>
+                <img (click)="sort1('commentCreatedByName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Created Date</p>
+                <img (click)="sort1('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr  *ngFor="let task of commentDataArray; let i = index" class="text-start" >
+              <td>
+                <p>{{i+1}}</p>
+              </td>
+              <td style="max-width: 200px; overflow-wrap:anywhere;" >
+                <p >{{ task.comment}}</p>
+              </td>
+              <td>
+                <p>{{ task.commentCreatedByName}}</p>
+              </td>
+              <td>
+                <p>{{ task.createdTime | date:'mediumDate'}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #approachItemsDialog>
+    <div style="background-color: #084982;" >
+      <!-- <p class="dialog-title">Approaches for Issue Id - {{currentcommentindex+1}}</p> -->
+      <p class="dialog-title">Approaches for Issue  - {{currentApproach.issueName}}</p>
+    </div>
+  <div class="d-flex justify-content-end mx-2 mt-2">
+    <button class="btn btn-sm " style="background-color: #084982;color: white;" (click)="showAddApproach1()">Create Approach</button>
+  </div>
+    <div class="dialog-content">
+      <div class="table-res">
+        <table class="table" id="mytable">
+          <thead>
+            <tr class="form1 text-start">
+              <th>
+                <span>Id</span>
+                <!-- <img (click)="sort2('approachId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+              </th>
+              <th>
+                <span>Approach Info</span>
+                <img (click)="sort2('approachName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Created By</p>
+                <img (click)="sort2('approachCreatedByName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Created Date</p>
+                <img (click)="sort1('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Actions</p>
+                <!-- <img (click)="sort1('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor="let task of approachDataArray; let i = index" class="text-start">
+              <td>
+                <p>{{i+1}}</p>
+              </td>
+              <td style="max-width: 200px; overflow-wrap:anywhere;" >
+                <div *ngIf="editingIndex !== i">
+                <p>{{ task.approachName}}</p>
+                </div>
+                <div *ngIf="editingIndex === i">
+                  <textarea 
+                  [(ngModel)]="approachedit"
+                  
+                  (keyup.enter)="saveEdit()"
+                  style="overflow-wrap: anywhere;"  rows="4" cols="25"  matTooltip="Drag to view full text"
+                ></textarea>
+                </div>
+              </td>
+              <td>
+                <p>{{ task.approachCreatedByName}}</p>
+              </td>
+              <td>
+                <p>{{ task.createdTime | date:'mediumDate'}}</p>
+              </td>
+              <td class="table-icons">
+                <a class="mx-1 pointer" (click)="openEditapproach(task,i,currentApproach)" matTooltip="edit" *ngIf="editingIndex !== i">
+                    <img src="assets/icons/edit.svg">
+                </a>
+                <a class="mx-1 pointer" (click)="editingIndex=null" matTooltip="Cancel" *ngIf="editingIndex === i">
+                  <img src="assets\icons\cancel-red.svg">
+              </a>
+              <a class="mx-1 pointer" (click)="saveEdit()" matTooltip="Save" *ngIf="editingIndex === i">
+                <img src="assets\icons\save-blue.svg">
+            </a>         
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="dialog-close-btn" (click)="currentcommentindex=-1;editingIndex=null" mat-dialog-close>Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #deviceItemsDialog>
+    <div style="background-color: #084982;" >
+      <!-- <p class="dialog-title">Devices for Issue Id - {{currentcommentindex+1}}</p> -->
+      <p  class="dialog-title">Link Device for Issue  - {{currentDevice.issueName}}</p>
+    </div>
+
+    <div class="d-flex justify-content-end mx-2 mt-2">
+      <button class="btn btn-sm " style="background-color: #084982;color: white;" (click)="showAddDevice(currentDevice,currentcommentindex)">Add Device</button>
+    </div>
+  
+    <div class="dialog-content">
+      <div class="table-res">
+        <table class="table" id="mytable">
+          <thead>
+            <tr class="form1 text-center">
+              <th>
+                <span>Id</span>
+                <!-- <img (click)="sort2('approachId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+              </th>
+              <th>
+                <span>Site Id</span>
+                <img (click)="sort3('siteId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <span>Site Name</span>
+                <img (click)="sort3('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <span>DeviceId</span>
+                <img (click)="sort3('deviceId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <!-- <th>
+                <p>dateOfEffected</p>
+                <img (click)="sort2('approachCreatedByName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th> -->
+              <th>
+                <p>Created By</p>
+                <img (click)="sort3('createdBy')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+              <th>
+                <p>Created Date</p>
+                <img (click)="sort3('createdTime')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </th>
+
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr  *ngFor="let task of deviceDataarray; let i = index" class="text-center">
+              <td>
+                <p>{{i+1}}</p>
+              </td>
+              <td>
+                <p>{{ task.siteId}}</p>
+              </td>
+              <td>
+                <p>{{ task.siteName}}</p>
+              </td>
+              <td>
+                <p>{{ task.deviceId}}</p>
+              </td>
+              <td>
+                <p>{{ task.createdBy}}</p>
+              </td>
+              <td>
+                <p>{{ task.createdTime | date:'mediumDate'}}</p>
+              </td>
+            </tr>
+          </tbody>
+         
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center"
+        *ngIf="deviceDataarray?.length == 0" style="height: 10vh;">
+        <h1 class="text-secondary">No Devices found</h1>
+      </div>
+
+      </div>
+      
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #deviceAssetDialog>
+    <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+      <!-- <p  class="dialog-title">Link Device for Issue Id - {{currentcommentindex+1}}</p> -->
+      <p  class="dialog-title">Link Device for Issue- {{addDevice.issueName}}</p>
+    </div>
+    <div class="dialog-content">
+      <div class="row" >
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field  appearance="outline" class="w-100">
+            <mat-label>Issue Id</mat-label>
+            <input matInput [(ngModel)]="addDevice.issueId" disabled>
+            <mat-error>Add Name is required</mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-lg-5 col-md-5">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select SiteId</mat-label>
+            <mat-select [(ngModel)]="siteinfo" >
+              <mat-option *ngFor="let item of alldevicelist" [value]="item" >{{item.unitName}} - {{item.unitId}}</mat-option>
+             
+            </mat-select>            
+          </mat-form-field>
+        </div> -->
+
+
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select SiteId</mat-label>
+            <input
+              matInput
+              [matAutocomplete]="auto"
+              [(ngModel)]="siteinfo"
+              (keydown.enter)="filterDevices(siteinfo)"
+              placeholder="Type to search" (keyup)="searchSites1($event)" 
+            />
+            <mat-autocomplete #auto="matAutocomplete" >
+              <mat-option *ngFor="let item of alldevicelist | search: siteSearch1"   (click)="filterDevices(siteinfo)"  [value]="item.siteId">
+               {{item.siteId}} - {{item.sitename}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select DeviceId</mat-label>
+            <mat-select [(ngModel)]="deviceinfo" >
+              <mat-option *ngFor="let item of siteDevices" [value]="item.deviceId" >{{item.deviceId}} - {{item.deviceType}}</mat-option>
+              <!-- <mat-option *ngIf="filteredDevices.length == 0" disabled>No Devices</mat-option> -->
+            </mat-select>            
+          </mat-form-field>
+        </div>
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" [max]="minDate"  [(ngModel)]="date">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Remarks</mat-label>
+          <input matInput [(ngModel)]="remarksDev" >
+          <!-- <mat-error></mat-error> -->
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" (click)="currentcommentindex=-1;siteinfo=null;deviceinfo=null;date=null" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="updateDevice()">Add Device</button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #editAssetDialog>
+
+    <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+      <p  class="dialog-title">Update Issue</p>
+    </div>
+
+
+  
+  <div class="dialog-content" style="position: relative;">
+      <img class="dialog-loader" src="assets/gif/ajax-loading-gif.gif" width="14px" *ngIf="showLoader">
+      <div class="row m-0" *ngIf="currentItem">
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Issue Id</mat-label>
+            <input matInput [(ngModel)]="currentItem.issueId" disabled>
+            <mat-error>Add Name is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Issue Name</mat-label>
+            <input matInput [(ngModel)]="currentItem.issueName" disabled>
+            <mat-error>Add Name is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Issue Description</mat-label>
+            <input matInput [(ngModel)]="currentItem.issueDescription">
+            <mat-error>Add Name is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="currentItem.statusId">
+              <mat-option *ngFor="let item of addStatus" [value]="item.keyId" [hidden]="item.keyId===3">{{item.value}}</mat-option>
+              <!-- <mat-option *ngIf="filteredDevices.length == 0" disabled>No Devices</mat-option> -->
+            </mat-select>
+           
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select CategoryId</mat-label>
+            <mat-select [(ngModel)]="currentItem.categoryId" (ngModelChange)="currentItem.subCategoryId=null">
+              <mat-option *ngFor="let item of categoryList" [value]="item.catId" (click)="openSubcategoryList(item)">{{item.catName}}</mat-option>
+              <!-- <mat-option *ngIf="filteredDevices.length == 0" disabled>No Devices</mat-option> -->
+           
+            </mat-select>
+            <mat-error>Category is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Select SubCategoryId</mat-label>
+              <mat-select [(ngModel)]="currentItem.subCategoryId">
+                <mat-option *ngFor="let item of subCategoryList" [value]="item.serviceSubcatId">{{item.serviceSubcatName}}</mat-option>
+              </mat-select>
+              <mat-error>Sub Category is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-12 col-md-6 mb-3">
+            <div class="input-group mb-3">
+              <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
+              <label class="input-group-text" for="inputGroupFile02">Upload</label>
+            </div>
+          </div>
+      </div>
+    </div>
+
+  
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" (click)="updateAd()">
+         
+          Update
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #deleteAssetDialog>
+    <div style="background-color: #084982;" >
+      <p class="dialog-title">Delete</p>
+    </div>
+  
+    <div class="dialog-content">
+     <p>Do You Want to Delete this Issue?</p>
+      
+    </div>
+  
+    <div class="d-flex justify-content-end p-2">
+      <button class="btn  btn-danger btn-sm mx-2" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+      <button class="btn btn-sm btn-success" mat-dialog-close (click)="confirmDeleteRow();currentcommentindex=-1">Delete</button>
+    </div>
+  </ng-template>
+
+  <ng-template #openCommentDialog>
+    <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+      <!-- <p  class="dialog-title">Add Comment for Issue Id -  {{currentcommentindex+1}}</p> -->
+      <!-- <p  class="dialog-title">Add Comment for Issue Name -  {{currentcomment.issueName}}</p> -->
+      <p class="dialog-title">Add Comment for Issue  - {{currentcomment.issueName}}</p>
+    </div>
+   <mat-dialog-content>
+      
+      <textarea [(ngModel)]="comment" placeholder="Enter here"    rows="4" cols="50" ></textarea>
+    </mat-dialog-content>
+  
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="updateAdForComment()">Create</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #openApproachDialog>
+    <div style="background-color: #084982;" class="d-flex justify-content-between align-items-center">
+      <!-- <p  class="dialog-title">Add Approach for Issue Id - {{currentcommentindex+1}}</p> -->
+      <p  class="dialog-title">Add Approach for Issue  - {{currentApproach.issueName}}</p>
+    </div>
+   <mat-dialog-content class="d-flex flex-column">
+      <textarea [(ngModel)]="Approach" placeholder="Enter here"   rows="4" cols="50" ></textarea>
+      <!-- <textarea [(ngModel)]="Remarks" placeholder="Remarks" class="mt-2"></textarea> -->
+    </mat-dialog-content>
+  
+    <div class="d-flex align-items-center justify-content-end">
+      <div>
+        <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+      </div>
+      <div>
+        <button class="dialog-submit-btn" mat-dialog-close (click)="updateAdForApproach()">Create</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #viewitemsDialog>
+    <div style="background-color: #084982;" >
+      <p class="dialog-title"></p>
+    </div>
+
+    <div class="table-resp extra w-100" >
+      <table class="table table-hover" id="mytable">
+        <thead>
+          <tr class="form1 text-center">
+            <th>
+              <span>Issue Id</span>
+              
+             </th>
+             <th>
+               <span>Issue Name</span>
+              
+              </th>
+              <th>
+                <p>Issue Date</p>
+              
+              </th>
+              <th>
+                <p>Site Name</p>
+              
+              </th>
+              <th>
+                <p>Category</p>
+               
+              </th>
+              <th>
+                  <p>Sub Category</p>
+                </th>
+              <th>
+              <span>Description</span> 
+            </th>  
+            <th> 
+              <p>Attachments</p>
+            </th>        
+          </tr>
+        </thead>
+  
+        <tbody *ngIf="!tableLoader">
+          <tr class="text-center">
+            <td>
+                <p>{{ currentcomment1.issueId }}</p>
+            </td>
+            <td style="max-width: 150px; overflow-wrap:break-word;">
+              <p>{{currentcomment1.issueName}}</p>
+            </td>
+            <td>
+              <p>{{currentcomment1.dateOfEffected| date:'mediumDate'}}</p>
+            </td>
+            <td style="max-width: 150px; overflow-wrap:break-word;">
+              <p>{{currentcomment1.siteName}}</p>
+            </td>
+            <td>
+              <p>{{currentcomment1.category}}</p>
+            </td>
+            <td>
+              <p>{{currentcomment1.subCategory}}</p>
+            </td>
+           
+            <td style="max-width: 150px; overflow-wrap:break-word;">
+                <p>{{currentcomment1.issueDescription}}</p>
+            </td>
+            <td *ngIf="currentcomment1.issueAttachements">
+              <span>
+                <a style="border: none;" [href]="currentcomment1.issueAttachements" target="_self">File</a>
+              </span>
+           </td>
+
+           <td *ngIf="!currentcomment1.issueAttachements">
+            <span>
+              No Data
+            </span>
+         </td>
+           
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- error info -->
+      <div class="d-flex align-items-center justify-content-center" style="height: 45vh;"
+        *ngIf="newSiteData?.length == 0 && !tableLoader">
+        <h1 class="text-secondary">No Issues found</h1>
+      </div>
+  
+      <!-- loader -->
+      <div *ngIf="tableLoader">
+        <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+      </div>
+    </div>
+
+
+  
+    <div class="d-flex justify-content-end">
+      <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
+    </div>
+  </ng-template>
+
+
+  <div *ngIf="showAsset">
+    <app-create-faq (newItemEvent)="closenow('asset'); listIssueInfo()"></app-create-faq>
+  </div>
+
+ 
+ 

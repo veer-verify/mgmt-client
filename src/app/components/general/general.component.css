@@ -1,0 +1,21 @@
+.fixed-width {
+    width: 340px; /* Set to your desired width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .wrap-text {
+    width: 100px; /* Set to your desired width */
+    word-wrap: break-word; /* Ensures long words or URLs break to the next line */
+  }
+ 
+
+  .custom-menu {
+    min-width: 200px;
+    max-width: auto; /* Set to your desired width */
+  }
+  
+  .custom-menu-item {
+    height: 38px; /* Increase item height */
+
+  }

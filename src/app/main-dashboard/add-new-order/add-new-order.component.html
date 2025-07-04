@@ -1,0 +1,43 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-md-6"></div>
+
+  <div class="col-lg-6 col-md-6 add-form" id="user" @inOutPaneAnimation>
+  <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row justify-content-start">
+      <a class="close-main pointer" (click)="closeAddUser()"><img src="assets/icons/close_form.svg" /></a>
+      <span class="form-heading">add order</span>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div>
+    <form autocomplete="off" [formGroup]="UserForm" #addUserForm="ngForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor Id</mat-label>
+            <mat-select formControlName="vendorId" [(ngModel)]="inventoryBody.vendorId">
+              <mat-option *ngFor="let item of vendorDetail" [value]="item.id">{{ item.name }}</mat-option>
+            </mat-select>
+            <mat-error >Vendor Id is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Remarks</mat-label>
+            <input matInput formControlName="remarks" [(ngModel)]="inventoryBody.remarks">
+            <mat-error >Remarks is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="text-center my-3">
+          <button type="submit" class="btn add-btn">ADD</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- /Form -->
+
+  </div>
+</div>

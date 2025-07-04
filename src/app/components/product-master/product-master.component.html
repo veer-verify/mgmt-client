@@ -1,0 +1,497 @@
+<div class="container-fluid" id="top">
+
+  <!-- header -->
+  <div class="d-flex justify-content-between">
+    <div class="users-header">
+      <p>List of Products - <span>{{ newProductMaster?.length }}</span></p>
+    </div>
+    <div >
+      <!-- <a class="pointer" (click)="show('inventory')"><img src="assets/icons/add_circle.svg" alt="" width="40"></a> -->
+      <button class="create-btn" (click)="show('product')">Create Product</button>
+    </div>
+  </div>
+  <!-- /header -->
+
+  <!-- count -->
+  <div class="row mb-2">
+    <!-- <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Active</div>
+        <div class="count">{{ newProductMaster?.length }}</div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+      <div class="vl-yellow"></div>
+      <div class="mx-2">
+        <div class="status">Inactive</div>
+        <div class="count">0</div>
+      </div>
+    </div> -->
+    <!-- <div class="col-lg-2 d-flex justify-content-start">
+      <div class="vl-red"></div>
+      <div class="mx-2">
+        <div class="status">Removed</div>
+        <div class="count">{{ scrap.length }}</div>
+      </div>
+    </div> -->
+  </div>
+  <!-- /count -->
+
+  <!-- form -->
+  <div class="row search-form">
+    <!-- <div class="col-lg-2 col-md-2 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Category</mat-label>
+        <mat-select (focus)="removeDuplicates()" [(ngModel)]="filterBody.categoryId">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of brandNames" [value]="item.categoryId">{{ item.categoryId }} - {{ item.category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Product Type</mat-label>
+        <mat-select (focus)="removeDuplicates()" [(ngModel)]="filterBody.typeId">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of productTypes" [value]="item.typeId">{{ item.typeId }} - {{ item.type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Vendor</mat-label>
+        <mat-select [(ngModel)]="filterBody.vendorId">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of vendorDetail" [value]="item.id">{{ item.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-1 col-md-1 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Status</mat-label>
+        <mat-select (focus)="removeDuplicates()" [(ngModel)]="filterBody.statusId">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of productStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <input matInput [matDatepicker]="picker1" placeholder="Created from" [(ngModel)]="filterBody.startDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <input matInput [matDatepicker]="picker2" placeholder="Created to" [(ngModel)]="filterBody.endDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div> -->
+
+    <div class="col-lg-3 col-sm-12">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text"  [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- /form -->
+
+  <!-- table starts -->
+  <div class="table-resp">
+    <table class="table table-hover" id="mytable">
+      <thead>
+        <tr class="form1">
+          <!-- <th>
+            <input type="checkbox" class="form-check-input" [(ngModel)]="selectedAll" (change)="selectAll()"
+              id="allcheck" style="
+                background-color: #00000000;
+                border-color: #fff;
+                margin-left: 10px;
+              " />
+          </th> -->
+
+          <th>
+            <p>
+              <span>Id</span>
+              <img (click)="sort('id')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>Description</span>
+              <img (click)="sort('productCategoryId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>uom</span>
+              <img (click)="sort('productModelId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>Part type</span>
+              <img (click)="sort('name')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>Part category</span>
+              <img (click)="sort('uomId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+
+          <th>
+            <p>
+              <span>Build type</span>
+              <img (click)="sort('productModelId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>Part code</span>
+              <img (click)="sort('productTypeId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <th>
+            <p>
+              <span>Item code</span>
+              <img (click)="sort('cost')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+            </p>
+          </th>
+
+          <!-- <th>
+            <span>Vendor</span>
+            <img (click)="sort('purchaseVendorId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Returnable</span>
+            <img (click)="sort('productName')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Maint Req</span>
+            <img (click)="sort('productName')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Status</span>
+            <img (click)="sort('productStatusId')" class="pointer" src="assets/icons/sorticon.svg" width="15px">
+          </th> -->
+
+          <!-- <th class="text-center">Actions</th> -->
+        </tr>
+      </thead>
+
+      <tbody *ngIf="!showLoader">
+        <tr *ngFor="let cust of newProductMaster | search : searchText; let i = index">
+          <!-- <td>
+            <input type="checkbox" name="foo" class="form-check-input" [(ngModel)]="cust.selected" (change)="
+                checkIfAllSelected();
+                deleteMultiRecords(cust, i, $event);
+                ViewByCheckbox(cust, i, $event);
+                EditByCheckbox(cust, i, $event)
+              " id="singleCheck" />
+          </td> -->
+
+          <td>
+            <p>{{ cust.slNo }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.materialDescription }}</p>
+          </td>
+          <td>
+            <p>{{ cust.uomId == 1 ? 'packet' : cust.uomId == 2 ? 'meters' : cust.uomId == 3 ? 'Roll' : cust.uomId == 4 ? 'set' : cust.uomId == 5 ? 'numbers' :  '' }} </p>
+          </td>
+
+          <!-- <td>
+            <p>{{ cust.description }}</p>
+          </td> -->
+
+          <td>
+            <p>{{ cust.partType == 1 ? 'Raw material' : cust.partType == 2 ? 'Sub Component' : cust.partType == 3 ? 'Component' : cust.partType == 4 ? 'Finished Good' : '' }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.partCategory == 1 ? 'Electronics and Electrical' : cust.partCategory == 2  ? 'Mechanical' : cust.partCategory == 3 ?'Accessories' :cust.partCategory == 4 ? ' Tools' : cust.partCategory == 5 ? 'Gadgets' : cust.partCategory == 6 ? 'SIM' : ''}}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.buildType == 1 ? 'Custom made': cust.buildType == 2 ? 'Ready Made' : '' }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.partCode }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.suggestedItemCode }}</p>
+          </td>
+
+          <!-- <td>
+            <p>{{ cust.returnable == "Y" ? 'Yes' : 'No' }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.maintenanceRequired == 'Y' ? 'Yes' : 'No' }}</p>
+          </td>
+
+          <td>
+            <p [style.color]="cust.statusId == 1 ? '#00A44C' : cust.statusId == 2 ? '#fa500f' : ''">
+              {{ cust.status }}
+            </p>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- err info -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 45vh;" *ngIf="newProductMaster.length == 0 && !showLoader">
+      <h1 class="text-secondary">No Data</h1>
+    </div>
+  
+    <!-- Loader -->
+    <div *ngIf="showLoader">
+      <app-loader class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #viewProductDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">VIEW PRODUCT</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="row" *ngIf="currentItem">
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Id</mat-label>
+          <input matInput [(ngModel)]="currentItem.id" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="currentItem.name" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Cost</mat-label>
+          <input matInput [(ngModel)]="currentItem.cost" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Model</mat-label>
+          <input matInput [(ngModel)]="currentItem.model" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <input matInput [(ngModel)]="currentItem.description" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Product Type</mat-label>
+          <input matInput [(ngModel)]="currentItem.type" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Product Category</mat-label>
+          <input matInput [(ngModel)]="currentItem.category" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Status</mat-label>
+          <input matInput [(ngModel)]="currentItem.status" disabled>
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>productStatusId</mat-label>
+          <mat-select [(ngModel)]="currentItem.productStatusId" disabled>
+            <mat-option *ngFor="let item of productStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end"  >
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #editProductDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">MODIFY PRODUCT</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="row" *ngIf="currentItem">
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Id</mat-label>
+          <input matInput [(ngModel)]="currentItem.id" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Name</mat-label>
+          <input name="name" matInput [(ngModel)]="currentItem.name" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <input name="description" matInput [(ngModel)]="currentItem.description" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Model</mat-label>
+          <input name="model" matInput [(ngModel)]="currentItem.model" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Quantity</mat-label>
+          <input name="quantity" matInput [(ngModel)]="currentItem.quantity" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Uom Id</mat-label>
+          <mat-select name="uomId" [(ngModel)]="currentItem.uomId" (selectionChange)="onSelectChange($event)">
+            <mat-option *ngFor="let item of uom" [value]="item.keyId">{{ item.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Cost</mat-label>
+          <input name="cost" matInput [(ngModel)]="currentItem.cost" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Category Id</mat-label>
+          <mat-select [(ngModel)]="currentItem.productCategoryId">
+            <mat-option [value]="55">55</mat-option>
+            <mat-option [value]="33">33</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Type Id</mat-label>
+          <mat-select [(ngModel)]="currentItem.productTypeId">
+            <mat-option [value]="2">2</mat-option>
+            <mat-option [value]="13">13</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Purchase Link</mat-label>
+          <input name="purchaseLink" matInput [(ngModel)]="currentItem.purchaseLink" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-6 col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Status</mat-label>
+          <mat-select name="statusId" [(ngModel)]="currentItem.statusId" (change)="onInputChange($event)">
+            <mat-option *ngFor="let item of productStatus" [value]="item.keyId">{{item.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Remarks</mat-label>
+          <input name="remarks" matInput [(ngModel)]="currentItem.remarks" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6 mt-2" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group name="returnable" class="w-50" [(ngModel)]="currentItem.returnable" (change)="onRadioChange($event)">
+          <mat-label>Returnable</mat-label>
+          <mat-radio-button class="ms-3" name="return" value="Y">Yes</mat-radio-button>
+          <mat-radio-button class="ms-3" name="return" value="N" checked>No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="col-lg-6 col-md-6 mt-2" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group name="maintenanceRequired" class="w-50" [(ngModel)]="currentItem.maintenanceRequired" (change)="onRadioChange($event)">
+          <mat-label>Maintenance Required</mat-label>
+          <mat-radio-button class="ms-3" name="maintenance" value='Y'>Yes</mat-radio-button>
+          <mat-radio-button class="ms-3" name="maintenance" value='N' checked>No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+<div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div  >
+      <button class="dialog-submit-btn" mat-dialog-close (click)="updateProductMaster()">Update</button>
+    </div>
+  </div>
+</ng-template>
+
+<div  *ngIf="showProduct">
+  <app-add-product-master (newItemEvent)="closenow('product'); listProduct()"></app-add-product-master>
+</div>
+
+
+
+

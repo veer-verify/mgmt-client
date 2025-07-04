@@ -1,0 +1,11 @@
+.addListBtn {
+  position: relative;
+  top: 17px;
+  right: 7px;
+  font-weight: 600;
+  color: #084982 !important;
+  border: 1px solid #084982;
+  border-radius: 5px;
+  padding: 12px;
+  cursor: pointer;
+}

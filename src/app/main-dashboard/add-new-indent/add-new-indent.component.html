@@ -1,0 +1,86 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-4"></div>
+
+  <div class="col-lg-6 col-8 add-form" id="user" @inOutPaneAnimation>
+  <div>
+    <a class="close-main pointer" (click)="closeIndent()"><img src="assets/icons/close_form.svg" /></a>
+    <span class="form-heading">add indent</span>
+  </div>
+
+  <!-- Form -->
+  <div>
+    <form autocomplete="off" [formGroup]="UserForm">
+      <mat-card>
+        <div class="row" *ngFor="let item of inventoryBody.items; let i = index">
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>ticketId</mat-label>
+              <mat-select formControlName="jobOrTicketId" [(ngModel)]="inventoryBody.ticketId">
+                <mat-option *ngFor="let item of vendorDetail" [value]="item.id">{{ item.name }}</mat-option>
+              </mat-select>
+              <mat-error >Ticket Id is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>itemCode</mat-label>
+              <mat-select formControlName="itemCode" [(ngModel)]="inventoryBody.items[i].itemCode">
+                <mat-option *ngFor="let val of productIds" [value]="val.suggestedItemCode">{{ val.materialDescription }}</mat-option>
+              </mat-select>
+              <mat-error > Itemcode is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Quantity</mat-label>
+              <input matInput formControlName="quantity" [(ngModel)]="inventoryBody.items[i].quantity">
+              <mat-error >Quantity is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Remarks</mat-label>
+              <input matInput formControlName="remarks" [(ngModel)]="inventoryBody.remarks">
+              <mat-error >Quantity is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <!-- <button mat-stroked-button class="mt-2" style="color: #084982" (click)="onTaskAdd(item)">Add Item</button> -->
+            <a class="add-task-btn" (click)="onTaskAdd(item)">Add Item</a>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- list -->
+      <div class="table-task col-lg-12 col-md-12 mt-2" *ngIf="items.length > 0">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Item code</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of items; let j = index">
+              <th>{{ j + 1 }}</th>
+              <td>{{ task.itemCode }}</td>
+              <td>{{ task.quantity }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center my-3">
+        <button type="submit" class="btn add-btn" (click)="submit()">ADD</button>
+      </div>
+    </form>
+  </div>
+  <!-- /Form -->
+
+  </div>
+</div>

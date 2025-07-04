@@ -1,0 +1,266 @@
+<!-- <app-loader *ngIf="showLoader"></app-loader> -->
+<div class="container-fluid" id="top">
+  <!-- header -->
+  <div class="d-flex justify-content-between">
+    <div class="users-header mt-2">
+      <p>Total Devices - <span>{{newDayWiseData?.length}}</span></p>
+      <!-- <p>PeakHours - <span>{{peakHours}}</span></p> -->
+    </div>
+    <!-- <div class="d-flex justify-content-end">
+      <button class="create-btn mb-2" (click)="show('wifi')">statistics</button>
+    </div> -->
+  </div>
+
+  <!-- count -->
+  <div class="row mb-2 mt-2">
+    <!-- <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+            <div class="mx-2">
+              <div class="status">PeakHours - <span>{{peakHours ? peakHours : 0}}</span></div>
+            </div>
+        </div> -->
+    <!-- <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+        <div class="vl-yellow"></div>
+        <div class="mx-2">
+        <div class="status">InActive - </div>
+        <div class="count">{{ total?.inactive ? total?.inactive : 0 }}</div>
+        </div>
+    </div>
+    <div class="col-lg-1 col-md-1 d-flex justify-content-start">
+    <div class="vl-red"></div>
+    <div class="mx-2">
+        <div class="status">LastMonth Count - </div>
+        <div class="count">{{ total?.previous_month_users_count ? total?.previous_month_users_count : 0}}</div>
+    </div>
+    </div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-lg-10">
+      <app-filter
+        [filterType]="'wifi'"
+        (tableDataFromChild)="getAdsFromChild($event)"
+        (searchFromChild)="getSearchFromChild($event)"
+        (loaderFromChild)="getLoaderFromChild($event)"
+      >
+      </app-filter>
+      
+     
+    </div>
+   
+
+  </div>
+  
+
+
+  <div class="table-resp">
+    <table class="table table-hover" id="mytable" #table>
+      <thead>
+        <tr class="form1">
+          <!-- <th>
+            <span>Id</span>
+            <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th> -->
+          <th>
+            <span>DeviceName</span>
+            <img (click)="sort('device_name')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>Date</p>
+            <img (click)="sort('date_connected')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>Active</p>
+            <img (click)="sort('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th >
+            <p>InActive</p>
+            <img (click)="sort('inactive_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>Total</p>
+            <img (click)="sort('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <p>Average Time</p>
+            <img (click)="sort('average_time_spent')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+          <th>
+            <span>Details</span>
+            <!-- <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="!showLoader">
+        <tr *ngFor="let cust of newDayWiseData | search: searchText; let i = index">
+          <!-- <td>
+            <p>{{i+1}}</p>
+          </td> -->
+          <td>
+            <p class="pointer text-primary" (click)="show('wifi', cust)">{{cust.device_name}}-{{cust.device_description}}</p>
+          </td>
+          <td>{{cust.date_connected}}</td>
+          <td>{{cust.active_count}}</td>
+          <td >{{cust.inactive_count}}</td>
+          <td>
+            <p>{{ cust.active_count + cust.inactive_count }}</p>
+          </td>
+          <td><p>{{cust.average_time_spent}}</p></td>
+          <td>
+            <p class="text-primary pointer" (click)="hourWiseStats(cust)">View</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+
+
+    <!-- error info -->
+    <div class="err-info" style="height: 45vh;" *ngIf="newDayWiseData?.length == 0 && !showLoader">
+      <h1 class="text-secondary">No Devices</h1>
+    </div>
+
+    <!-- loader -->
+    <div *ngIf="showLoader" class="d-flex justify-content-center align-items-center" style="height: 45vh;">
+      <app-loader></app-loader>
+    </div>
+  </div>
+</div>
+
+<ng-template #usedItemsDialog>
+  <div style="background-color: #084982;" >
+    <p class="dialog-title">{{ currentItem.device_name}}-{{currentItem.device_description}}</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="form1">
+            <th>
+              <span>Time</span>
+              <img (click)="sort1('time_connected')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+            <th>
+              <span>Active</span>
+              <img (click)="sort1('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+            <th>
+              <span>Inactive</span>
+              <img (click)="sort1('inactive_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+
+            <th>
+              <span>Total</span>
+              <img (click)="sort1('active_count')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+            <th>Avg Time Spent
+              <img (click)="sort1('avg_time_spent')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+            </th>
+            <th >
+              <span>Details</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr [style.background-color]="task.peak == 1 ? '#A8D38D' : task.peak == 0 ? '' : 0" *ngFor="let task of hourWiseStatsData; let i = index">
+            <!-- <td>
+              <p>{{i+1 }}</p>
+            </td> -->
+            <!-- <td>
+              <p>{{ task.device_name }}</p>
+            </td> -->
+            <td >
+              <p >{{ task.time_connected }}</p>
+            </td>
+            <td>
+              <p>{{ task.active_count}}</p>
+            </td>
+            <td>
+              <p>{{ task.inactive_count }}</p>
+            </td>
+            <td>
+              <p>{{ task.active_count + task.inactive_count }}</p>
+            </td>
+            <td >{{task.avg_time_spent}}</td>
+
+            <td class="pointer text-center" (click)="deviceWiseStats(task)">
+              <p  style="color: #084982;">view</p>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" (click)="setPagination2(currentItem, currentPage2 - 1)">Previous</a></li>
+        <li class="page-item"><input class="page-link" style="width: 50px" [(ngModel)]="currentPage2" disabled></li>
+        <li class="page-item"><a class="page-link" (click)="setPagination2(currentItem, currentPage2 + 1)">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #usedItemsDialogTwo>
+   <div style="background-color: #084982;">
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="dialog-title ">{{currentItem.device_name}}</p>
+      <p class="dialog-title ">Hour[{{newitem.time_connected}}]</p>
+    </div>
+   </div>
+
+
+  <div class="dialog-content">
+    <div class="table-res">
+      <table class="table" id="mytable">
+        <thead>
+          <tr class="form1">
+            <th>
+              <span>MacAddress</span>
+              <!-- <img (click)="sort('mac_address')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+            <th>
+              <span>Time Spent</span>
+              <!-- <img (click)="sort('time_spent')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+        </thead>
+
+        <tbody>
+          <tr *ngFor=" let item of deviceWiseStatsData; let i = index">
+            <!-- <td>
+              <p>{{i+1 }}</p>
+            </td> -->
+            <td>
+              <p>{{ item.mac_address }}</p>
+            </td>
+            <td>
+              <p>{{ item.time_spent}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" (click)="setPagination3(newitem, currentPage3-1)">Previous</a></li>
+      <li class="page-item"><input class="page-link" style="width: 50px" [(ngModel)]="currentPage3" disabled></li>
+      <li class="page-item"><a class="page-link" (click)="setPagination3(newitem, currentPage3+1)">Next</a></li>
+    </ul>
+  </nav>
+  </div>
+
+  <div  iv class="d-flex justify-content-end">
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<div *ngIf="showWifiDetail">
+  <app-wifi-detail [show]="inputToChild" (newItemEvent)="closenow('wifi')"></app-wifi-detail>
+</div>

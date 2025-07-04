@@ -1,0 +1,109 @@
+<div class="row formModal">
+    <div class="col-lg-6 col-md-6"></div>
+    <div class="col-lg-6 col-md-6 add-form" id="customer" @inOutPaneAnimation>
+
+        <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex flex-row justify-content-start">
+                <a class="close-main pointer" (click)="closeAddCustomer()"><img src="assets/icons/close_form.svg" /></a>
+                <span class="form-heading">add account</span>
+            </div>
+
+            <!-- <div class="mx-5 my-4 site-icons">
+                <a (click)="openAnotherForm('showAddBusinessVertical')"><img src="assets/icons/ver-icon-form.svg" class="mx-2 my-4" /></a>
+                <a (click)="openAnotherForm('showAddCustomer')" class="boxshadow"><img src="assets/icons/cust-icon-form.svg" class="mx-2 my-4 changesvgcolor" /></a>
+                <a (click)="openAnotherForm('showAddSite')"><img src="assets/icons/site-icon-form.svg" class="mx-2 my-4" /></a>
+                <a (click)="openAnotherForm('showAddCamera')"><img src="assets/icons/cam-icon-form.svg" class="mx-2 my-4" /></a>
+                <a (click)="openAnotherForm('analytics')"><img src="assets/icons/analy-icon-form.svg" class="mx-2 my-4" /></a>
+                <a (click)="openAnotherForm('showAddUser')"><img src="assets/icons/user-icon-form.svg" class="mx-2 my-4" /></a>
+            </div> -->
+        </div>
+
+        <div>
+
+            <form autocomplete="off" [formGroup]="productForm">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>firstName</mat-label>
+                            <input matInput formControlName="firstName" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>lastName</mat-label>
+                            <input matInput formControlName="lastName" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>phoneNo</mat-label>
+                            <input matInput formControlName="phoneNo" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>email</mat-label>
+                            <input matInput formControlName="email" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Account Type</mat-label>
+                            <mat-select formControlName="accountType">
+                                <mat-option *ngFor="let item of getAccountDataRes" [value]="item.keyId">{{ item.value }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>contactPerson</mat-label>
+                            <input matInput formControlName="contactPerson" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+                    <!-- <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>leadNo</mat-label>
+                            <input matInput formControlName="leadNo" type="number">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div> -->
+
+
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>fax</mat-label>
+                            <input matInput formControlName="fax" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>remarks</mat-label>
+                            <input matInput formControlName="remarks" type="text">
+                            <mat-error>fps is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="text-center m-3">
+                    <button type="submit" class="btn add-btn" (click)="onSubmit()">ADD</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

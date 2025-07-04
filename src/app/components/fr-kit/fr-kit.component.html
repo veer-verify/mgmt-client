@@ -1,0 +1,159 @@
+<div class="container-fluid" id="top">
+  <!-- header -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="users-header">
+      <p class=" heading m-0">Total Field Representatives - <span>{{frTickets?.length}}</span></p>
+    </div>
+
+
+    <div class="d-flex">
+      <!-- <div class="mx-2">
+        <button mat-flat-button color="primary" class="py-0" (click)="openSitesDialog()">Site Entry</button>
+      </div>
+      <div class="mx-2">
+        <button mat-flat-button color="primary" class="py-0" (click)="openTasksDialog()">View Tasks</button>
+      </div> -->
+      <div class="mx-2">
+        <button class="create-btn" (click)="show('frKit')">Create Frkit</button>
+      </div>
+      <!-- <div class="mx-2">
+        <button class="create-btn" (click)="openDc()">Open Dc</button>
+      </div> -->
+    </div>
+  </div>
+  <!-- /header -->
+
+  <!-- overall tasks -->
+    <div class="table-resp">
+      <table class="table table-hover" id="mytable">
+        <thead>
+          <tr class="form1">
+            <th>
+              <p class="d-inline-flex">
+                <span>No</span>
+                <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+              <!-- <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+            </th>
+
+            <th>
+              <P>
+                <span>Fr Id</span>
+                <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </P>
+            </th>
+
+            <th>
+              <P>
+                <span>Fr Name</span>
+                <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </P>
+            </th>
+
+            <th>
+              <p class="d-inline-flex">
+                <span>Instock</span>
+                <img (click)="sort('ticketType')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <!-- <th>
+              <p class="d-inline-flex">
+                <span>Site id</span>
+                <img (click)="sort('siteId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th> -->
+
+            <th>
+              <p>
+                <span>Requested</span>
+                <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <th>
+              <p>
+                <span>Dispatched</span>
+                <img (click)="sort('ticketId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+            <th>
+              <p class="d-inline-flex">
+                <span>Removed</span>
+                <img (click)="sort('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th>
+
+            <!-- <th>
+              <span></span>
+              <p class="d-inline-flex">
+                <span>Total Tickets</span>
+                <img (click)="sort('reasonDescription')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+              </p>
+            </th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cust of frTickets; let i = index">
+            <td>
+              <p>{{ i+1 }}</p>
+            </td>
+            <!-- <td>
+              <p class="pointer text-primary" (click)="openSitesDialog(); fieldVisitEntry(cust)">Enter</p>
+            </td>
+            <td>
+              <p class="pointer text-primary">View</p>
+            </td> -->
+            <td>
+              <p>{{ cust.frId }}</p>
+            </td>
+
+            <!-- <td>
+              <p>{{ cust.siteId }}</p>
+            </td> -->
+
+            <td>
+              <p>{{ cust.frId }}</p>
+            </td>
+<!--
+            <td>
+              <a class="pointer" (click)="show('indent'); ticketIdToFr(cust)">
+                <img src="assets/icons/add.svg" width="40">
+              </a>
+            </td> -->
+
+            <td>
+              <!-- <p class="text-primary pointer">View</p> -->
+              <p>{{cust.instock}}</p>
+            </td>
+            <td>
+              <p>{{ cust.requested }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.dispatched }}</p>
+            </td>
+
+            <td>
+              <p>{{ cust.removed }}</p>
+            </td>
+
+            <!-- <td>
+              <p [style.color]="cust.status == 'Open' ? 'green' : cust.status == 'Indent Requested' ? 'orange' : cust.status == 'In Progress' ? 'violet' : cust.status == 'Indent Delivered' ? 'purple' : 'blue' ">{{ cust.status }}</p>
+            </td> -->
+
+            <!-- <td>
+              <p class="pointer text-primary">Exit</p>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <!-- /overall tasks -->
+</div>
+
+
+<div *ngIf="showFrkit">
+  <app-add-new-frkit  (newItemEvent)="closenow('frKit'); listFRTickets()"></app-add-new-frkit>
+</div>

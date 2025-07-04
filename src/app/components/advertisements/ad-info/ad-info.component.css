@@ -1,0 +1,8 @@
+/* .gallery {
+  padding: 15px;
+} */
+
+.gallery img {
+  /* margin: 10px; */
+  border-radius: 10px;
+}

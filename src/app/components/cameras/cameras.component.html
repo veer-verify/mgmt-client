@@ -1,0 +1,171 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between">
+    <div class="users-header">
+      <p>List of Cameras - <span>{{ 0 }}</span></p>
+    </div>
+    <div>
+      <!-- <a class="pointer" (click)="show('site')"><img src="assets/icons/add.svg" alt="" /></a> -->
+      <button class="create-btn" (click)="openCamera('camera')">Create Camera</button>
+      <!-- <a>
+            <img src="assets/icons/sites-img.svg" alt="" style="border-radius: 24px; box-shadow: 7px 7px 7px 0px #f3f3f3; margin-top: -9px;">
+          </a> -->
+    </div>
+  </div>
+
+  <!-- form -->
+  <div class="search-form">
+    <div class="row col-md-10">
+      <!-- <div class="col-lg-3 col-md-3 col-sm-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select site</mat-label>
+          <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="siteNg" (keyup)="searchSites($event)">
+          <button matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #site="matAutocomplete">
+            <mat-option value="All" (click)="filterSites('All')" *ngIf="tableData.length !== 0">All</mat-option>
+            <mat-option *ngFor="let item of tableData | search: siteSearch" [value]="item.siteId"
+              (click)="filterSites(item.siteId)">
+              {{ item.siteId }} - {{ item.siteName }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" [(ngModel)]="searchText">
+          <button matSuffix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- /form -->
+
+  <!-- table -->
+  <div class="table-resp">
+    <table class="table table-hover">
+      <thead>
+        <tr class="form1">
+          <!-- <th>
+            <input type="checkbox" class="form-check-input" [(ngModel)]="selectedAll" (change)="selectAll();" id="allcheck" style="background-color: #00000000; border-color:#fff;margin-left:10px;">
+          </th> -->
+
+          <th>
+            <span>Id</span>
+            <img (click)="sort('siteId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Name</span>
+            <img (click)="sort('siteName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+
+
+          <th>
+            <span>QR</span>
+            <!-- <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+
+          <th (click)="sort('address')">Address</th>
+
+          <th (click)="sort('escl_Details')">Escl Details</th>
+
+          <th (click)="sort('engr_Details')">Engr Details</th>
+
+          <!-- <th>Services</th> -->
+
+          <th>Inventory</th>
+
+
+          <!-- <th class="text-center">Installation</th> -->
+
+          <th>
+            <span>Status</span>
+            <!-- <img (click)="sort('status')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="!showLoader">
+        <tr *ngFor="let data of newTableData | search : searchText; let i=index">
+          <!-- <td>
+              <input type="checkbox" class="form-check-input" [(ngModel)]="data.selected" (change)="checkIfAllSelected(); deleteMultiRecords(data, i, $event); ViewByCheckbox(data, i, $event); EditByCheckbox(data, i, $event)" id="singleCheck">
+            </td> -->
+          <td>
+            <p>{{ data.siteId }}</p>
+          </td>
+          <td style="width: 200px;">
+            <p>{{ data.siteName }}</p>
+          </td>
+          <td>
+            <p></p>
+          </td>
+          <td>
+            <a class="pointer" style="color: #084982;">View</a>
+            <!-- <div class="plus-img" id="address{{i}}">
+                <p class="p-2" style="color: #ABABAB; text-align: left;">ADDRESS</p>
+                <div style="color: #000; text-align: left; padding: 10px;">
+                  <p>Pathur Road, Tadepally</p>
+                  <p>Guntur - 522501</p>
+                  <p>Andhra Pradesh, India</p>
+                </div>
+              </div> -->
+          </td>
+          <td>
+            <!-- <a class="pointer" style="color: #084982;">{{data.escl_Details}}</a> -->
+            <a class="pointer" style="color: #084982;"
+              >View</a>
+          </td>
+          <td>
+            <!-- <a class="pointer" style="color: #084982;">{{data.escl_Details}}</a> -->
+            <a class="pointer" style="color: #084982;">View</a>
+          </td>
+          <td>
+            View
+          </td>
+          <td>
+            <p
+              [style.color]="data.status == 'Active' ? '#00A44C': data.status == 'Onhold' ? '#F5B400': data.status == 'Inactive' ? '#fa500f': '#084982'">
+              {{ data.status ? data.status : 'Active' }}
+            </p>
+          </td>
+          <td class="table-icons">
+            <a class="mx-1 pointer" matTooltip="View">
+              <img src="assets/icons/view.svg">
+            </a>
+            <a class="mx-1 pointer" matTooltip="Edit">
+              <img src="assets/icons/edit.svg">
+            </a>
+            <a class="mx-1 pointer" value="Delete" matTooltip="Delete">
+              <img src="assets/icons/delete.svg">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- error info -->
+    <!-- <div class="err-info" style="height: 45vh;" *ngIf="newTableData?.length == 0 && !showLoader">
+      <h1 class="text-secondary">No Sites</h1>
+    </div> -->
+
+    <!-- loader -->
+    <div *ngIf="showLoader" class="d-flex justify-content-center align-items-center" style="height: 45vh;">
+      <app-loader></app-loader>
+    </div>
+  </div>
+
+
+
+
+
+  <div *ngIf="openCamear">
+    <app-add-new-camera (newItemEvent)="closeCamera('camera')"></app-add-new-camera>
+  </div>
+</div>

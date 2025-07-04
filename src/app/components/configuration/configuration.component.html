@@ -1,0 +1,182 @@
+<div class="mt-2 row">
+
+    <div class="d-flex justify-content-between my-3">
+    <div class="users-header">
+
+      <!-- count -->
+      <div class="row">
+        <div class="col-lg-6 d-flex justify-content-start">
+          <div class="vl-blue"></div>
+          <div class="mx-2">
+            <div class="status">Total Departments</div>
+            <div class="count">{{DepartmentsAll.length}}</div>
+          </div>
+        </div>
+
+         <div class="col-lg-6 d-flex justify-content-start">
+          <div class="vl-green"></div>
+          <div class="mx-2">
+            <div class="status">Total Roles</div>
+            <!-- <div class="count">{{activeUsers.length}}</div> -->
+            <div class="count">{{RolesAll.length}}</div>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+    <div class="button-container">
+        <button (click)="toggleForm('department')" [ngClass]="{ active: showForm === 'department' }">
+            Create Department
+        </button>
+
+        <button (click)="toggleForm('role')" [ngClass]="{ active: showForm === 'role' }">
+            Create Role
+        </button>
+    </div>
+    
+  </div>
+
+    <div class="col-lg-4">
+
+        <div class="form-wrapper" *ngIf="showForm === 'department'" @fadeInOut>
+            <h3>Create Department</h3>
+            <form (ngSubmit)="submitDepartment()" class="styled-form">
+                <div class="form-group">
+                    <label for="deptName">Department Name:</label>
+                    <input type="text" id="deptName" name="deptName" [(ngModel)]="departmentName" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="deptDescription">Description:</label>
+                    <textarea id="deptDescription" name="deptDescription" [(ngModel)]="departmentDescription"
+                        required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary">Submit</button>
+                    <button type="button" class="secondary" (click)="showForm = null">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-wrapper" *ngIf="showForm === 'role'" @fadeInOut>
+            <h3>Create Role</h3>
+            <form (ngSubmit)="submitRole()" class="styled-form">
+                <div class="form-group">
+                    <label for="roleName">Role:</label>
+                    <input type="text" id="roleName" name="roleName" [(ngModel)]="roleName" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="roleDescription">Remarks:</label>
+                    <textarea id="roleDescription" name="roleDescription" [(ngModel)]="roleDescription"
+                        required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary">Submit</button>
+                    <button type="button" class="secondary" (click)="showForm = null">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="row">
+
+            <div class="col-lg-6 mt-3">
+                <!-- <table  class="table">
+                    <thead>
+                        <tr >
+                            <th>ID</th>
+                            <th>Department</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dept of DepartmentsAll">
+                            <td>{{ dept.id }}</td>
+                            <td>{{ dept.name }}</td>
+                            <td>{{ dept.remarks || 'N/A' }}</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+            <app-table [fields]="fields" [data]="DepartmentsAll" [search]=""></app-table>
+            </div>
+
+             <div class="col-lg-4 mt-3">
+                <!-- <table  class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Role</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of RolesAll">
+                            <td>{{ role.id }}</td>
+                            <td>{{ role.name }}</td>
+                            <td>{{ role.remarks || 'N/A' }}</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+         <app-table [fields]="fields1" [data]="RolesAll" [search]="" ></app-table>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<ng-template #editdepartmentDialog>
+     <div class="form-wrapper"  @fadeInOut>
+            <h3>Edit Department</h3>
+            <form (ngSubmit)="editDepartment()" class="styled-form">
+                <div class="form-group">
+                    <label for="deptName">Department Name:</label>
+                    <input type="text" id="deptName" name="deptName" [(ngModel)]="currentEdititem.name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="deptDescription">Description:</label>
+                    <textarea id="deptDescription" name="deptDescription" [(ngModel)]="currentEdititem.remarks"
+                        required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary">Submit</button>
+                    <button type="button" class="secondary" mat-dialog-close>Cancel</button>
+                </div>
+            </form>
+        </div>
+
+</ng-template>
+
+<ng-template #editroleDialog>
+
+     <div class="form-wrapper"  @fadeInOut>
+            <h3>Edit Role</h3>
+            <form (ngSubmit)="editRole()" class="styled-form">
+                <div class="form-group">
+                    <label for="roleName">Role:</label>
+                    <input type="text" id="roleName" name="roleName" [(ngModel)]="currentEdititem.name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="roleDescription">Remarks:</label>
+                    <textarea id="roleDescription" name="roleDescription" [(ngModel)]="currentEdititem.remarks"
+                        required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary">Submit</button>
+                    <button type="button" class="secondary" mat-dialog-close>Cancel</button>
+                </div>
+            </form>
+        </div>
+
+</ng-template>

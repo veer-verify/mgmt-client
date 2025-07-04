@@ -1,0 +1,85 @@
+<div class="container-fluid col-lg-12 main-dashboard">
+  <div class="d-flex justify-content-between verticals">
+    <span class="mt-2" style="font-size: 20px; font-weight: 600; color:#28231D;">Dashboard</span>
+    <div>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-between align-items-center my-4">
+    <img src="assets/icons/next.svg" alt="" class="prevvert" (click)="prevvert()">
+    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 card-menu" *ngFor="let ver of showcardReport">
+      <div class="card1 my-1">
+        <div class="card-header">
+          <div>
+            <span class="me-2"><img [src]="ver.src"></span>
+            <span><b>{{ver.vertical}}</b></span>
+          </div>
+          <span style="color: #084982; font-size: 18px;"><b>25</b></span>
+        </div>
+      </div>
+    </div>
+    <img src="assets/icons/next.svg" alt="" class="nextvert" (click)="nextvert()">
+  </div>
+
+
+  <div class="table-resp">
+    <table class="table table-striped my-3">
+      <tbody>
+        <tr class="form1">
+          <th style="padding: 10px 0; justify-content:center;" class="px-4 ">Verticals
+            <!-- <span class="badge">{{count}}</span> -->
+          </th>
+          <th style="padding: 10px 0; justify-content:center;" class="text-center">Customer
+            <!-- <span class="badge">{{totalCust}}</span> -->
+          </th>
+          <th style="padding: 10px 0; justify-content:center;" class="text-center">Sites
+            <!-- <span class="badge">{{totalSites}}</span> -->
+          </th>
+          <th style="padding: 10px 0; justify-content:center;" class="text-center">Cameras
+            <!-- <span class="badge">{{totalCams}}</span> -->
+          </th>
+          <th style="padding: 10px 0; justify-content:center;" class="text-center">Analytics
+            <!-- <span class="badge">{{totalAna}}</span> -->
+          </th>
+          <th style="padding: 10px 0; justify-content:center;" class="text-center">Users
+            <!-- <span class="badge">{{totalUsers}}</span> -->
+          </th>
+          <!-- <th style="padding: 10px 0; justify-content:center;" class="text-center">Actions</th> -->
+          <!-- <th></th> -->
+        </tr>
+        <tr *ngFor="let main of mainReport; let i=index">
+          <td class="px-4 pt-2" style="font-weight: 600;">{{main.verticalName}}</td>
+          <td class="pt-2 text-center">{{main.customerCount}}</td>
+          <td class="pt-2 text-center">{{main.sitesCount}}</td>
+          <td class="pt-2 text-center">{{main.camerasCount}}</td>
+          <td class="pt-2 text-center">{{main.analyticsCount}}</td>
+          <td class="pt-2 text-center">{{main.usersCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row charts">
+    <div class="d-flex justify-content-between my-1 verticals">
+      <div>
+        <h6 style="font-size: 16px;"><b>Analytics</b></h6>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div id="chart"></div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div id="chart1"></div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div id="chart2"></div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div id="chart3"></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div id="chart4"></div>
+    </div>
+  </div>
+</div>

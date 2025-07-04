@@ -1,0 +1,161 @@
+<div class="row formModal">
+  <div class="col-lg-6 col-4"></div>
+
+  <div class="col-lg-6 col-8 add-form" id="camera" @inOutPaneAnimation>
+    <div>
+      <a class="close-main pointer" (click)="closeTicket()"><img src="assets/icons/close_form.svg" /></a>
+      <span class="form-heading">add ticket</span>
+    </div>
+
+    <!-- Form -->
+    <div>
+      <form autocomplete="off" [formGroup]="addAssetForm">
+        <div class="row" *ngFor="let item of ticketBody.tasks; let i = index">
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>typeId</mat-label>
+              <mat-select formControlName="typeId" [(ngModel)]="ticketBody.ticket.typeId">
+                <mat-option *ngFor="let val of ticketType" [value]="val.keyId">{{ val.value }}</mat-option>
+              </mat-select>
+              <mat-error >typeId is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>reasonDescription</mat-label>
+              <input matInput formControlName="reasonDescription" [(ngModel)]="ticketBody.ticket.reasonDescription">
+              <mat-error >reasonDescription is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>requestedBy</mat-label>
+              <mat-select formControlName="requestedBy" [(ngModel)]="ticketBody.ticket.requestedBy">
+                <mat-option *ngFor="let id of siteIds" [value]="id.siteId">{{ id.siteId }} - {{ id.siteShortName }}</mat-option>
+              </mat-select>
+              <mat-error >requestedBy is required</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>siteId</mat-label>
+              <mat-select formControlName="siteId" [(ngModel)]="ticketBody.ticket.siteId">
+                <mat-option *ngFor="let id of siteIds" [value]="id.siteId">{{ id.siteId }} - {{ id.siteName }}</mat-option>
+              </mat-select>
+              <mat-error >siteId is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>informedThrough</mat-label>
+              <mat-select formControlName="informedThrough" [(ngModel)]="ticketBody.ticket.informedThrough">
+                <mat-option *ngFor="let val of sourceOfRequest" [value]="val.keyId">{{ val.value }}</mat-option>
+              </mat-select>
+              <mat-error >informedThrough is required</mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <!-- tasks -->
+          <mat-card>
+            <div class="d-flex justify-content-start align-items-center my-2">
+              <p style="font-weight: 500;">Tasks</p>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Ticket category</mat-label>
+                  <mat-select formControlName="categoryId" [(ngModel)]="ticketBody.tasks[i].categoryId">
+                    <mat-option *ngFor="let val of ticketCategory" [value]="val.keyId">{{ val.value }}</mat-option>
+                  </mat-select>
+                  <mat-error >categoryId is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Sub category</mat-label>
+                  <mat-select formControlName="subCategoryId" [(ngModel)]="ticketBody.tasks[i].subCategoryId">
+                    <mat-option *ngFor="let val of ticketSubCategory" [value]="val.keyId">{{ val.value }}</mat-option>
+                  </mat-select>
+                  <mat-error >subCategoryId is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>reasonId</mat-label>
+                  <mat-select formControlName="reasonId" [(ngModel)]="ticketBody.tasks[i].reasonId">
+                    <mat-option *ngFor="let val of taskReason" [value]="val.keyId">{{ val.value }}</mat-option>
+                  </mat-select>
+                  <mat-error >reasonId is required</mat-error>
+                </mat-form-field>
+              </div> -->
+
+              <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Priority</mat-label>
+                  <mat-select formControlName="priorityId" [(ngModel)]="ticketBody.tasks[i].priorityId">
+                    <mat-option *ngFor="let val of ticketPriority" [value]="val.keyId">{{ val.value }}</mat-option>
+                  </mat-select>
+                  <mat-error >priorityId is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Remarks</mat-label>
+                  <input matInput formControlName="remarks" [(ngModel)]="ticketBody.tasks[i].remarks">
+                  <mat-error >Remarks is required</mat-error>
+                </mat-form-field>
+              </div> -->
+
+              <div class="d-flex justify-content-end">
+                <a class="add-task-btn" (click)="onTaskAdd(item)">Add Task</a>
+                <!-- <a class="pointer" (click)="onTaskAdd(item)"><img src="assets/icons/add_circle.svg" alt="" width="40" style="opacity: 0.5;"></a> -->
+              </div>
+            </div>
+          </mat-card>
+
+          <!-- list -->
+          <div class="table-task mt-2" *ngIf="tasks.length > 0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Category</th>
+                  <th>Sub category</th>
+                  <th>Priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of tasks; let j = index">
+                  <th>{{ j + 1 }}</th>
+                  <!-- <td>{{ task.categoryId }}</td>
+                  <td>{{ task.subCategoryId }}</td>
+                  <td>{{ task.priorityId }}</td> -->
+                  <td>{{ task.categoryId == 1 ? 'Camera' : task.categoryId == 2 ? 'Assets' : '' }}</td>
+                  <td>{{ task.subCategoryId == 1 ? 'Site Down' : task.subCategoryId == 2 ? 'Footage Required' : task.subCategoryId == 3 ? 'Screen Blank' : task.subCategoryId == 4 ? 'Add not playing' : '' }}</td>
+                  <td>{{ task.priorityId == 1 ? 'Low' : task.priorityId == 2 ? 'Medium' : task.priorityId == 3 ? 'High' : '' }}</td>
+
+                  <!-- <td>{{ task.reasonId == 1 ? 'No streem from camera' : task.reasonId == 2 ? 'Want new camers' : '' }}</td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="text-center mt-5">
+            <button class="btn add-btn" (click)="addNewAsset()">CREATE</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /Form -->
+
+  </div>
+</div>

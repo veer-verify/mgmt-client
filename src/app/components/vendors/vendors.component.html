@@ -1,0 +1,551 @@
+<div class="container-fluid" id="top">
+
+  <!-- header starts -->
+  <div class="d-flex justify-content-between">
+    <div class="users-header">
+      <p>List of Vendors - <span>{{ vendorTable?.length }}</span></p>
+    </div>
+    <div>
+      <!-- <a class="pointer" (click)="show('user')"><img src="assets/icons/add.svg" alt="" /></a> -->
+      <button class="create-btn" (click)="show('vendor')">Create Vendor</button>
+    </div>
+  </div>
+  <!-- header ends -->
+
+  <!-- count starts -->
+  <div class="row mb-2">
+    <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Active</div>
+        <div class="count">{{ active?.length }}</div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-start">
+      <div class="vl-red"></div>
+      <div class="mx-2">
+        <div class="status">Inactive</div>
+        <div class="count">{{ vendorTable?.length - active?.length }}</div>
+      </div>
+    </div>
+  </div>
+  <!-- count ends -->
+
+  <!-- form -->
+  <div class="search-form row">
+    <div class="col-lg-3 col-sm-12">
+      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
+        <mat-label>Search</mat-label>
+        <input matInput type="text"  [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- /form -->
+
+  <!-- table starts -->
+  <div class="table-resp">
+    <table class="table table-hover" id="mytable">
+      <thead>
+        <tr class="form1">
+          <!-- <th>
+            <input type="checkbox" class="form-check-input" [(ngModel)]="selectedAll" (change)="selectAll()"
+              id="allcheck" style="
+                background-color: #00000000;
+                border-color: #fff;
+                margin-left: 10px;
+              " />
+          </th> -->
+
+          <th>
+            <span>Id</span>
+            <img (click)="sort('id')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Name</span>
+            <img (click)="sort('name')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Items</span>
+          </th>
+
+          <th>
+            <span>Proprietor details</span>
+            <!-- <img (click)="sort('productName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+
+          <th>
+            <span>Start date</span>
+          </th>
+
+          <th>
+            <span>End date</span>
+          </th>
+
+          <th>
+            <span>Address</span>
+            <!-- <img (click)="sort('productCategory')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
+          </th>
+
+          <th>
+            <span>Status</span>
+            <img (click)="sort('statusId')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th>
+            <span>Remarks</span>
+            <img (click)="sort('remarks')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
+          </th>
+
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cust of newVendorTable | search : searchText; let i = index">
+          <!-- <td>
+            <input type="checkbox" name="foo" class="form-check-input" [(ngModel)]="cust.selected" (change)="
+                checkIfAllSelected();
+                deleteMultiRecords(cust, i, $event);
+                ViewByCheckbox(cust, i, $event);
+                EditByCheckbox(cust, i, $event)
+              " id="singleCheck" />
+          </td> -->
+
+          <td>
+            <p>{{ cust.id }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.name }}</p>
+          </td>
+
+          <td>
+            <p (click)="listVendorsById(cust)" class="pointer">View</p>
+
+            <ng-template #itemsDialog>
+              <div style="background-color: #084982;">
+                <p class="dialog-title">view items</p>
+              </div>
+              <div class="dialog-content">
+                <p class="px-5" *ngFor="let item of itemDetail">{{item.name}}</p>
+              </div>
+            </ng-template>
+          </td>
+
+          <td>
+            <div>
+              {{ cust.proprietor1 }}
+              <a style="text-decoration: none; cursor: pointer; color: #000;" *ngIf="cust.parteners != 0" (click)="openProprietorDialog(cust)">
+                <span [matBadge]="'+' + cust.parteners" matBadgeColor="warn" matBadgePosition="after" matBadgeSize="small">&nbsp;</span>
+              </a>
+            </div>
+
+
+
+
+            <ng-template #proprietorDialog>
+              <div style="background-color: #084982;">
+                <p class="dialog-title">view details</p>
+              </div>
+
+              <div class="dialog-content">
+                <div class="d-flex">
+                  <div style="min-width: 120px;">
+                    <p style="color: #ABABAB;">Proprietor-1</p>
+                    <p style="color: #ABABAB;">Proprietor-2</p>
+                    <p style="color: #ABABAB;">Proprietor-3</p>
+                  </div>
+
+                  <div style="min-width: 200px;">
+                    <p>{{currentDetail.proprietor1}}</p>
+                    <p>{{currentDetail.proprietor2}}</p>
+                    <p>{{currentDetail.proprietor3}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end"  >
+                <button class="dialog-close-btn" mat-dialog-close>Close</button>
+              </div>
+            </ng-template>
+          </td>
+
+          <td>
+            <p>{{ cust.serviceStartDate ? (cust.serviceStartDate | date:'mediumDate') : '--' }}</p>
+          </td>
+
+          <td>
+            <p>{{ cust.serviceEndDate ? (cust.serviceEndDate | date:'mediumDate') : '--' }}</p>
+          </td>
+
+          <td>
+            <p (click)="addressView(cust)" class="pointer">View</p>
+
+            <ng-template #addressDialog>
+              <div style="background-color: #084982;">
+                <p class="dialog-title">view address</p>
+              </div>
+
+              <div class="dialog-content">
+                <div>
+                  <p>{{addressId.address}}</p>
+              </div>
+              </div>
+
+              <div class="d-flex justify-content-end"  >
+                <button class="dialog-close-btn" mat-dialog-close>Close</button>
+              </div>
+            </ng-template>
+          </td>
+
+          <td>
+            <p [style.color]="cust.statusId == 1 ? '#00A44C' : '#fa500f'">
+              {{ cust.statusId == 1 ? 'Active' : 'Inactive' }}
+            </p>
+          </td>
+
+          <!-- <td> -->
+            <!-- <p>{{ cust.details }}</p> -->
+            <!-- <a class="pointer" style="color: #084982;" (click)="addressView($event,i)">{{cust.details}}</a>
+            <div style="display: none;"
+                class="plus-img" id="address{{i}}">
+                <p class="p-2" style="color: #ABABAB; text-align: left;">ADDRESS</p>
+                <div style="color: #000; text-align: left; padding: 10px;">
+                    <p>Pathur Road, Tadepally</p>
+                    <p>Guntur - 522501</p>
+                    <p>Andhra Pradesh, India</p>
+                </div>
+            </div> -->
+          <!-- </td> -->
+
+          <!-- <td>
+            <a class="pointer" (click)="show('inventory')">
+              <img src="assets/icons/add-svg.svg" width="25" height="25" />
+            </a>
+          </td> -->
+
+          <td>
+            <p >
+              {{ cust.remarks }}
+            </p>
+          </td>
+
+          <td class="text-center">
+              <a class="mx-1 pointer" (click)="openViewPopup(cust)">
+                <img src="assets/icons/view.svg">
+              </a>
+              <a class="mx-1 pointer" (click)="openEditPopup(cust)" [hidden]="cust.statusId == 0">
+                <img src="assets/icons/edit.svg">
+              </a>
+              <a class="mx-1 pointer" value="Delete" (click)="openDeletePopup(cust)" [hidden]="cust.statusId == 0">
+                <img src="assets/icons/delete.svg">
+              </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- table ends -->
+  </div>
+
+  <div class="d-flex align-items-center justify-content-center" style="height: 45vh;" *ngIf="vendorTable.length == 0 && !showLoader">
+    <h1 class="text-secondary">No Data</h1>
+  </div>
+
+  <!-- Loader -->
+  <div >
+    <app-loader *ngIf="showLoader" class="d-flex justify-content-center align-items-center" style="height: 45vh;"></app-loader>
+  </div>
+</div>
+
+
+<ng-template #viewInventoryDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">view vendor</p>
+  </div>
+
+  <div class="dialog-content">
+    <div *ngIf="currentItem">
+      <mat-list>
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Vendor Id</mat-label>
+              <input matInput [(ngModel)]="currentItem.id" disabled>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Vendor Name</mat-label>
+              <input matInput [(ngModel)]="currentItem.name" disabled>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Proprietors</mat-label>
+              <input matInput [(ngModel)]="currentItem.proprietors" disabled>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Emails</mat-label>
+              <input matInput [(ngModel)]="currentItem.emails" disabled>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Mobile Numbers</mat-label>
+              <input matInput [(ngModel)]="currentItem.mobileNumbers" disabled>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="currentItem.status" disabled>
+                <mat-option *ngFor="let item of vendorStatus" [value]="item.keyId">{{ item.value }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status</mat-label>
+              <input matInput [(ngModel)]="currentItem.status" disabled>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6">
+            <mat-list-item>
+              <span style="width: 130px; color: #ABABAB;">Service StartDate: </span>{{ currentItem.serviceStartDate }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-list-item>
+              <span style="width: 130px; color: #ABABAB;">Service EndDate: </span>{{ currentItem.serviceEndDate }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div> -->
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput [matDatepicker]="picker1" placeholder="Service StartDate" [(ngModel)]="currentItem.serviceStartDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput [matDatepicker]="picker2" placeholder="Service EndDate" [(ngModel)]="currentItem.serviceEndDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Created By</mat-label>
+              <input matInput [(ngModel)]="currentItem.createdBy" disabled>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Address</mat-label>
+              <input matInput [(ngModel)]="currentItem.address" disabled>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Remarks</mat-label>
+              <input matInput [(ngModel)]="currentItem.remarks" disabled>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </mat-list>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end"  >
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
+  </div>
+</ng-template>
+
+<ng-template #editInventoryDialog>
+  <div style="background-color: #084982;">
+    <p class="dialog-title">modify vendor</p>
+  </div>
+
+  <div class="dialog-content">
+    <div class="row" *ngIf="currentItem">
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Vendor Id</mat-label>
+          <input matInput [(ngModel)]="currentItem.id" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Vendor Name</mat-label>
+          <input name="name" matInput [(ngModel)]="currentItem.name" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Proprietor Name1</mat-label>
+          <input name="proprietorName1" matInput [(ngModel)]="currentItem.proprietorName1" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Proprietor Name2</mat-label>
+          <input name="proprietorName2" matInput [(ngModel)]="currentItem.proprietorName2" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Proprietor Name3</mat-label>
+          <input name="proprietorName3" matInput [(ngModel)]="currentItem.proprietorName3" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email1</mat-label>
+          <input name="emailId1" matInput [(ngModel)]="currentItem.emailId1" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email2</mat-label>
+          <input name="emailId2" matInput [(ngModel)]="currentItem.emailId2" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email3</mat-label>
+          <input name="emailId3" matInput [(ngModel)]="currentItem.emailId3" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Mobile Number1</mat-label>
+          <input name="mobileNumber1" matInput [(ngModel)]="currentItem.mobileNumber1" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Mobile Number2</mat-label>
+          <input name="mobileNumber2" matInput [(ngModel)]="currentItem.mobileNumber2" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Mobile Number3</mat-label>
+          <input name="mobileNumber3" matInput [(ngModel)]="currentItem.mobileNumber3" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Status</mat-label>
+          <mat-select name="statusId" [(ngModel)]="currentItem.statusId" (selectionChange)="onSelectChange($event)">
+            <mat-option *ngFor="let item of vendorStatus" [value]="item.keyId">{{item.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Location</mat-label>
+          <input name="addressLine1" matInput [(ngModel)]="currentItem.addressLine1" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Address Line2</mat-label>
+          <input name="addressLine2" matInput [(ngModel)]="currentItem.addressLine2" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div> -->
+
+      <!-- <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>country</mat-label>
+          <input name="country" matInput [(ngModel)]="currentItem.country" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>state</mat-label>
+          <input name="state" matInput [(ngModel)]="currentItem.state" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>postCode</mat-label>
+          <input name="postCode" matInput [(ngModel)]="currentItem.postCode" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>city</mat-label>
+          <input name="city" matInput [(ngModel)]="currentItem.city" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div> -->
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>remarks</mat-label>
+          <input name="remarks" matInput [(ngModel)]="currentItem.remarks" (change)="onInputChange($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>address</mat-label>
+          <input matInput [(ngModel)]="currentItem.address" disabled>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end">
+<div>
+      <button class="dialog-close-btn" mat-dialog-close>Close</button>
+    </div>
+    <div  >
+      <button class="dialog-submit-btn" mat-dialog-close (click)="updatevendor()">Update</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<div  *ngIf="showInventory">
+  <app-add-new-vendor [show]="showInventory" (newItemEvent)="closenow($event, 'vendor')"></app-add-new-vendor>
+</div>

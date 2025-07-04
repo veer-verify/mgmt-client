@@ -1,0 +1,59 @@
+<div class="row formModal">
+    <div class="col-lg-6 col-4"></div>
+  
+    <div class="col-lg-6 col-8 add-form" id="user" @inOutPaneAnimation>
+    <div class="d-flex flex-row justify-content-between">
+      <div class="d-flex flex-row justify-content-start">
+        <a class="close-main pointer" (click)="close()"><img src="assets/icons/close_form.svg" /></a>
+        <span class="form-heading">Create Device</span>
+      </div>
+    </div>
+  
+    <!-- Form -->
+    <div>
+      <form autocomplete="off" [formGroup]="userForm1" #addUserForm="ngForm">
+        <div class="row">
+            <div class="col-lg-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Select Site</mat-label>
+                  <mat-select formControlName="siteId">
+                    <mat-option *ngFor="let item of siteDataForForm" [value]="item.siteId">{{ item.siteId }} - {{item.siteName }}</mat-option>
+                  </mat-select>
+                  <mat-error>Site is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Select Device Type</mat-label>
+                  <mat-select  formControlName="deviceTypeId">
+                    <mat-option *ngFor="let item of deviceType" [value]="item.keyId">{{ item.value }}</mat-option>
+                  </mat-select>
+                  <mat-error>Device is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Device Name (eg: Parking Device)</mat-label>
+                  <input matInput formControlName="deviceName">
+                  <!-- <mat-hint>eg: Parking Device</mat-hint> -->
+                  <mat-error>required</mat-error>
+                </mat-form-field>
+              </div> 
+              <div class="col-lg-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Remarks</mat-label>
+                  <input matInput formControlName="remarks">
+                </mat-form-field>
+              </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="text-center my-3">
+        <button type="submit" class="dialog-submit-btn" (click)="submit(userForm1.value)">ADD</button>
+      </div>
+    <!-- /Form -->
+  
+    </div>
+  </div>
+  
