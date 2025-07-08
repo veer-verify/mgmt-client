@@ -7,7 +7,7 @@ import { SiteService } from 'src/services/site.service';
 import { StorageService } from 'src/services/storage.service';
 import { UserService } from 'src/services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -98,20 +98,19 @@ export class UsersComponent implements OnInit {
   userTableData: any = [];
   listUsers() {
     let userId = null;
-    if (!this.storageSer.isSuperAdmin()) {
+    if(!this.storageSer.isSuperAdmin()) {
       userId = this.userData?.UserId;
-    } else {
-      userId = null;
     }
+    
     this.showLoader = true;
-    this.userSer.listUsers(userId).pipe(filter((item: any) => item)).subscribe((res: any) => {
-      console.log(res)
-      this.showLoader = false;
-      if (res.statusCode === 200) {
-        this.userTableData = res.users;
+    this.userSer.listUsers(userId).pipe(map((response: any) => {
+      if(response.statusCode === 200) {
+        return response.users.filter((item: any) => item.status == "IVISUSA");
       }
+    })).subscribe((res: any) => {
+      this.showLoader = false;
+        this.userTableData = res;
     }, (err) => {
-      // console.log(err)
       this.showLoader = false;
     })
   }

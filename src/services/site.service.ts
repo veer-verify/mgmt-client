@@ -250,11 +250,19 @@ export class SiteService {
 
   createAccountData(payload: any) {
     let url = `${environment.sitesUrl}/createAccountData_1_0`;
-        let user = this.storageSer.get('user')
-        payload.createdBy = user?.UserId
+    let user = this.storageSer.get('user')
+    payload.createdBy = user?.UserId
     return this.http.post(url, payload)
   }
 
+  updateAccountData(payload: any) {
+    let url = `${environment.sitesUrl}/updateAccountData_1_0`;
+    let user = this.storageSer.get('user');
+    let params = new HttpParams();
+    params = params.set('accountId', payload?.accountId);
+    payload.modifiedBy = user?.UserId
+    return this.http.post(url, payload, {params: params})
+  }
 
 
 }

@@ -25,7 +25,8 @@ export class UserService {
     let url = environment.authUrl + `/user_login_1_0`;
     let credentials = new Map();
     credentials.set('userName', payload?.userName);
-    credentials.set('password', btoa(JSON.stringify(payload?.password)));
+    // credentials.set('password', btoa(JSON.stringify(payload?.password)));
+    credentials.set('password', payload?.password);
     credentials.set('callingSystemDetail', 'mgmt');
     return this.http.post(url, Object.fromEntries(credentials));
   }
@@ -50,7 +51,7 @@ export class UserService {
 
   listUsers(userId?: number) {
     let url = environment.authUrl + '/listUsers_1_0';
-    let params = new HttpParams()
+    let params = new HttpParams();
     if (userId) {
       params = params.set('userId', userId)
     }
