@@ -57,6 +57,17 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
+
+       <div class="col-lg-3 col-sm-12">
+                <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select Status</mat-label>
+            <mat-select>
+                <mat-option value="1">Active</mat-option>
+                 <mat-option value="2">InActive</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="col-lg-3 col-sm-12">
         <mat-form-field class="example-form-field" appearance="outline" class="w-100">
           <mat-label>Search</mat-label>
@@ -337,7 +348,7 @@
         <input matInput [(ngModel)]="currentSite.longitude">
       </mat-form-field>
     </div> -->
-    
+
     <div class="col-lg-6">
       <!-- <mat-form-field appearance="outline" class="w-100">
         <mat-label>Time Zone</mat-label>
@@ -377,7 +388,7 @@
       </mat-form-field>
     </div>
 
-        <div class="col-lg-6">
+    <div class="col-lg-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Select city</mat-label>
         <mat-select [(ngModel)]="currentSite.district">
@@ -404,7 +415,7 @@
   </div>
 </ng-template>
 
-  <ng-template #updateSiteCheckListForm>
+<ng-template #updateSiteCheckListForm>
   <div style="background-color: #084982;">
     <p class="dialog-title m-0">Edit</p>
   </div>
@@ -607,7 +618,7 @@
         <p style="font-size: 16px; font-weight: 500;">{{currentItem.siteName}} - {{currentItem.siteId}}</p>
         <p style="font-size: 16px; font-weight: 500;">Total No Of Devices - {{validationChecklistDataNew?.length ?
           validationChecklistDataNew?.length : '0'}}</p>
-          <!-- <p  style="font-size: 16px; font-weight: 500;">{{userName}} - {{currentUser}}</p> -->
+        <!-- <p  style="font-size: 16px; font-weight: 500;">{{userName}} - {{currentUser}}</p> -->
       </div>
       <button (click)="addSiteCheckList()" class="create-btn">Configure Device</button>
 
@@ -674,8 +685,12 @@
           </mat-expansion-panel-header>
           <!-- [disabled]="!device.edit" -->
           <div class="d-flex justify-content-end align-items-center">
-            <button (click)="openEditForSiteValidation(device)"  *ngIf="currentRole?.category === 'Admin' && currentRole?.department === 'IT-Config'" class="btn btn-primary">Edit</button>
-            <button (click)="openEditForSiteValidation(device)"  *ngIf="currentRole?.category !== 'Admin' && currentRole?.department !== 'IT-Config'" class="btn btn-primary" [disabled]="!device.edit">Edit</button>
+            <button (click)="openEditForSiteValidation(device)"
+              *ngIf="currentRole?.category === 'Admin' && currentRole?.department === 'IT-Config'"
+              class="btn btn-primary">Edit</button>
+            <button (click)="openEditForSiteValidation(device)"
+              *ngIf="currentRole?.category !== 'Admin' && currentRole?.department !== 'IT-Config'"
+              class="btn btn-primary" [disabled]="!device.edit">Edit</button>
           </div>
           <div class="dialog-content">
             <table>
@@ -723,9 +738,10 @@
                     </p>
                   </td> -->
                   <td>
-                  <p>
-                    <input type="checkbox" class="form-check-input text-center" style="margin-left: 10px;" [(ngModel)]="checklist.reviewStatus" disabled>
-                  </p>
+                    <p>
+                      <input type="checkbox" class="form-check-input text-center" style="margin-left: 10px;"
+                        [(ngModel)]="checklist.reviewStatus" disabled>
+                    </p>
                   </td>
                   <td class="text-ellipsis" [matTooltip]="checklist.remarks">
                     <p class="text-center">{{ checklist.remarks ? checklist.remarks : '-'}}</p>
@@ -860,7 +876,7 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Select</mat-label>
           <mat-select required [(ngModel)]="deviceFor">
-            <mat-option *ngFor="let item of categoriesSub" [value]="item.name" 
+            <mat-option *ngFor="let item of categoriesSub" [value]="item.name"
               (click)="getValidationCheckListForCategory(item)">{{ item.name }}</mat-option>
           </mat-select>
           <mat-error>Select device To is required</mat-error>
@@ -870,7 +886,8 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Select Device</mat-label>
           <mat-select [(ngModel)]="myObj.deviceId">
-            <mat-option *ngFor="let item of centralBoxData" [value]="item.unitId"  [disabled]="isDeviceAlreadySelected(item.unitId)">{{ item.unitId }}</mat-option>
+            <mat-option *ngFor="let item of centralBoxData" [value]="item.unitId"
+              [disabled]="isDeviceAlreadySelected(item.unitId)">{{ item.unitId }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -936,9 +953,9 @@
       border-width: 0;
       font-size: 14px;
       margin: 0 10px 10px 0;" (click)="add(0,'save')">
-      <i class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>
-      Save
-    </button>
+        <i class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>
+        Save
+      </button>
     </div>
     <div>
       <button style="background-color:#0aa14e; color: white;  width: 160px;
@@ -957,13 +974,13 @@
       border-width: 0;
       font-size: 14px;
       margin: 0 10px 10px 0;" (click)="addReview()">
-      Send For Review
-    </button>
+        Send For Review
+      </button>
     </div>
 
   </div>
   <div class="d-flex align-items-center justify-content-end">
-    <button class="dialog-close-btn" mat-dialog-close >Close</button>
+    <button class="dialog-close-btn" mat-dialog-close>Close</button>
   </div>
 </ng-template>
 
@@ -1021,7 +1038,7 @@
               <th>
                 <span>Review Status</span>
               </th>
-          
+
               <th class="text-center">Remarks</th>
             </tr>
           </thead>
@@ -1031,7 +1048,8 @@
                 {{cust?.validationParameter}}
               </td>
               <td>
-                <input type="checkbox" class="form-check-input" style="margin-left: 10px;" [(ngModel)]="cust.scope" (ngModelChange)="getChangedList(cust)">
+                <input type="checkbox" class="form-check-input" style="margin-left: 10px;" [(ngModel)]="cust.scope"
+                  (ngModelChange)="getChangedList(cust)">
               </td>
               <td>
                 <input type="checkbox" class="form-check-input" style="margin-left: 10px;" [(ngModel)]="cust.configured"
@@ -1042,9 +1060,12 @@
                   [disabled]="!cust.scope || !cust.configured" (ngModelChange)="getChangedList(cust)">
               </td>
 
-              <td class="text-center"><input type="checkbox" placeholder="Enter"  [(ngModel)]="cust.reviewStatus"   [disabled]="currentRole?.category !== 'Admin' || !cust.scope || !cust.configured || !cust.working "   (ngModelChange)="getChangedList(cust)"></td>
+              <td class="text-center"><input type="checkbox" placeholder="Enter" [(ngModel)]="cust.reviewStatus"
+                  [disabled]="currentRole?.category !== 'Admin' || !cust.scope || !cust.configured || !cust.working "
+                  (ngModelChange)="getChangedList(cust)"></td>
 
-              <td class="text-center"><input type="text" placeholder="Enter" [(ngModel)]="cust.remarks" (ngModelChange)="getChangedList(cust)"></td>
+              <td class="text-center"><input type="text" placeholder="Enter" [(ngModel)]="cust.remarks"
+                  (ngModelChange)="getChangedList(cust)"></td>
             </tr>
           </tbody>
         </table>
@@ -1053,7 +1074,7 @@
   </div>
   <div class="d-flex align-items-center justify-content-between">
 
-  <!-- <div class="col-lg-3 mx-2 mt-2">
+    <!-- <div class="col-lg-3 mx-2 mt-2">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Assign To</mat-label>
       <mat-select [(ngModel)]="myObj.assignedTo" required>
@@ -1062,39 +1083,40 @@
       <mat-error>Assigned To is required</mat-error>
     </mat-form-field>
   </div> -->
-  <div class="mx-2">
-    <button style="background-color:#084982; color: white;  width: 80px;
+    <div class="mx-2">
+      <button style="background-color:#084982; color: white;  width: 80px;
     padding: 6px 0;
     border-radius: 5px;
     border-width: 0;
     font-size: 14px;
     margin: 0 10px 10px 0;" (click)="updateSiteCheckListFor(0)">Save</button>
-  </div>
-  <div >
-    <button  style="background-color:#0aa14e; color: white;  width: 160px;
+    </div>
+    <div>
+      <button style="background-color:#0aa14e; color: white;  width: 160px;
     padding: 6px 0;
     border-radius: 5px;
     border-width: 0;
     font-size: 14px;
     margin: 0 10px 10px 0;" (click)="addService2()">Assign & Save</button>
-  </div>
-  <div>
-    <button style="background-color:#084982; color: white;  width: 140px; 
+    </div>
+    <div>
+      <button style="background-color:#084982; color: white;  width: 140px; 
     padding: 6px 0;
     border-radius: 5px;
     border-width: 0;
     font-size: 14px;
-    margin: 0 10px 10px 0;" (click)="addReview2()" >Send For Review</button>
-  </div>
-  <div class="mx-2">
-    <button style="background-color: rgb(236, 167, 76); color: white;  width: 80px;
+    margin: 0 10px 10px 0;" (click)="addReview2()">Send For Review</button>
+    </div>
+    <div class="mx-2">
+      <button style="background-color: rgb(236, 167, 76); color: white;  width: 80px;
     padding: 6px 0;
     border-radius: 5px;
     border-width: 0;
     font-size: 14px;
-    margin: 0 10px 10px 0;" (click)="updateSiteCheckListFor(3)" *ngIf="currentRole?.category === 'Admin'" [disabled]="!isAllValid()">completed</button>
+    margin: 0 10px 10px 0;" (click)="updateSiteCheckListFor(3)" *ngIf="currentRole?.category === 'Admin'"
+        [disabled]="!isAllValid()">completed</button>
+    </div>
   </div>
-</div>
   <div class="d-flex align-items-center justify-content-end">
     <button class="dialog-close-btn" mat-dialog-close>Close</button>
   </div>
@@ -1111,7 +1133,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Assign To</mat-label>
             <mat-select [(ngModel)]="myObj.assignedTo" required>
-              <mat-option *ngFor="let item of roleDetails" [value]="item" [disabled]="item.UserId == currentUser"> {{ item?.userName || 'Unknown Department' }}</mat-option>
+              <mat-option *ngFor="let item of roleDetails" [value]="item" [disabled]="item.UserId == currentUser"> {{
+                item?.userName || 'Unknown Department' }}</mat-option>
             </mat-select>
             <mat-error>Assigned To is required</mat-error>
           </mat-form-field>
@@ -1125,7 +1148,8 @@
       <button class="dialog-close-btn" mat-dialog-close>Close</button>
     </div>
     <div>
-      <button class="dialog-submit-btn" (click)="add(1,'assign')" mat-dialog-close><i class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>Submit</button>
+      <button class="dialog-submit-btn" (click)="add(1,'assign')" mat-dialog-close><i class="fa fa-spinner fa-spin"
+          *ngIf="showLoader"></i>Submit</button>
     </div>
   </div>
 </ng-template>
@@ -1141,7 +1165,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Send To Review</mat-label>
             <mat-select [(ngModel)]="myObj.assignedTo" required>
-              <mat-option *ngFor="let item of adminData" [value]="item" [disabled]="item.UserId == currentUser" (click)="get_roles(item)"> {{ item?.userName || 'Unknown Department' }}</mat-option>
+              <mat-option *ngFor="let item of adminData" [value]="item" [disabled]="item.UserId == currentUser"
+                (click)="get_roles(item)"> {{ item?.userName || 'Unknown Department' }}</mat-option>
             </mat-select>
             <mat-error>Assigned To is required</mat-error>
           </mat-form-field>
@@ -1155,7 +1180,7 @@
       <button class="dialog-close-btn" mat-dialog-close>Close</button>
     </div>
     <div>
-      <button class="dialog-submit-btn" (click)="add(2,'review')" mat-dialog-close >Submit</button>
+      <button class="dialog-submit-btn" (click)="add(2,'review')" mat-dialog-close>Submit</button>
     </div>
   </div>
 </ng-template>
@@ -1172,7 +1197,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Assign To</mat-label>
             <mat-select [(ngModel)]="myObjForEdit.assignedTo" required>
-              <mat-option *ngFor="let item of roleDetails" [value]="item" [disabled]="item.UserId == currentUser">{{item.userName}}</mat-option>
+              <mat-option *ngFor="let item of roleDetails" [value]="item"
+                [disabled]="item.UserId == currentUser">{{item.userName}}</mat-option>
             </mat-select>
             <mat-error>Assigned To is required</mat-error>
           </mat-form-field>
@@ -1187,7 +1213,8 @@
       <button class="dialog-close-btn" mat-dialog-close>Close</button>
     </div>
     <div>
-      <button class="dialog-submit-btn" (click)="updateSiteCheckListFor(1)" mat-dialog-close><i class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>Submit</button>
+      <button class="dialog-submit-btn" (click)="updateSiteCheckListFor(1)" mat-dialog-close><i
+          class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>Submit</button>
     </div>
   </div>
 </ng-template>
@@ -1203,7 +1230,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Send To Review</mat-label>
             <mat-select [(ngModel)]="myObjForEdit.assignedTo" required>
-              <mat-option *ngFor="let item of adminData" [value]="item" [disabled]="item.UserId == currentUser" (click)="get_roles(item)"> {{ item?.userName || 'Unknown Department' }}</mat-option>
+              <mat-option *ngFor="let item of adminData" [value]="item" [disabled]="item.UserId == currentUser"
+                (click)="get_roles(item)"> {{ item?.userName || 'Unknown Department' }}</mat-option>
             </mat-select>
             <mat-error>Assigned To is required</mat-error>
           </mat-form-field>
@@ -1217,7 +1245,7 @@
       <button class="dialog-close-btn" mat-dialog-close>Close</button>
     </div>
     <div>
-      <button class="dialog-submit-btn" (click)="updateSiteCheckListFor(2)"  mat-dialog-close >Submit</button>
+      <button class="dialog-submit-btn" (click)="updateSiteCheckListFor(2)" mat-dialog-close>Submit</button>
     </div>
   </div>
 </ng-template>
@@ -1260,9 +1288,11 @@
 </div>
 
 <div *ngIf="showCamera">
-  <app-add-new-camera (newItemEvent)="closenow('camera')" [centeralBoxFrom]="currentItem1" [currentSiteFrom]="currentItem"></app-add-new-camera>
+  <app-add-new-camera (newItemEvent)="closenow('camera')" [centeralBoxFrom]="currentItem1"
+    [currentSiteFrom]="currentItem"></app-add-new-camera>
 </div>
 
 <div *ngIf="showEvent">
-  <app-add-new-event  [currentSite]="currentItem" [data]="currentEvent" [type]="formType" (newItemEvent)="closenow('event')"></app-add-new-event>
+  <app-add-new-event [currentSite]="currentItem" [data]="currentEvent" [type]="formType"
+    (newItemEvent)="closenow('event')"></app-add-new-event>
 </div>

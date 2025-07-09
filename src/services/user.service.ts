@@ -25,8 +25,8 @@ export class UserService {
     let url = environment.authUrl + `/user_login_1_0`;
     let credentials = new Map();
     credentials.set('userName', payload?.userName);
-    // credentials.set('password', btoa(JSON.stringify(payload?.password)));
-    credentials.set('password', payload?.password);
+    credentials.set('password', btoa(JSON.stringify(payload?.password)));
+    // credentials.set('password', payload?.password);
     credentials.set('callingSystemDetail', 'mgmt');
     return this.http.post(url, Object.fromEntries(credentials));
   }
@@ -80,6 +80,7 @@ export class UserService {
 
   updateUser(payload: any) {
     let url = `${environment.authUrl}/updateUser_1_0/${payload?.userId}`;
+
     return this.http.put(url, payload);
   }
 

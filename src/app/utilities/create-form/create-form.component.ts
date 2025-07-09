@@ -11,7 +11,7 @@ export class CreateFormComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialog_input: any
   ) { }
-
+  notrequiredFields:any[]=['createdBy', "createdTime", "modifiedTime",  "modifiedBy"];
   fields: Array<any> = new Array();
   arrayFields: Array<any> = new Array();
   ngOnInit(): void {
@@ -21,7 +21,7 @@ export class CreateFormComponent {
     // }, []);
 
     this.dialog_input.body
-    this.fields = Object.keys(this.dialog_input.body).filter((item) => !Array.isArray(this.dialog_input.body[item]));
+    this.fields = Object.keys(this.dialog_input.body).filter((item) => !Array.isArray(this.dialog_input.body[item]) && !this.notrequiredFields.includes(item));
     this.arrayFields = Object.keys(this.dialog_input.body).filter((item) => Array.isArray(this.dialog_input.body[item]));
   }
 

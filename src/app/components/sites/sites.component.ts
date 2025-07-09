@@ -182,6 +182,7 @@ export class SitesComponent implements OnInit {
     private adver:AdvertisementsService
   ) { }
 
+  status:any="";
   tableData: any = [];
   newTableData: any = [];
   showLoader: boolean = false;
