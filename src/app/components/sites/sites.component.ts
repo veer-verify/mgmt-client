@@ -42,6 +42,12 @@ export class SitesComponent implements OnInit {
       type: '',
       sort: true
     },
+        {
+      key: 'siteStatus',
+      label: 'siteStatus',
+      type: '',
+      sort: true
+    },
     // {
     //   key: 'centralBoxStatus',
     //   label: 'centralBoxStatus',
@@ -295,7 +301,7 @@ export class SitesComponent implements OnInit {
   getSitesListForUserName() {
     // this.showLoader = true;
     this.storageSer.table_loader_sub.next(true);
-    this.siteSer.getSitesListForUserName().subscribe((res: any) => {
+    this.siteSer.getSitesListForUserName({siteStatus: this.status}).subscribe((res: any) => {
       // this.showLoader = false;
       this.storageSer.table_loader_sub.next(false);
       if(res?.Status == 'Success') {
