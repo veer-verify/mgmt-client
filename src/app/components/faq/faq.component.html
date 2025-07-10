@@ -218,7 +218,7 @@
             <td  *ngIf="item.commentsCount > 0 ">
               <!-- <span > -->
               <!-- <span style="color: #084982;cursor:pointer;" matTooltip="View more Comment's"> {{ item?.commentsInfo[0]?.comments }}</span> -->
-              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" (click)="openView(item,i)" [style.background-color]="colors[currentColorIndex]" matTooltip="View more Comments">View</button>
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" class="color-box" (click)="openView(item,i)" matTooltip="View more Comments">View</button>
               <!-- </span> -->
             </td>
             <td *ngIf="item.commentsCount == 0 ">
@@ -234,7 +234,7 @@
             <td  *ngIf="item.approachCount> 0 " >
               <span (click)="openViewApproach(item,i)">
               <!-- <span style="color: #084982;cursor: pointer;" matTooltip="View more Approache's"> {{ item.approachInfo[0]?.approachName }}</span> -->
-              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" [style.background-color]="colors[currentColorIndex]" matTooltip="View more Approaches"> View</button>
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" class="color-box" matTooltip="View more Approaches"> View</button>
               </span>
             </td>
             <td *ngIf="item.approachCount == 0" >
@@ -245,7 +245,7 @@
             <td  *ngIf="item.deviceEffectedCount> 0 " >
               <span (click)="listDevicesForIssue(item,i)">
               <!-- <span style="color: #084982;cursor: pointer;" matTooltip="View more Approache's"> {{ item.approachInfo[0]?.approachName }}</span> -->
-              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" [style.background-color]="colors[currentColorIndex]" matTooltip="View Devices"> View</button>
+              <button style="cursor: pointer; color: white; border-radius: 5px;border: none;" class="color-box" matTooltip="View Devices"> View</button>
               </span>
             </td>
             <td *ngIf="item.deviceEffectedCount == 0" >
