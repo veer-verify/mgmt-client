@@ -254,7 +254,7 @@ export class FaqComponent {
   currentcommentindex:any;
 
   openView(item:any,index:any){
-
+  this.commentDataArray=[];
    
    this.currentcommentindex=index
     this.currentcomment=item;
@@ -270,6 +270,7 @@ export class FaqComponent {
   currentApproach:any;
   @ViewChild('approachItemsDialog') approachItemsDialog = {} as TemplateRef<any>;
   openViewApproach(item:any,index:any) {
+    this.approachDataArray=[];
     this.currentcommentindex=index
     this.currentApproach=item
     this.adver.listApproachesForIssueId(item).subscribe((res:any)=>{
@@ -282,6 +283,7 @@ export class FaqComponent {
 
   @ViewChild('deviceItemsDialog') deviceItemsDialog = {} as TemplateRef<any>;
   listDevicesForIssue(item:any,index:any) {
+    this.deviceDataarray=[];
     this.currentcommentindex=index
     this.currentDevice=item
    

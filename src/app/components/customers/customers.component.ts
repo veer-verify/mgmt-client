@@ -163,6 +163,7 @@ export class CustomersComponent implements OnInit {
   showAddCustomer = false;
   closenow(value: any, type: String) {
     if (type == 'cust') { this.showAddCustomer = value; }
+    this.getAccountData();
   }
 
   show(type: string) {
@@ -209,6 +210,7 @@ export class CustomersComponent implements OnInit {
     this.currentItem = JSON.parse(JSON.stringify(item));
     // this.storage_service.edit_sub.next({ data: item, dropdownData: [], updateUrl: 'camera/updateCameraData_1_0', getUrl: 'getCamerasForSiteId_1_0' });
     this.dialog.open(this.editprofileDialog,{disableClose:true});
+
   }
 
   @ViewChild('viewpopup') viewpopup: any = ElementRef;
@@ -238,6 +240,7 @@ export class CustomersComponent implements OnInit {
     this.siteSer.updateAccountData(this.currentItem).subscribe((res: any) => {
       if(res.statusCode === 200) {
         this.alertSer.success(res.message)
+        this.getAccountData();
       } else {
         this.alertSer.error(res.message)
       }

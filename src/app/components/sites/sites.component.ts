@@ -42,12 +42,7 @@ export class SitesComponent implements OnInit {
       type: '',
       sort: true
     },
-        {
-      key: 'siteStatus',
-      label: 'siteStatus',
-      type: '',
-      sort: true
-    },
+     
     // {
     //   key: 'centralBoxStatus',
     //   label: 'centralBoxStatus',
@@ -96,6 +91,12 @@ export class SitesComponent implements OnInit {
       type: 'button',
       sort: false,
       call: (data: any) => this.getCameraEventsConfigData(data)
+    },
+       {
+      key: 'siteStatus',
+      label: 'siteStatus',
+      type: '',
+      sort: true
     },
     {
       key: 'actions',
