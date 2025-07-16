@@ -72,7 +72,7 @@ export class StorageService {
     localStorage.clear();
   }
 
-    public encrypt(txt: string): string {
+  public encrypt(txt: string): string {
     return CryptoJS.AES.encrypt(txt, this.key).toString();
   }
 
