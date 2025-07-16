@@ -49,9 +49,9 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
           <mat-autocomplete #site="matAutocomplete">
-            <mat-option value="All" (click)="filterSites('All')" *ngIf="tableData.length !== 0">All</mat-option>
+            <mat-option value=""  (click)="getSitesListForUserName()">All</mat-option>
             <mat-option *ngFor="let item of tableData | search: siteSearch" [value]="item.siteId"
-              (click)="filterSites(item.siteId)">
+              (click)="getSitesListForUserName()">
               {{ item.siteId }} - {{ item.siteName }}
             </mat-option>
           </mat-autocomplete>

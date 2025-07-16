@@ -305,13 +305,15 @@ export class SitesComponent implements OnInit {
   getSitesListForUserName() {
     // this.showLoader = true;
     this.storageSer.table_loader_sub.next(true);
-    this.siteSer.getSitesListForUserName({siteStatus: this.status}).subscribe((res: any) => {
+    this.siteSer.getSitesListForUserName({siteId:this.siteNg,siteStatus: this.status}).subscribe((res: any) => {
       // this.showLoader = false;
       this.storageSer.table_loader_sub.next(false);
       if(res?.Status == 'Success') {
         this.tableData = res.sites
         // this.tableData = res.sites.sort((a:any, b:any) => a.siteId - b.siteId );
         this.newTableData = this.tableData.sort((a:any, b:any) => a.siteId < b.siteId  ? -1 : 1);
+      }else{
+        this.newTableData=[];
       }
       }, (err: any) => {
         // this.showLoader = false;
@@ -954,7 +956,7 @@ onDeviceChange(selectedValue: string) {
 
   /* searches */
   siteSearch: any;
-  siteNg: any = 'All'
+  siteNg: any = ''
   searchSites(event: any) {
     this.siteSearch = (event.target as HTMLInputElement).value
   }

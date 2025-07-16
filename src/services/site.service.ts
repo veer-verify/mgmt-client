@@ -37,6 +37,10 @@ export class SiteService {
     if (payload?.siteStatus) {
       params = params.set('siteStatus', payload?.siteStatus);
     }
+    
+    if (payload?.siteId) {
+      params = params.set('siteId', payload?.siteId);
+    }
     return this.http.get(url, ({ params: params }));
   }
 
