@@ -39,7 +39,9 @@ export class SitesComponent implements OnInit {
     {
       key: 'unitId',
       label: 'Unit Id',
-      type: '',
+      type: 'array',
+      call: (data: any) => data.centralBoxInfo,
+      keyword: 'unitId',
       sort: true
     },
      
@@ -54,7 +56,8 @@ export class SitesComponent implements OnInit {
       label: 'Account Name',
       type: 'array',
       special: 'accountInfo',
-      call: (data: any) => data.accountInfo,
+      call: (data: any) => data.siteAssociatedAccounts,
+      keyword: 'accountName',
       sort: true
     },
     {
@@ -94,7 +97,7 @@ export class SitesComponent implements OnInit {
     },
        {
       key: 'siteStatus',
-      label: 'siteStatus',
+      label: 'Status',
       type: '',
       sort: true
     },

@@ -1,6 +1,6 @@
 const dev_url: string = "https://usstaging.ivisecurity.com";
 // const dev_url: string = "https://preprod.ivisecurity.com";
-// const local_url: string = "http://192.168.0.231";
+const local_url: string = "http://192.168.0.103";
 
 export const environment = {
   production: false,
@@ -8,14 +8,14 @@ export const environment = {
   // adsAndInventoryUrl: `${dev_url}:8080`,
   // metadataUrl: `${dev_url}:8844/metadata`,
   // authUrl: `${dev_url}:8922`,
-  // baseUrl: `${dev_url}:8943`,
+  sitesUrl: `${local_url}:3004/vipsites`,
   // role:`${dev_url}:8922`,
   // sensorUrl:`${dev_url}:8947`,
   // faqUrl: `${dev_url}:8928`,
   // genericUrl: `${dev_url}:8925/generic`
 
   authUrl: `${dev_url}/userDetails`,
-  sitesUrl: `${dev_url}/vipsites`,
+  // sitesUrl: `${dev_url}/vipsites`,
   metadataUrl: `${dev_url}/metadata`,
   adsUrl: `${dev_url}/proximityAdsMain`,
   rulesUrl: `${dev_url}/proximityAdsRules `,

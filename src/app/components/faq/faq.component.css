@@ -13,3 +13,9 @@
     z-index: 9999999999999;
     width: 30%;
 }
+
+.faq-img img {
+    &:hover {
+        cursor: pointer;
+    }
+}

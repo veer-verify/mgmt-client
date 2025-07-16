@@ -782,7 +782,7 @@
           </tr>
         </thead>
   
-        <tbody *ngIf="!tableLoader">
+        <tbody *ngIf="!tableLoader && currentcomment1">
           <tr class="text-center">
             <td>
                 <p>{{ currentcomment1.issueId }}</p>
@@ -807,8 +807,8 @@
                 <p>{{currentcomment1.issueDescription}}</p>
             </td>
             <td *ngIf="currentcomment1.issueAttachements">
-              <span>
-                <a style="border: none;" [href]="currentcomment1.issueAttachements" target="_self">File</a>
+              <span class="faq-img">
+                <img [src]="currentcomment1.issueAttachements | image | async" width="100px" alt="Loading..." (click)="toggleFullScreen()" />
               </span>
            </td>
 
@@ -839,6 +839,10 @@
     <div class="d-flex justify-content-end">
       <button class="dialog-close-btn" (click)="currentcommentindex=-1" mat-dialog-close>Close</button>
     </div>
+  </ng-template>
+
+  <ng-template #fullScreenDialog>
+    <img [src]="currentcomment1.issueAttachements | image | async" alt="Loading..." width="100%">
   </ng-template>
 
 

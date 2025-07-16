@@ -1062,7 +1062,7 @@
               </td>
 
               <td class="text-center"><input type="checkbox" placeholder="Enter" [(ngModel)]="cust.reviewStatus"
-                  [disabled]="currentRole?.category !== 'Admin' || !cust.scope || !cust.configured || !cust.working "
+                  [disabled]="currentRole?.category !== 'Admin' || !cust.scope || !cust.configured || !cust.working"
                   (ngModelChange)="getChangedList(cust)"></td>
 
               <td class="text-center"><input type="text" placeholder="Enter" [(ngModel)]="cust.remarks"

@@ -19,13 +19,11 @@ export class UserService {
     private storageSer: StorageService
   ) { }
 
-  // baseUrl = environment.authUrl;
-
   loginNew(payload: any) {
     let url = environment.authUrl + `/user_login_1_0`;
     let credentials = new Map();
     credentials.set('userName', payload?.userName);
-    credentials.set('password', btoa(JSON.stringify(payload?.password)));
+    credentials.set('password', this.storageSer.encrypt(payload?.password));
     // credentials.set('password', payload?.password);
     credentials.set('callingSystemDetail', 'mgmt');
     return this.http.post(url, Object.fromEntries(credentials));
@@ -66,7 +64,6 @@ export class UserService {
 
   createUser(payload: any) {
     let url = `${environment.authUrl}/createUser_1_0`;
-    // let url = 'http://192.168.0.232:8922/createUser_1_0';
     var user: any = this.storageSer.get('user');
     payload.createdBy = user.UserId;
     return this.http.post(url, payload);
@@ -133,7 +130,6 @@ export class UserService {
   }
 
   getSitesListForGlobalAccountId(payload: any) {
-    // let url = 'http://192.168.0.232:8922/getSitesListForGlobalAccountId_1_0/'
     let url = environment.authUrl + '/getSitesListForGlobalAccountId_1_0/';
     // var user = this.storageService.get('user');
     let params = new HttpParams();

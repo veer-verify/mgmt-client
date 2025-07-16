@@ -815,6 +815,11 @@ ApproachId:any;
     });
   }
 
+  @ViewChild('fullScreenDialog') fullScreenDialog: any = ElementRef;
+  toggleFullScreen() {
+    this.dialog.open(this.fullScreenDialog);
+  }
+
   sorted = false;
   sort(label: any) {
     this.sorted = !this.sorted;

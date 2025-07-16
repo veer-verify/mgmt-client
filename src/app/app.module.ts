@@ -104,6 +104,8 @@ import { TokenInterceptor } from './utilities/token.interceptor';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { CountryStateCityComponent } from './utilities/country-state-city/country-state-city.component';
 import { ConfigurationComponent } from 'src/app/components/configuration/configuration.component';
+import { ImagePipe } from './utilities/pipes/image.pipe';
+import { SanitizePipe } from './utilities/pipes/sanitize.pipe';
 
 
 
@@ -195,7 +197,9 @@ import { ConfigurationComponent } from 'src/app/components/configuration/configu
     TableComponent,
     AdminPanelComponent,
     CountryStateCityComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    ImagePipe,
+    SanitizePipe
   ],
   imports: [
     BrowserModule,

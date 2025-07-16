@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import * as CryptoJS from 'crypto-js';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ export class StorageService {
   table_loader_sub: BehaviorSubject<any> = new BehaviorSubject(false);
   current_sub: BehaviorSubject<any> = new BehaviorSubject(null);
   // edit_sub: BehaviorSubject<any> = new BehaviorSubject({ data: {}, dropdownData: [], updateUrl: '', getUrl: '' });
+
+  private readonly key = "verifai";
 
   constructor(private http: HttpClient) {}
 
@@ -66,6 +70,14 @@ export class StorageService {
 
   public clearData() {
     localStorage.clear();
+  }
+
+    public encrypt(txt: string): string {
+    return CryptoJS.AES.encrypt(txt, this.key).toString();
+  }
+
+  public decrypt(txtToDecrypt: string) {
+    return CryptoJS.AES.decrypt(txtToDecrypt, this.key).toString(CryptoJS.enc.Utf8);
   }
 
 

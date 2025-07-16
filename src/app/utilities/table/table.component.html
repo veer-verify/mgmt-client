@@ -25,7 +25,7 @@
           </ng-container>
 
           <ng-container *ngIf="field?.type === 'array'">
-            <p *ngFor="let sub of field.call(item)">{{sub.accountName}}</p>
+            <p *ngFor="let sub of field.call(item)">{{sub[field?.keyword]}}</p>
           </ng-container>
 
           <ng-container *ngIf="field?.type === 'button'">
