@@ -13,9 +13,16 @@
     z-index: 9999999999999;
     width: 30%;
 }
+.color-box {
 
-.faq-img img {
-    &:hover {
-        cursor: pointer;
-    }
+  animation: bgColorChange 2s infinite alternate;
+}
+
+@keyframes bgColorChange {
+  0% {
+    background-color: #084982;
+  }
+  100% {
+    background-color: #D34135;
+  }
 }
