@@ -233,10 +233,19 @@
                                 </mat-radio-group>
                             </div>
                             <div class="col-lg-6" *ngIf="addAssetForm.get('awsType')?.value == 1">
-                                <mat-form-field appearance="outline" class="w-100">
+                                <!-- <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>EventsDeviceName</mat-label>
                                     <input matInput formControlName="eventsDeviceName">
-                                </mat-form-field>
+                                </mat-form-field> -->
+
+                                 <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>EventsDeviceName</mat-label>
+                                        <mat-select formControlName="eventsDeviceName">
+                                            <mat-option *ngFor="let item of unitIdDw"
+                                                [value]="item.unitId">{{item.unitId}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>unitId is required</mat-error>
+                                    </mat-form-field>
                             </div>
                             <div class="col-lg-6" *ngIf="addAssetForm.get('awsType')?.value == 2">
                                 <mat-form-field appearance="outline" class="w-100">

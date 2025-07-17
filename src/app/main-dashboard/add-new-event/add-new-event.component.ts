@@ -78,7 +78,7 @@ export class AddNewEventComponent {
     ngOnInit(): void {
       this.user = this.storageSer.get('user');
       // this.deviceIdFromStorage = this.storageSer.get('add_body');
-
+console.log(this.currentSite)
       if(this.type === 'create') {
         this.addAssetForm = this.fb.group({
           "cameraId": new FormControl('', Validators.required),
@@ -96,7 +96,7 @@ export class AddNewEventComponent {
           "eventsDeviceName": new FormControl(''),
           "eventsAwsServer": new FormControl(''),
           "eventsAwsPort": new FormControl(''),
-          "eventsImageUrl": new FormControl(''),
+          "eventsImageUrl": new FormControl('202.53.67.75:8088'),
           "motionDetection": new FormControl('T'),
           "motionDetectionArea": new FormControl(0),
           "objectDetection": new FormControl('T'),
@@ -140,7 +140,19 @@ export class AddNewEventComponent {
       this.getSitesListForUserName();
       this.onMetadataChange();
       this.category();
+      this.getCentralBoxForSiteId();
     };
+
+    unitIdDw:any;
+    getCentralBoxForSiteId(){
+
+      this.siteSer.getCentralBoxForSiteId(this.currentSite).subscribe((res:any)=>{
+        if(res.statusCode==200){
+          this.unitIdDw=res.centralBox;
+        }
+      })
+
+    }
 
     clearNums(names: any) {
       if(this.type == 'edit') return;

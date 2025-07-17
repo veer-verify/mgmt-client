@@ -1096,6 +1096,7 @@ onDeviceChange(selectedValue: string) {
   eventViewDialog(cust:any) {
     this.dialog.closeAll();
     this.detailsForSecond = cust;
+    console.log(cust)
     this.dialog.open(CreateFormComponent, {
       data: {
         body:cust,
