@@ -17,8 +17,6 @@ export class StorageService {
 
   private readonly key = "verifai";
 
-  constructor(private http: HttpClient) {}
-
   getMetadataByType(data: any): any {
     let metaData: any = this.get('metaData');
     return metaData?.filter((item: any) => item.type === data);

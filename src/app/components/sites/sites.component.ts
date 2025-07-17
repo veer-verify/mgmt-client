@@ -1079,7 +1079,9 @@ onDeviceChange(selectedValue: string) {
     this.cameraEventsDetailsData = [];
 
     this.currentItem = data;
+    this.storageSer.login_loader_sub.next(true);
     this.siteSer.getCameraEventsConfigData(data?.siteId).subscribe((res: any) => {
+          this.storageSer.login_loader_sub.next(false);
       if(res.statusCode == 200) {
         this.cameraEventsDetailsData = res.cameraEventsDetails;
         this.dialog.open(this.eventsDialog);
@@ -1092,14 +1094,12 @@ onDeviceChange(selectedValue: string) {
 
 
   detailsForSecond:any 
-  // @ViewChild('eventsDialog2') eventsDialog2 = {} as TemplateRef<any>;
   eventViewDialog(cust:any) {
-    this.dialog.closeAll();
+    // this.dialog.closeAll();
     this.detailsForSecond = cust;
-    console.log(cust)
     this.dialog.open(CreateFormComponent, {
       data: {
-        body:cust,
+        body: cust,
         site: this.currentItem
       }
     })
@@ -1109,10 +1109,8 @@ onDeviceChange(selectedValue: string) {
   openEditPopup(item: any) {
     this.currentItem = JSON.parse(JSON.stringify(item));
     this.siteSer.getSiteFullDetails(item).subscribe((res:any)=> {
-      // console.log(res);
       this.currentSite=res.siteDetails;
       this.getTimeZones();
-      // this.getCountry();
     })
     this.dialog.open(this.editSiteDialog);
 
@@ -1152,13 +1150,7 @@ onDeviceChange(selectedValue: string) {
     })
   }
 
-
-
-  
-
-
-
-resultSite:any;
+  resultSite:any;
   confirmEditRow() {
     this.siteSer.updateSiteDetails(this.currentSite).subscribe((res:any)=>{
       if(res.statusCode == 200) {
@@ -1177,7 +1169,6 @@ resultSite:any;
   }
 
   confirmDeleteRow() {
-    // console.log(this.currentItem);
     this.tableData = this.tableData.filter((item: any) => item.siteId !== this.currentItem.siteId);
   }
 
