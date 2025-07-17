@@ -78,7 +78,6 @@ export class AddNewEventComponent {
     ngOnInit(): void {
       this.user = this.storageSer.get('user');
       // this.deviceIdFromStorage = this.storageSer.get('add_body');
-console.log(this.currentSite)
       if(this.type === 'create') {
         this.addAssetForm = this.fb.group({
           "cameraId": new FormControl('', Validators.required),

@@ -1120,6 +1120,7 @@ onDeviceChange(selectedValue: string) {
   // @ViewChild('eventsEditDialog') eventsEditDialog = {} as TemplateRef<any>;
   formType!: string;
   eventEditDialog(item:any) {
+    console.log(item)
     this.dialog.closeAll();
     this.currentEvent = item;
     // this.showEvent = true;
