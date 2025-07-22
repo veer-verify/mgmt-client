@@ -17,7 +17,6 @@ export const environment = {
 
   authUrl: `${dev_url}/userDetails`,
   sitesUrl: `${dev_url}/vipsites`,
-  // sitesUrl: `http://192.168.0.103:3004/vipsites`,
   metadataUrl: `${dev_url}/metadata`,
   adsUrl: `${dev_url}/proximityAdsMain`,
   rulesUrl: `${dev_url}/proximityAdsRules `,
