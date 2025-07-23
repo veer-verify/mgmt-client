@@ -6,12 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/services/alert.service';
 import { UserService } from 'src/services/user.service';
-import { EditFormComponent } from 'src/app/utilities/edit-form/edit-form.component';
 import { EditCameraComponent } from '../cameras/edit-camera/edit-camera.component';
 import { MetadataService } from 'src/services/metadata.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateFormComponent } from 'src/app/utilities/create-form/create-form.component';
-import { AdvertisementsComponent } from '../advertisements/advertisements.component';
 import { AdvertisementsService } from 'src/services/advertisements.service';
 import { Country, State, City }  from 'country-state-city';
 
@@ -197,6 +195,7 @@ export class SitesComponent implements OnInit {
   newTableData: any = [];
   showLoader: boolean = false;
   searchText: any;
+  eventSearch: any;
 
   tempSite: any;
   createCenteralBox!: FormGroup;
