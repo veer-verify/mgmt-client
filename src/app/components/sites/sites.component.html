@@ -616,7 +616,7 @@
   <div class="p-1">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div>
-        <p style="font-size: 16px; font-weight: 500;">{{currentItem.siteName}} - {{currentItem.siteId}}</p>
+        <p style="font-size: 16px; font-weight: 500;">{{currentItem?.siteName}} - {{currentItem?.siteId}}</p>
         <p style="font-size: 16px; font-weight: 500;">Total No Of Devices - {{validationChecklistDataNew?.length ?
           validationChecklistDataNew?.length : '0'}}</p>
         <!-- <p  style="font-size: 16px; font-weight: 500;">{{userName}} - {{currentUser}}</p> -->
@@ -632,19 +632,19 @@
             <mat-panel-description>
               <div>
                 <p style="color:#084982; font-size: 12px;">DeviceId</p>
-                <p style="font-size: 12px;">{{ device.deviceId }} </p>
+                <p style="font-size: 12px;">{{ device?.deviceId }} </p>
               </div>
               <div>
                 <p style="color:#2e72ad; font-size: 12px;">Installed Date</p>
-                <p style="font-size: 12px;">{{ device.installationDate }}</p>
+                <p style="font-size: 12px;">{{ device?.installationDate }}</p>
               </div>
               <div>
                 <p style="color:#084982; font-size: 12px;">ConfiguredBy</p>
-                <p style="font-size: 12px;">{{ device.configuredByName }}</p>
+                <p style="font-size: 12px;">{{ device?.configuredByName }}</p>
               </div>
               <div>
                 <p style="color:#084982; font-size: 12px;" class="text-center">Reviewed By</p>
-                <p class="text-center" style="font-size: 12px;">{{ device.reviewedByName ? device.reviewedByName : '-'
+                <p class="text-center" style="font-size: 12px;">{{ device?.reviewedByName ? device.reviewedByName : '-'
                   }}</p>
               </div>
               <div>

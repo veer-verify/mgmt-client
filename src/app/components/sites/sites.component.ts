@@ -416,16 +416,21 @@ export class SitesComponent implements OnInit {
     this.validationChecklistDataNew = [];
     this.currentItem = data
     this.siteSer.listSiteCheckList(data).subscribe((res: any) => {
-      this.validationChecklistData = res;
-      this.validationChecklistDataNew = this.validationChecklistData.devices;
-      this.sortValidationChecklists()
+
+      if(res.statusCode==200){
+
+        this.validationChecklistData = res;
+        this.validationChecklistDataNew = this.validationChecklistData?.devices;
+        this.sortValidationChecklists()
+      }
+    
     })
     this.dialog.open(this.viewSiteValidation)
   }
 
   sortValidationChecklists() {
     if (this.validationChecklistDataNew && Array.isArray(this.validationChecklistDataNew)) {
-      this.validationChecklistDataNew.forEach((device: any) => {
+      this.validationChecklistDataNew?.forEach((device: any) => {
         if (device.validationChecklists && Array.isArray(device.validationChecklists)) {
           device.validationChecklists.sort((a: any, b: any) => {
             if (a.scope === false && b.scope !== false) {
