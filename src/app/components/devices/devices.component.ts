@@ -57,14 +57,19 @@ export class DevicesComponent implements OnInit {
       label: 'device status',
       sort: true
     },
+    // {
+    //   id: 'siteId',
+    //   label: 'total up time',
+    //   sort: true
+    // },
+    // {
+    //   id: 'siteId',
+    //   label: 'total down time',
+    //   sort: true
+    // },
     {
       id: 'siteId',
-      label: 'total up time',
-      sort: true
-    },
-    {
-      id: 'siteId',
-      label: 'total down time',
+      label: 'Up or Downtime',
       sort: true
     },
     {
@@ -209,14 +214,17 @@ export class DevicesComponent implements OnInit {
   upTime: any;
   newData: any = [];
   statusCounts: any = [];
+  devicecounts:any=[]
   getStatus(data?: any) {
     this.showLoader = true;
-    this.assetSer.getHealth(data).subscribe((res) => {
+    this.assetSer.getHealth({data, page: this.currentPage ?? 1 }).subscribe((res) => {
       this.showLoader = false;
       if(res.statusCode === 200) {
-        this.statusCounts = res.DeviceHealthData.flatMap((item: any) => item.devicesData)
+        this.statusCounts = res.DeviceHealthData.flatMap((item: any) => item.devicesData);
+      
         this.deviceData = res.DeviceHealthData;
         this.newDeviceData = this.deviceData;
+        this.totalPages=res.totalPages;
         this.timeSearches = this.storageSer.getMetaDataArray('DeviceHealth_Down_Time');
         this.deviceStatus = this.storageSer.getMetaDataArray('Device_Health_Status');
       } else {
@@ -360,6 +368,15 @@ export class DevicesComponent implements OnInit {
     } else {
       x.sort((a: string, b: string) => b[label] > a[label] ? 1 : b[label] < a[label] ? -1 : 0);
     }
+  }
+
+   currentPage: any;
+     totalPages: any;
+  getPaginatedData(data: number) {
+    console.log(data)
+    this.currentPage = data + 1;
+    this.getStatus();
+    
   }
 
 }
