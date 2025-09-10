@@ -54,7 +54,7 @@ export class SitesComponent implements OnInit {
       label: 'Account Name',
       type: 'array',
       special: 'accountInfo',
-      call: (data: any) => data.siteAssociatedAccounts,
+      call: (data: any) => data.accountInfo,
       keyword: 'accountName',
       sort: true
     },
