@@ -85,9 +85,10 @@ export class SiteService {
 
   getCentralbox(payload: any) {
     let url = `${environment.sitesUrl}/getCentralBox_1_0/${payload.siteId}`;
-    return this.http.get(url);
+      
+        return this.http.get(url);
   }
-
+ 
   addCentralBox(payload: any) {
     let url = `${environment.sitesUrl}/addCentralBox_1_0`;
     let user = this.storageSer.get('user');
@@ -189,6 +190,7 @@ export class SiteService {
 
   getCentralBoxForSiteId(payload: any) {
     let url = `${environment.sitesUrl}/getCentralBox_1_0/${payload?.siteId}`;
+ 
     return this.http.get(url, payload)
   }
 
@@ -266,6 +268,31 @@ export class SiteService {
     params = params.set('accountId', payload?.accountId);
     payload.modifiedBy = user?.UserId
     return this.http.post(url, payload, {params: params})
+  }
+
+
+   updateCentralbox(payload:any){
+
+    let url = `${environment.sitesUrl}/updateCentralBox_1_0`;
+    let user = this.storageSer.get('user');
+    payload.modifiedBy = user?.UserId;
+    return this.http.put(url,payload);
+
+   }
+  getS3BucketNames(){
+
+    let url ='http://192.168.0.232:1000/getS3BucketNames_1_0';
+  
+    return this.http.get(url);
+
+  }
+  creates3Defaultpath(payload:any){
+
+    let url ='http://192.168.0.232:1000/addS3defaultPath_1_0';
+    let user = this.storageSer.get('user');
+    // payload.createdBy = user?.UserId;
+    return this.http.post(url,payload);
+
   }
 
 

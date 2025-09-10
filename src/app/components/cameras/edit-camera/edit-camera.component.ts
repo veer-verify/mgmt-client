@@ -17,12 +17,13 @@ export class EditCameraComponent implements OnInit {
   ) { }
 
   type: any;
-  currentCamera: any;
+  currentCamera:any;currentitem: any;
   ngOnInit(): void {
     this.storageSer.current_sub.subscribe({
       next: (res: any) => {
         this.type = res.type;
-        this.currentCamera = res.data;
+        this.currentCamera =res.data;
+        this.currentitem={...this.currentCamera}
       }
     })
   }

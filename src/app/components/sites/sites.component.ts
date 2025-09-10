@@ -188,7 +188,9 @@ export class SitesComponent implements OnInit {
     private metaSer: MetadataService,
     private http: HttpClient,
     private adver:AdvertisementsService
-  ) { }
+  ) { 
+    
+  }
 
   status:any="";
   tableData: any = [];
@@ -216,6 +218,7 @@ export class SitesComponent implements OnInit {
     this.currentRole = this.user?.roleList.filter((item:any) => item.department == 'IT-Config' && item.category == 'Admin')[0];
     this.currentUser = this.user.UserId;
     this.userName = this.user.UserName;
+      this.gets3Bucket();
 
     // this.tempSite = this.storageSer.get('temp_sites');
     // this.siteData = this.storageSer.get('temp_sites')?.sort((a: any, b: any) => a.siteId < b.siteId ? -1 : a.siteId > b.siteId ? 1 : 0);
@@ -270,7 +273,7 @@ export class SitesComponent implements OnInit {
     }
   ];
   openEditCamera(item: any) {
-    this.storageSer.current_sub.next({ type: 'site', data: item });
+    this.storageSer.current_sub.next({ type: 'site', data: {...item} });
     this.dialog.open(EditCameraComponent);
 
     // this.storageSer.edit_sub.next({ data: item, dropdownData: this.dropdownFields_camera, updateUrl: 'camera/updateCameraData_1_0', getUrl: 'getCamerasForSiteId_1_0' });
@@ -994,7 +997,7 @@ onDeviceChange(selectedValue: string) {
       this.showCamera = true;
       this.currentItem1 = type;
     }
-    if(value == 'event') {
+    if(value == 'event') {  
       this.showEvent = true;
       this.formType = type;
     }
@@ -1329,7 +1332,71 @@ onDeviceChange(selectedValue: string) {
       this.siteUsers=res.usersDetails;
     })
   }
+centralBoxupdate:any;
 
+@ViewChild('centralboxupdate')  centralboxupdate = {} as TemplateRef<any>;
+
+  openEditCentralBox(data:any){
+    this.dialog.open(this.centralboxupdate);
+    this.centralBoxupdate=data;
+  }
+
+  centralboxupdatedata(){
+
+    let payload={
+      ...this.centralBoxupdate,
+        modifiedBy:0
+    }
+
+    this.siteSer.updateCentralbox(payload).subscribe((res:any)=>{
+      if(res.statusCode==200){
+        this.alertSer.success(res.message);
+      }
+      else{
+          this.alertSer.error(res.message);
+      }
+    },(err:any)=>{
+
+    })
+    
+  }
+
+@ViewChild('s3Default')  s3Default = {} as TemplateRef<any>;
+
+s3defaultpath:any;
+s3Defaultcreate:any;
+s3select:any;
+
+  openS3(data:any){
+    this.s3select=null;
+    this.s3Defaultcreate=data
+    this.dialog.open(this.s3Default);
+  }
+
+  gets3Bucket(){
+
+    this.siteSer.getS3BucketNames().subscribe((res:any)=>{
+      if(res.statusCode==200){
+        this.s3defaultpath=res.s3BucketNames;
+      }
+    });
+    
+
+  }
+
+  s3Defaultcreateadd(){
+
+    this.siteSer.creates3Defaultpath({bucketName:this.s3select,unitId:this.s3Defaultcreate.unitId}).subscribe((res:any)=>{
+      if(res.statusCode==200){
+        this.alertSer.success(res.message);
+      }
+      else{
+        this.alertSer.error(res.message);
+      }
+    })
+
+
+  }
 
 }
 
