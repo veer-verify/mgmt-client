@@ -86,6 +86,9 @@
             <span>User</span>
             <!-- <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
           </th>
+          <th>
+            Password
+          </th>
           <th (click)="sort('address')">Address</th>
           <th>
             <p class="d-inline-flex">
@@ -140,6 +143,28 @@
               <button [disabled]="!isAdmin(cust)" (click)="opencreateuser(cust)"
                 style="background-color: transparent; border: none;">Create</button>
               <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> -->
+            </td>
+            <td>
+              <button [disabled]="!isAdmin(cust)"  [matMenuTriggerFor]="userPassword" (click)="getUserPasswordForUserName(cust)"
+               style="background-color: transparent; border: none;" >
+                View
+              </button>
+
+              <mat-menu #userPassword>
+                <div class="address-sec" *ngIf="userPwd">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td class="address-label">Password :</td>
+                        <td>{{ userPwd.password }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="address-sec text-center" *ngIf="!userPwd">No Data</div>
+              </mat-menu>
+
             </td>
             <td>
               <p class="text-primary pointer" [matMenuTriggerFor]="userAddress" (click)="getUserInfoForUserId(cust)">

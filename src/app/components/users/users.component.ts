@@ -601,4 +601,17 @@ export class UsersComponent implements OnInit {
     });
 
   }
+userPwd:any;
+  getUserPasswordForUserName(data:any){
+
+    this.userPwd=null;
+
+    this.userSer.getPasswordbyUser(data).subscribe((res:any)=>{
+ 
+      if(res.statusCode==200){
+        this.userPwd=res.data;
+      }
+    })
+
+  }
 }

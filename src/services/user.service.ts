@@ -176,5 +176,16 @@ export class UserService {
     return this.http.get(url, { params: params });
   }
 
+  getPasswordbyUser(payload:any){
+console.log(payload)
+    let url = `${environment.authUrl}/getPassword_1_0`;
+    let params = new HttpParams();
+    if (payload) {
+      params = params.set('userName', payload.User_Name);
+    }
+
+    return this.http.get(url, { params: params });
+
+  }
 
 }
