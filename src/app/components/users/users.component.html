@@ -142,10 +142,10 @@
             <td>
               <button [disabled]="!isAdmin(cust)" (click)="opencreateuser(cust)"
                 style="background-color: transparent; border: none;">Create</button>
-              <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> -->
+              <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> --> 
             </td>
             <td>
-              <button [disabled]="!isAdmin(cust)"  [matMenuTriggerFor]="userPassword" (click)="getUserPasswordForUserName(cust)"
+              <button [disabled]="storageSer.getDepartment() != 'IT-Config' "  [matMenuTriggerFor]="userPassword" (click)="getUserPasswordForUserName(cust)"
                style="background-color: transparent; border: none;" >
                 View
               </button>

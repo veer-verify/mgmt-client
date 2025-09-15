@@ -75,17 +75,22 @@ export class UsersComponent implements OnInit {
     private siteSer: SiteService,
     private http: HttpClient,
     private fb: FormBuilder
-  ) { }
+  ) {
+
+   }
 
   showLoader = false;
   userData: any;
   siteData: any
+
+
   ngOnInit(): void {
     this.userData = this.storageSer.get('user');
     this.siteData = this.storageSer.get('siteIds');
     this.listUsers();
     // this.userDetailslistRoles_1_0();
     this.userDepartments();
+ 
   }
 
   public isAdmin(data: any): boolean {
