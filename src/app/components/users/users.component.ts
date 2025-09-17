@@ -261,7 +261,8 @@ export class UsersComponent implements OnInit {
   }
 
   searchSites() {
-    return this.newUserSites.filter((item: any) => Object.keys(item).some((key) => String(item[key])!.toLowerCase().includes(this.assignText!.toLowerCase())));
+    return this.newUserSites.filter((item: any) => Object.keys(item).some((key) => String(item[key])!.toLowerCase().includes(this.assignText!.toLowerCase()) || item.assigned ) );
+
   }
 
   toggleAllIndividual() {
@@ -273,6 +274,7 @@ export class UsersComponent implements OnInit {
     this.selectAllSites = false;
     this.assignText = '';
     this.newUserSites = [];
+    this.userSites=[];
     this.storageSer.login_loader_sub.next(true);
     this.selectedFilter = 1;
     this.currentItem = data;
@@ -297,7 +299,7 @@ export class UsersComponent implements OnInit {
     if (this.selectedFilter == 2) {
       if (!isChecked) return this.alertSer.error('Please select atleast one site');
 
-      this.alertSer.confirmDialog("Would you like to unassign all the sites?").then((msg) => {
+      this.alertSer.confirmDialog("Would you like to unassign the sites?").then((msg) => {
         if (msg.isConfirmed) {
           this.userSer.unassignSiteForUser({ userId: this.currentItem?.user_id, siteId: Array.from(this.searchSites().filter((el: any) => el['assigned']), (item: any) => item.siteId) }).subscribe({
             next: (res: any) => {
@@ -317,8 +319,7 @@ export class UsersComponent implements OnInit {
       })
     } else if (this.selectedFilter == 3) {
       if (!isChecked) return this.alertSer.error('Please select atleast one site');
-
-      this.alertSer.confirmDialog("Would you like to assign all the sites?").then((msg) => {
+      this.alertSer.confirmDialog("Would you like to assign the sites?").then((msg) => {
         if (msg.isConfirmed) {
           this.userSer.applySitesMapping({ userId: this.currentItem?.user_id, siteList: Array.from(this.searchSites().filter((el: any) => el['assigned']), (item: any) => item.siteId) }).subscribe({
             next: (res: any) => {

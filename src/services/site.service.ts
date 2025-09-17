@@ -102,8 +102,9 @@ export class SiteService {
     return this.http.post(url, payload)
   }
 
-  updateCamera(payload: any) {
-    let url = `${environment.sitesUrl}/updateCameraData_1_0/${payload.cameraId}`;
+  updateCamera(payload: any,payload1:any) {
+
+    let url = `${environment.sitesUrl}/updateCameraData_1_0/${payload1}`;
     // delete payload.httpUrl;
     return this.http.put(url, payload)
   }
@@ -281,14 +282,14 @@ export class SiteService {
    }
   getS3BucketNames(){
 
-    let url ='http://192.168.0.232:1000/getS3BucketNames_1_0';
+    let url ='http://192.168.0.151:3002/getS3BucketNames_1_0';
   
     return this.http.get(url);
 
   }
   creates3Defaultpath(payload:any){
 
-    let url ='http://192.168.0.232:1000/addS3defaultPath_1_0';
+    let url ='http://192.168.0.151:3002/addS3defaultPath_1_0';
     let user = this.storageSer.get('user');
     // payload.createdBy = user?.UserId;
     return this.http.post(url,payload);

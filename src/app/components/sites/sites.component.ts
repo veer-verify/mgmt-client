@@ -273,6 +273,7 @@ export class SitesComponent implements OnInit {
     }
   ];
   openEditCamera(item: any) {
+
     this.storageSer.current_sub.next({ type: 'site', data: {...item} });
     this.dialog.open(EditCameraComponent);
 

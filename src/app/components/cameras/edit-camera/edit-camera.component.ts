@@ -17,7 +17,9 @@ export class EditCameraComponent implements OnInit {
   ) { }
 
   type: any;
-  currentCamera:any;currentitem: any;
+  currentCamera:any;
+  currentitem: any;
+
   ngOnInit(): void {
     this.storageSer.current_sub.subscribe({
       next: (res: any) => {
@@ -26,6 +28,7 @@ export class EditCameraComponent implements OnInit {
         this.currentitem={...this.currentCamera}
       }
     })
+   
   }
 
   getCamerasForSiteId(data: any) {
@@ -38,7 +41,7 @@ export class EditCameraComponent implements OnInit {
     if(this.type === 'camera') return;
     this.currentCamera.videoServerName = this.currentCamera.httpUrl;
     // delete this.currentCamera.httpUrl;
-    this.siteSer.updateCamera(this.currentCamera).subscribe((res: any) => {
+    this.siteSer.updateCamera(this.currentCamera,this.currentitem.cameraId).subscribe((res: any) => {
       if(res.statusCode == 200) {
         this.getCamerasForSiteId(this.currentCamera);
         this.alertSer.success(res.message)
