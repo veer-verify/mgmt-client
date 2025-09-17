@@ -164,8 +164,8 @@
               <img (click)="sort('mode')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px">
             </th>
             <th class="text-center">Add Camera</th>
-            <th class="text-center">Add S3 defaultPath</th>
-            <th class="text-center">Actions</th>
+            <!-- <th class="text-center">Add S3 defaultPath</th> -->
+            <!-- <th class="text-center">Actions</th> -->
           </tr>
         </thead>
 
@@ -185,13 +185,13 @@
                 <img src="assets/icons/add.svg" width="40">
               </a>
             </td>
-            <td class="text-center">
+            <!-- <td class="text-center">
               <a (click)="openS3(cust)" >
                 <img src="assets/icons/add.svg" width="40">
               </a>
-            </td>
-             <td><a class="mx-1 pointer" (click)="openEditCentralBox(cust)" matTooltip="Edit"><img
-                  src="assets/icons/edit.svg"></a></td>
+            </td> -->
+             <!-- <td><a class="mx-1 pointer" (click)="openEditCentralBox(cust)" matTooltip="Edit"><img
+                  src="assets/icons/edit.svg"></a></td> -->
           </tr>
         </tbody>
       </table>
@@ -256,7 +256,7 @@
     <div class="col-lg-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Site Name</mat-label>
-        <input matInput [(ngModel)]="currentSite.siteName">
+        <input matInput [(ngModel)]="currentSite.siteName" disabled>
       </mat-form-field>
     </div>
 

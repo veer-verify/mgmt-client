@@ -177,7 +177,7 @@ export class UserService {
   }
 
   getPasswordbyUser(payload:any){
-console.log(payload)
+
     let url = `${environment.authUrl}/getPassword_1_0`;
     let params = new HttpParams();
     if (payload) {
