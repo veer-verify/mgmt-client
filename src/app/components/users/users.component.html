@@ -86,9 +86,9 @@
             <span>User</span>
             <!-- <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
           </th>
-          <th *ngIf="storageSer.getDepartment() == 'IT-Config'">
+          <!-- <th *ngIf="storageSer.getDepartment() == 'IT-Config'">
             Password
-          </th>
+          </th> -->
           <th (click)="sort('address')">Address</th>
           <th>
             <p class="d-inline-flex">
@@ -144,7 +144,7 @@
                 style="background-color: transparent; border: none;">Create</button>
               <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> --> 
             </td>
-            <td *ngIf="storageSer.getDepartment() == 'IT-Config'">
+            <!-- <td *ngIf="storageSer.getDepartment() == 'IT-Config'">
               <button [disabled]="storageSer.getDepartment() != 'IT-Config' "  [matMenuTriggerFor]="userPassword" (click)="getUserPasswordForUserName(cust)"
                style="background-color: transparent; border: none;" >
                 View
@@ -165,7 +165,7 @@
                 <div class="address-sec text-center" *ngIf="!userPwd">No Data</div>
               </mat-menu>
 
-            </td>
+            </td> -->
             <td>
               <p class="text-primary pointer" [matMenuTriggerFor]="userAddress" (click)="getUserInfoForUserId(cust)">
                 View
