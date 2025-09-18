@@ -282,14 +282,14 @@ export class SiteService {
    }
   getS3BucketNames(){
 
-    let url ='http://192.168.0.151:3002/getS3BucketNames_1_0';
+    let url =`${environment.authUrl}/getS3BucketNames_1_0`;
   
     return this.http.get(url);
 
   }
   creates3Defaultpath(payload:any){
 
-    let url ='http://192.168.0.151:3002/addS3defaultPath_1_0';
+    let url =`${environment.authUrl}/addS3defaultPath_1_0`;
     let user = this.storageSer.get('user');
     // payload.createdBy = user?.UserId;
     return this.http.post(url,payload);
