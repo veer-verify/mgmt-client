@@ -347,7 +347,7 @@ export class DevicesComponent implements OnInit {
     days: 'All',
   }
   downtimesForDeviceId() {
-    console.log(this.currentItem)
+
     this.downParams.deviceId = this.currentItem.deviceId;
     this.assetSer.downtimesForDeviceId(this.downParams).subscribe((res: any) => {
       if(res.statusCode === 200) {
@@ -373,7 +373,7 @@ export class DevicesComponent implements OnInit {
    currentPage: any;
      totalPages: any;
   getPaginatedData(data: number) {
-    console.log(data)
+
     this.currentPage = data + 1;
     this.getStatus();
     

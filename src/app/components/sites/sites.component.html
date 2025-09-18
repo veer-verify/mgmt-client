@@ -17,14 +17,14 @@
           <div class="vl-red"></div>
           <div class="mx-2">
             <div class="status">Active</div>
-            <div class="count">{{ newTableData | count: '' : '' }}</div>
+            <div class="count">{{ newTableData | count: 'siteStatus' : 'Active' }}</div>
           </div>
         </div>
         <div class="col-lg-2 d-flex justify-content-start">
           <div class="vl-yellow"></div>
           <div class="mx-2">
             <div class="status">Inactive</div>
-            <div class="count">{{ newTableData | count: '' : '' }}</div>
+            <div class="count">{{ newTableData | count: 'siteStatus' : 'Inactive' }}</div>
           </div>
         </div>
       </div>
