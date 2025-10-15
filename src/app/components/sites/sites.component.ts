@@ -1346,6 +1346,7 @@ centralBoxupdate:any;
 
     let payload={
       ...this.centralBoxupdate,
+      ...this.currentItem,
         modifiedBy:0
     }
 

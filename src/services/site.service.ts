@@ -277,7 +277,7 @@ export class SiteService {
     let url = `${environment.sitesUrl}/updateCentralBox_1_0`;
     let user = this.storageSer.get('user');
     payload.modifiedBy = user?.UserId;
-    return this.http.put(url,payload);
+    return this.http.post(url,payload);
 
    }
   getS3BucketNames(){
