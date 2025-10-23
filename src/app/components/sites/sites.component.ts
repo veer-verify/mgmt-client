@@ -1339,6 +1339,7 @@ centralBoxupdate:any;
 @ViewChild('centralboxupdate')  centralboxupdate = {} as TemplateRef<any>;
 
   openEditCentralBox(data:any){
+    this.dialog.closeAll();
     this.dialog.open(this.centralboxupdate);
     this.centralBoxupdate=data;
   }
