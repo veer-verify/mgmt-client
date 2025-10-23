@@ -1354,7 +1354,7 @@ centralBoxupdate:any;
     this.siteSer.updateCentralbox(payload).subscribe((res:any)=>{
       if(res.statusCode==200){
         this.alertSer.success(res.message);
-        this.getCentalBox(this.currentItem);
+        // this.getCentalBox(this.currentItem);
       }
       else{
           this.alertSer.error(res.message);
