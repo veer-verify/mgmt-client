@@ -111,6 +111,7 @@ export class UsersComponent implements OnInit {
     this.userSer.listUsers(userId).pipe(map((response: any) => {
       if(response.statusCode === 200) {
         return response.users.filter((item: any) => item.status == "IVISUSA");
+        //  return response.users;
       }
     })).subscribe((res: any) => {
       this.showLoader = false;

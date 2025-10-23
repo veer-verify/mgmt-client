@@ -6,14 +6,14 @@
 
       <!-- count -->
       <div class="row">
-        <div class="col-lg-2 d-flex justify-content-start">
+        <div class="col-lg-4 d-flex justify-content-start">
           <div class="vl-blue"></div>
           <div class="mx-2">
             <div class="status">Total Users</div>
             <div class="count">{{userTableData.length}}</div>
           </div>
         </div>
-        <div class="col-lg-2 d-flex justify-content-start">
+        <div class="col-lg-4 d-flex justify-content-start">
           <div class="vl-green"></div>
           <div class="mx-2">
             <div class="status">Active</div>
@@ -21,14 +21,14 @@
             <div class="count">{{userTableData | count: 'status' : 'IVISUSA'}}</div>
           </div>
         </div>
-        <div class="col-lg-2 d-flex justify-content-start">
+        <!-- <div class="col-lg-2 d-flex justify-content-start">
           <div class="vl-red"></div>
           <div class="mx-2">
             <div class="status">Inactive</div>
-            <!-- <div class="count">{{inactiveUsers.length}}</div> -->
+          
             <div class="count">{{userTableData | count: 'status' : 'Inactive'}}</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div>
