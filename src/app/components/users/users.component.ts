@@ -124,6 +124,7 @@ export class UsersComponent implements OnInit {
   userInfo: any;
   getUserInfoForUserId(data: any) {
     // this.rowIndex = this.userTableData.indexOf(data);
+    this.userInfo=null;
     this.userSer.getUserInfoForUserId({ userId: data?.user_id }).subscribe((res: any) => {
       if (res.Status == 'Failed') {
         this.userInfo = null;
