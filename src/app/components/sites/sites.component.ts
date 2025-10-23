@@ -996,6 +996,7 @@ onDeviceChange(selectedValue: string) {
     }
     if(value == 'camera') {
       this.showCamera = true;
+      this.dialog.closeAll();
       this.currentItem1 = type;
     }
     if(value == 'event') {  

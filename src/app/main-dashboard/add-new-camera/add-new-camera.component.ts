@@ -47,7 +47,9 @@ export class AddNewCameraComponent {
     private storageService: StorageService,
     private alertSer: AlertService,
     public dialog: MatDialog,
-  ) { }
+  ) { 
+    
+  }
 
   createCamera!: FormGroup;
 
