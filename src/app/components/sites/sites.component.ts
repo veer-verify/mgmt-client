@@ -49,15 +49,15 @@ export class SitesComponent implements OnInit {
     //   type: '',
     //   sort: true
     // },
-    {
-      key: 'accountName',
-      label: 'Account Name',
-      type: 'array',
-      special: 'accountInfo',
-      call: (data: any) => data.siteAssociatedAccounts,
-      keyword: 'accountName',
-      sort: true
-    },
+    // {
+    //   key: 'accountName',
+    //   label: 'Account Name',
+    //   type: 'array',
+    //   special: 'accountInfo',
+    //   call: (data: any) => data.siteAssociatedAccounts,
+    //   keyword: 'accountName',
+    //   sort: true
+    // },
     {
       key: 'Cameras',
       label: 'Cameras',

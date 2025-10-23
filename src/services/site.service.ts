@@ -25,7 +25,7 @@ export class SiteService {
 
 
   getSitesListForUserName(payload?: any) {
-    let url = `${environment.sitesUrl}/getSitesListForUserName_1_0/`;
+    let url = `${environment.sitesUrl}/getSitesListForUserName_2_0/`;
     let user = this.storageSer.get('user');
 
     let params = new HttpParams();
@@ -45,7 +45,7 @@ export class SiteService {
   }
 
   getSitesListForAssign(payload: any) {
-    let url = `${environment.sitesUrl}/getSitesListForUserName_1_0`;
+    let url = `${environment.sitesUrl}/getSitesListForUserName_2_0`;
     let params = new HttpParams().set('userName', payload?.User_Name);
     return this.http.get(url, { params: params });
   }

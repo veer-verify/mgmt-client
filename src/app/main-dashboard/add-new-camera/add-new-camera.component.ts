@@ -79,7 +79,7 @@ export class AddNewCameraComponent {
       displayName: new FormControl(''),
       internalIp: new FormControl(''),
       internalPort: new FormControl(0),
-      s3RequestName: new FormControl(`${this.centeralBoxFrom.request_name}`),
+      s3RequestName: new FormControl(`${this.centeralBoxFrom.requestName}`),
       events: new FormControl('F'),
       eventsOnAWS: new FormControl(''),
       eventsOnCPE: new FormControl(''),
