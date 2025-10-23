@@ -185,7 +185,10 @@
                 <img src="assets/icons/add.svg" width="40">
               </a>
             </td>
-            <td class="text-center">
+             <td class="text-center" *ngIf="cust.nameTag">
+             <p>{{cust.nameTag}}</p>
+            </td>
+            <td class="text-center" *ngIf="!cust.nameTag">
               <a (click)="openS3(cust)" >
                 <img src="assets/icons/add.svg" width="40">
               </a>
@@ -234,7 +237,7 @@
 
       <div class="d-flex align-items-center justify-content-end">
         <button class="dialog-close-btn" mat-dialog-close>Close</button>
-        <button class="dialog-submit-btn" (click)="createCentralBox()">Update</button>
+        <button class="dialog-submit-btn" (click)="createCentralBox()">Create</button>
       </div>
     </form>
   </div>
@@ -1313,8 +1316,6 @@
         <input matInput [(ngModel)]="centralBoxupdate.centralBoxUrl" >
       </mat-form-field>
     </div>
-
-
       <div class="col-lg-6 col-sm-12">
                 <mat-form-field appearance="outline" class="w-100">
             <mat-label>Select Status</mat-label>
@@ -1338,13 +1339,61 @@
         <div class="col-lg-6 col-sm-12">
 
       <mat-form-field appearance="outline" class="w-100">
-  <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker"  [(ngModel)]="centralBoxupdate.installationDate">
-  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-label>Installed date</mat-label>
+  <input matInput [matDatepicker]="picker"  [(ngModel)]="centralBoxupdate.installationDate" placeholder="MM/DD/YYYY">
+  <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 
+    </div>
+
+          <div class="col-lg-6 col-sm-12">
+    <mat-form-field appearance="outline" class="w-100">
+    <mat-label>s3 Default path</mat-label>
+    <mat-select [(value)]="centralBoxupdate.s3_access_id">
+    <mat-option *ngFor="let path of s3defaultpath" [value]="path.id">
+      {{path.nameTags}}
+    </mat-option>
+    </mat-select>
+    </mat-form-field>
+    </div>
+
+     <!-- <div class="col-lg-6 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>s3 Default name</mat-label>
+        <input matInput [(ngModel)]="centralBoxupdate.nameTag" disabled>
+      </mat-form-field>
+    </div> -->
+
+     <div class="col-lg-6 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>s3 request_name</mat-label>
+        <input matInput [(ngModel)]="centralBoxupdate.request_name" disabled>
+      </mat-form-field>
+    </div>
+
+     <div class="col-lg-6 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>ec2InstanceUrl</mat-label>
+        <input matInput [(ngModel)]="centralBoxupdate.ec2InstanceUrl" disabled>
+      </mat-form-field>
+    </div>
+
+  
+
+        <div class="col-lg-6 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>s3 bucket_name</mat-label>
+        <input matInput [(ngModel)]="centralBoxupdate.bucket_name" disabled>
+      </mat-form-field>
+    </div>
+
+        <div class="col-lg-6 col-sm-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>folder</mat-label>
+        <input matInput [(ngModel)]="centralBoxupdate.folder" disabled>
+      </mat-form-field>
     </div>
 
     <div class="col-lg-6 col-sm-12">

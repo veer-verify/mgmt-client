@@ -1353,6 +1353,7 @@ centralBoxupdate:any;
     this.siteSer.updateCentralbox(payload).subscribe((res:any)=>{
       if(res.statusCode==200){
         this.alertSer.success(res.message);
+        this.getCentalBox(this.currentItem);
       }
       else{
           this.alertSer.error(res.message);
@@ -1380,6 +1381,7 @@ s3select:any;
     this.siteSer.getS3BucketNames().subscribe((res:any)=>{
       if(res.statusCode==200){
         this.s3defaultpath=res.s3BucketNames;
+       
       }
     });
     
@@ -1391,6 +1393,7 @@ s3select:any;
     this.siteSer.creates3Defaultpath({bucketName:this.s3select,unitId:this.s3Defaultcreate.unitId}).subscribe((res:any)=>{
       if(res.statusCode==200){
         this.alertSer.success(res.message);
+         this.getCentalBox(this.currentItem);
       }
       else{
         this.alertSer.error(res.message);
