@@ -1405,6 +1405,23 @@ s3select:any;
 
   }
 
+
+  radiocheck:number=1;
+radioselection(i:number){
+switch(i) {
+  case 1:
+  this.radiocheck=1;
+    break;
+  case 2:
+this.radiocheck=2;
+    break;
+  default:
+  
+}
+
+}
+
+
 }
 
 

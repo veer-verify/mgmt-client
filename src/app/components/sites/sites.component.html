@@ -209,12 +209,31 @@
   </div>
 </ng-template>
 
-<ng-template #addCentralBoxDialog>
+<ng-template #addCentralBoxDialog style="width: 300px;height:300px;" >
   <div style="background-color: #084982;">
-    <p class="dialog-title">create central box</p>
+    <p class="dialog-title">create central box - {{currentItem?.siteName}}</p>
   </div>
 
-  <div class="dialog-content">
+
+<div class="radio-inputs">
+		<label >
+			<input class="radio-input" type="radio" name="engine" (click)="radioselection(1)" [checked]="radiocheck==1">
+				<span class="radio-tile">
+					
+					<span class="radio-label">Create Centralbox</span>
+				</span>
+		</label>
+		<label>
+			<input  class="radio-input" type="radio" name="engine" (click)="radioselection(2)" [checked]="radiocheck==2">
+			<span class="radio-tile">
+		
+				<span class="radio-label">Migrate Centralbox</span>
+			</span>
+		</label>
+</div>
+
+
+  <div class="dialog-content" *ngIf="radiocheck==1">
     <form class="p-0" [formGroup]="createCenteralBox">
       <div class="row m-0">
         <div class="col-lg-12">
@@ -241,7 +260,22 @@
       </div>
     </form>
   </div>
+
+  <div *ngIf="radiocheck==2">
+
+    <app-camera-transfer [onGetCentralboxDetail]="onGetCentralboxDetail" [currentItem]="currentItem"></app-camera-transfer>
+  </div>
+
 </ng-template>
+
+
+
+  
+
+
+ 
+
+
 
 <ng-template #editSiteDialog>
   <div style="background-color: #084982;">

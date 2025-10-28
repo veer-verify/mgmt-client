@@ -296,5 +296,23 @@ export class SiteService {
 
   }
 
+  getCamerasforunitId(payload:any){
+
+    let url=`${environment.sitesUrl}/getCamerasForUnitId_1_0`;
+    let params = new HttpParams();
+    params = params.set('siteId', payload?.siteId);
+    params = params.set('unitId', payload?.unitId);
+    return this.http.get(url,{params});
+  }
+
+  migrateCentralbox(payload:any){
+
+    let url =`${environment.sitesUrl}/replaceCentralBox_1_0`;
+    let user = this.storageSer.get('user');
+    payload.createdBy = user?.UserId;
+    return this.http.post(url,payload);
+
+  }
+
 
 }

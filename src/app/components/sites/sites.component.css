@@ -93,3 +93,99 @@ mat-panel-description {
   max-width: 85vw; 
 } */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* From Uiverse.io by Yaya12085 */ 
+.radio-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radio-inputs > * {
+  margin: 6px;
+}
+
+.radio-input:checked + .radio-tile {
+  border-color: #084982;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  color: #084982;
+  background-color: #084982;
+}
+
+
+
+.radio-input:checked + .radio-tile .radio-label {
+  color: #ffff;
+
+}
+
+
+
+
+.radio-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: 150px;
+  border-radius: 0.5rem;
+  border: 2px solid #b5bfd9;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.15s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+
+.radio-tile:hover {
+  border-color: #084982;
+}
+
+.radio-tile:hover:before {
+  transform: scale(1);
+  opacity: 1;
+}
+
+
+
+.radio-label {
+
+  transition: 0.375s ease;
+  text-align: center;
+  font-size: 13px;
+}
+
+.radio-input {
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

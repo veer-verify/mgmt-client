@@ -107,6 +107,7 @@ import { ConfigurationComponent } from 'src/app/components/configuration/configu
 import { ImagePipe } from './utilities/pipes/image.pipe';
 import { SanitizePipe } from './utilities/pipes/sanitize.pipe';
 import { PaginationComponent } from './pagination/pagination.component';
+import { CameraTransferComponent } from './camera-transfer/camera-transfer.component';
 
 
 
@@ -201,7 +202,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     ConfigurationComponent,
     ImagePipe,
     SanitizePipe,
-    PaginationComponent
+    PaginationComponent,
+    CameraTransferComponent
   ],
   imports: [
     BrowserModule,
