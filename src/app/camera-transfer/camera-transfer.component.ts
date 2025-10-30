@@ -280,7 +280,7 @@ export class CameraTransferComponent {
       }
     } else {
       this.alertSer.error(
-        'Please fill in the Unit Name and Unit ID fields, and ensure that at least one camera is added.'
+        'Please fill in the Unit Name and Unit ID fields'
       );
     }
   }
