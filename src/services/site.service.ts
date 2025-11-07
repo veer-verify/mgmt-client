@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { StorageService } from './storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DatePipe, formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class SiteService {
 
   cameras_sub: BehaviorSubject<any> = new BehaviorSubject([]);
 
-  constructor(private http: HttpClient, private storageSer: StorageService) { }
+  constructor(private http: HttpClient, private storageSer: StorageService,private datePipe: DatePipe) { }
 
   createSite(payload: any) {
     let url = `${environment.sitesUrl}/addSite_1_0`;
@@ -273,10 +274,17 @@ export class SiteService {
 
 
    updateCentralbox(payload:any){
-
-    let url = `${environment.sitesUrl}/updateCentralBox_1_0`;
-    let user = this.storageSer.get('user');
-    payload.modifiedBy = user?.UserId;
+   
+     
+     let url = `${environment.sitesUrl}/updateCentralBox_1_0`;
+     let user = this.storageSer.get('user');
+     payload.modifiedBy = user?.UserId;
+    payload.installationDate = this.datePipe.transform(
+  payload.installationDate,
+  'yyyy-MM-dd HH:mm:ss'
+                   
+);
+ 
     return this.http.post(url,payload);
 
    }
