@@ -42,16 +42,16 @@ export class DevicesComponent implements OnInit {
       label: 'site local time',
       sort: true
     },
-    // {
-    //   id: 'siteId',
-    //   label: 'latest re-connected time',
-    //   sort: true
-    // },
-    // {
-    //   id: 'siteId',
-    //   label: 'latest up / down time',
-    //   sort: true
-    // },
+    {
+      id: 'siteId',
+      label: 'latest connected time',
+      sort: true
+    },
+    {
+      id: 'siteId',
+      label: 'latest up / down time',
+      sort: true
+    },
     {
       id: 'siteId',
       label: 'device status',
