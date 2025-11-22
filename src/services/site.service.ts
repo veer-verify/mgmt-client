@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { StorageService } from './storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DatePipe, formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class SiteService {
 
   cameras_sub: BehaviorSubject<any> = new BehaviorSubject([]);
 
-  constructor(private http: HttpClient, private storageSer: StorageService) { }
+  constructor(private http: HttpClient, private storageSer: StorageService,private datePipe: DatePipe) { }
 
   createSite(payload: any) {
     let url = `${environment.sitesUrl}/addSite_1_0`;
@@ -25,7 +26,7 @@ export class SiteService {
 
 
   getSitesListForUserName(payload?: any) {
-    let url = `${environment.sitesUrl}/getSitesListForUserName_1_0/`;
+    let url = `${environment.sitesUrl}/getSitesListForUserName_2_0/`;
     let user = this.storageSer.get('user');
 
     let params = new HttpParams();
@@ -45,7 +46,7 @@ export class SiteService {
   }
 
   getSitesListForAssign(payload: any) {
-    let url = `${environment.sitesUrl}/getSitesListForUserName_1_0`;
+    let url = `${environment.sitesUrl}/getSitesListForUserName_2_0`;
     let params = new HttpParams().set('userName', payload?.User_Name);
     return this.http.get(url, { params: params });
   }
@@ -85,9 +86,10 @@ export class SiteService {
 
   getCentralbox(payload: any) {
     let url = `${environment.sitesUrl}/getCentralBox_1_0/${payload.siteId}`;
-    return this.http.get(url);
+      
+        return this.http.get(url);
   }
-
+ 
   addCentralBox(payload: any) {
     let url = `${environment.sitesUrl}/addCentralBox_1_0`;
     let user = this.storageSer.get('user');
@@ -101,8 +103,9 @@ export class SiteService {
     return this.http.post(url, payload)
   }
 
-  updateCamera(payload: any) {
-    let url = `${environment.sitesUrl}/updateCameraData_1_0/${payload.cameraId}`;
+  updateCamera(payload: any,payload1:any) {
+
+    let url = `${environment.sitesUrl}/updateCameraData_1_0/${payload1}`;
     // delete payload.httpUrl;
     return this.http.put(url, payload)
   }
@@ -189,6 +192,7 @@ export class SiteService {
 
   getCentralBoxForSiteId(payload: any) {
     let url = `${environment.sitesUrl}/getCentralBox_1_0/${payload?.siteId}`;
+ 
     return this.http.get(url, payload)
   }
 
@@ -266,6 +270,56 @@ export class SiteService {
     params = params.set('accountId', payload?.accountId);
     payload.modifiedBy = user?.UserId
     return this.http.post(url, payload, {params: params})
+  }
+
+
+   updateCentralbox(payload:any){
+   
+     
+     let url = `${environment.sitesUrl}/updateCentralBox_1_0`;
+     let user = this.storageSer.get('user');
+     payload.modifiedBy = user?.UserId;
+    payload.installationDate = this.datePipe.transform(
+  payload.installationDate,
+  'yyyy-MM-dd HH:mm:ss'
+                   
+);
+ 
+    return this.http.post(url,payload);
+
+   }
+  getS3BucketNames(){
+
+    let url =`${environment.authUrl}/getS3BucketNames_1_0`;
+  
+    return this.http.get(url);
+
+  }
+  creates3Defaultpath(payload:any){
+
+    let url =`${environment.authUrl}/addS3defaultPath_1_0`;
+    let user = this.storageSer.get('user');
+    // payload.createdBy = user?.UserId;
+    return this.http.post(url,payload);
+
+  }
+
+  getCamerasforunitId(payload:any){
+
+    let url=`${environment.sitesUrl}/getCamerasForUnitId_1_0`;
+    let params = new HttpParams();
+    params = params.set('siteId', payload?.siteId);
+    params = params.set('unitId', payload?.unitId);
+    return this.http.get(url,{params});
+  }
+
+  migrateCentralbox(payload:any){
+
+    let url =`${environment.sitesUrl}/replaceCentralBox_1_0`;
+    let user = this.storageSer.get('user');
+    payload.createdBy = user?.UserId;
+    return this.http.post(url,payload);
+
   }
 
 

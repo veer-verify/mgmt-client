@@ -47,7 +47,9 @@ export class AddNewCameraComponent {
     private storageService: StorageService,
     private alertSer: AlertService,
     public dialog: MatDialog,
-  ) { }
+  ) { 
+    
+  }
 
   createCamera!: FormGroup;
 
@@ -77,7 +79,7 @@ export class AddNewCameraComponent {
       displayName: new FormControl(''),
       internalIp: new FormControl(''),
       internalPort: new FormControl(0),
-      s3RequestName: new FormControl(`streams/${this.centeralBoxFrom.unitId}`),
+      s3RequestName: new FormControl(`${this.centeralBoxFrom.requestName}`),
       events: new FormControl('F'),
       eventsOnAWS: new FormControl(''),
       eventsOnCPE: new FormControl(''),

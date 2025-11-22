@@ -356,6 +356,9 @@ export class AssetService {
 
 
   getHealth(payload?: any): Observable<any> {
+
+    console.log(payload.data)
+
     let url = environment.sitesUrl + '/generateDeviceHealthstats_2_0';
     // let url = 'http://192.168.0.237:8002/getDeviceHealth_2_0'
     let user = this.storageSer.get('user');
@@ -363,15 +366,20 @@ export class AssetService {
     if(user) {
       params = params.set('user_name', user.UserName);
     }
-    if(payload?.siteId && payload?.siteId != 'All') {
-      params = params.set('site_id', payload.siteId);
+    if(payload?.data?.siteId && payload?.data?.siteId != 'All') {
+      params = params.set('site_id', payload.data?.siteId);
     }
-    if(payload?.time && payload?.time != 'All') {
-      params = params.set('time', payload.time);
+    if(payload?.data?.time && payload?.data?.time != 'All') {
+      params = params.set('time', payload.data?.time);
     }
-    if(payload?.status && payload?.status != 'All') {
-      params = params.set('status', payload.status);
+    if(payload?.data?.status && payload?.data?.status != 'All') {
+      params = params.set('status', payload.data?.status);
     }
+     if(payload?.page ) {
+      params = params.set('pageno', payload.page);
+    }
+     params = params.set('pagesize', 10);
+
     return this.http.get(url, {params: params});
   }
 

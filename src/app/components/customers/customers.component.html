@@ -103,7 +103,7 @@
   <div class="col-lg-6">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Lead No</mat-label>
-      <input matInput type="number" [(ngModel)]="currentItem.leadNo" name="leadNo" #leadNoInput>
+      <input matInput type="number" min="0" [(ngModel)]="currentItem.leadNo" name="leadNo" #leadNoInput>
     </mat-form-field>
   </div>
 

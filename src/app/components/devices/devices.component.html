@@ -13,11 +13,14 @@
   </div> -->
 
   <!-- count -->
-  <div class="row my-2">
-    <div class="col-lg-1 d-flex justify-content-start">
+ <div class="row my-2">
+  
+  <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between">
+      <div class="col-lg-1 d-flex justify-content-start">
       <div class="vl-green"></div>
       <div class="mx-2">
-        <div class="status">Tota Devices</div>
+        <div class="status">Total Devices</div>
         <div class="count">{{ statusCounts.length }}</div>
       </div>
     </div>
@@ -25,17 +28,33 @@
       <div class="vl-green"></div>
       <div class="mx-2">
         <div class="status">Online</div>
-        <div class="count">{{ statusCounts | count: 'status' : 'ONLINE' }}</div>
+        <div class="count">{{ statusCounts | count: 'deviceStatus' : 'ONLINE' }}</div>
       </div>
     </div>
     <div class="col-lg-1 d-flex justify-content-start">
       <div class="vl-red"></div>
       <div class="mx-2">
         <div class="status">Offline</div>
-        <div class="count">{{ statusCounts | count: 'status' : 'OFFLINE' }}</div>
+        <div class="count">{{ statusCounts | count: 'deviceStatus' : 'offline' }}</div>
       </div>
     </div>
+    </div>
+
+
+    <div class="col-lg-3 d-flex justify-content-end">
+      <mat-form-field class="example-form-field w-100" appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
   </div>
+
+
+</div>
+
 
   <!-- filter -->
   <div class="row">
@@ -55,7 +74,7 @@
       </mat-form-field>
     </div>
 
-    <!-- <div class="col-lg-3">
+    <div class="col-lg-2">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Age/Duration</mat-label>
         <mat-select [(ngModel)]="paramBody.time">
@@ -66,7 +85,7 @@
       </mat-form-field>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-2">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Status</mat-label>
         <mat-select [(ngModel)]="paramBody.status">
@@ -75,18 +94,15 @@
             (click)="getStatus(paramBody)">{{item.value}}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div> -->
-
-    <div class="col-lg-3">
-      <mat-form-field class="example-form-field" appearance="outline" class="w-100">
-        <mat-label>Search</mat-label>
-        <input matInput type="text" [(ngModel)]="searchText">
-        <button matSuffix mat-icon-button>
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
     </div>
+
+  
+
+    <div class="col-lg-2">
+      <app-pagination [totalPages]="totalPages" (emitPage)="getPaginatedData($event)"></app-pagination>
+   </div>
   </div>
+
 
   <!-- <div class="status-tile row py-2 mx-1 mb-3 d-lg-flex d-none">
     <div class="col-lg-1">
@@ -219,19 +235,22 @@
               <td>
                 <p>{{ el.latestReconnectedTime | date: 'medium' }}</p>
               </td>
-              <td>
+              <!-- <td>
                 <p>{{ el.latestUpOrDowntime }}
-                  <!-- <img *ngIf="el.latestUpOrDowntime" [src]="el.status === 'ONLINE' ? 'assets/icons/up-arrow.png' : 'assets/icons/down-arrow.png'" width="16" alt=""> -->
-                </p>
-              </td>
+                  <img *ngIf="el.latestUpOrDowntime" [src]="el.status === 'ONLINE' ? 'assets/icons/up-arrow.png' : 'assets/icons/down-arrow.png'" width="16" alt=""> -->
+                <!-- </p> -->
+              <!-- </td> -->
               <!-- <td>
                 <p [style.color]="el.deviceStatus === 'ONLINE' ? 'green' : 'red'">{{ el.deviceStatus }}</p>
               </td>
               <td>
+              <p>{{ el.latestUpOrDowntime  }}</p>
+            </td>
+              <td>
                 <p [style.color]="el.status === 'ONLINE' ? 'green' : 'red'">{{ el.totalUptime }}</p>
               </td> -->
               <td>
-                <p>{{ el.deviceStatus }}</p>
+                <p>{{ el.totalDowntime }}</p>
               </td>
               <td>
                 <p class="text-primary pointer" (click)="openEditPopup(el)">View</p>

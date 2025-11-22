@@ -220,7 +220,7 @@ export class AdvertisementsComponent implements OnInit {
 
   @ViewChild('addPlayerDialog') addPlayerDialog: any = ElementRef;
   openPlayerDialog(data: any) {
-    console.log(data)
+
     this.currentItem = data;
     this.dialog.open(this.addPlayerDialog);
   }

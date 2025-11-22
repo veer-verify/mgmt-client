@@ -1,6 +1,13 @@
-<div class="dialog-title">modify camera - {{currentCamera?.cameraId}}</div>
+<div class="dialog-title">modify camera - {{currentitem?.cameraId}}</div>
 
 <div class="row dialog-content" *ngIf="currentCamera">
+
+   <div class="col-lg-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>CameraId</mat-label>
+      <input matInput [(ngModel)]="currentCamera.cameraId" disabled>
+    </mat-form-field>
+  </div>
   <div class="col-lg-6">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Display Name</mat-label>

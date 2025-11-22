@@ -106,6 +106,8 @@ import { CountryStateCityComponent } from './utilities/country-state-city/countr
 import { ConfigurationComponent } from 'src/app/components/configuration/configuration.component';
 import { ImagePipe } from './utilities/pipes/image.pipe';
 import { SanitizePipe } from './utilities/pipes/sanitize.pipe';
+import { PaginationComponent } from './pagination/pagination.component';
+import { CameraTransferComponent } from './camera-transfer/camera-transfer.component';
 
 
 
@@ -199,7 +201,9 @@ import { SanitizePipe } from './utilities/pipes/sanitize.pipe';
     CountryStateCityComponent,
     ConfigurationComponent,
     ImagePipe,
-    SanitizePipe
+    SanitizePipe,
+    PaginationComponent,
+    CameraTransferComponent
   ],
   imports: [
     BrowserModule,

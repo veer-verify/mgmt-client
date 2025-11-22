@@ -6,14 +6,14 @@
 
       <!-- count -->
       <div class="row">
-        <div class="col-lg-2 d-flex justify-content-start">
+        <div class="col-lg-4 d-flex justify-content-start">
           <div class="vl-blue"></div>
           <div class="mx-2">
             <div class="status">Total Users</div>
             <div class="count">{{userTableData.length}}</div>
           </div>
         </div>
-        <div class="col-lg-2 d-flex justify-content-start">
+        <div class="col-lg-4 d-flex justify-content-start">
           <div class="vl-green"></div>
           <div class="mx-2">
             <div class="status">Active</div>
@@ -21,14 +21,14 @@
             <div class="count">{{userTableData | count: 'status' : 'IVISUSA'}}</div>
           </div>
         </div>
-        <div class="col-lg-2 d-flex justify-content-start">
+        <!-- <div class="col-lg-2 d-flex justify-content-start">
           <div class="vl-red"></div>
           <div class="mx-2">
             <div class="status">Inactive</div>
-            <!-- <div class="count">{{inactiveUsers.length}}</div> -->
-            <div class="count">{{userTableData | count: 'status' : ''}}</div>
+          
+            <div class="count">{{userTableData | count: 'status' : 'Inactive'}}</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div>
@@ -86,6 +86,9 @@
             <span>User</span>
             <!-- <img (click)="sort('firstName')" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px"> -->
           </th>
+          <!-- <th *ngIf="storageSer.getDepartment() == 'IT-Config'">
+            Password
+          </th> -->
           <th (click)="sort('address')">Address</th>
           <th>
             <p class="d-inline-flex">
@@ -139,8 +142,30 @@
             <td>
               <button [disabled]="!isAdmin(cust)" (click)="opencreateuser(cust)"
                 style="background-color: transparent; border: none;">Create</button>
-              <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> -->
+              <!-- <p class="text-primary pointer" (click)="opencreateuser(cust)">Create</p> --> 
             </td>
+            <!-- <td *ngIf="storageSer.getDepartment() == 'IT-Config'">
+              <button [disabled]="storageSer.getDepartment() != 'IT-Config' "  [matMenuTriggerFor]="userPassword" (click)="getUserPasswordForUserName(cust)"
+               style="background-color: transparent; border: none;" >
+                View
+              </button>
+
+              <mat-menu #userPassword>
+                <div class="address-sec" *ngIf="userPwd">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td class="address-label">Password :</td>
+                        <td>{{ userPwd.password }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="address-sec text-center" *ngIf="!userPwd">No Data</div>
+              </mat-menu>
+
+            </td> -->
             <td>
               <p class="text-primary pointer" [matMenuTriggerFor]="userAddress" (click)="getUserInfoForUserId(cust)">
                 View
@@ -255,7 +280,7 @@
 
     <div class="m-1">
       <mat-button-toggle-group name="fontStyle" [(ngModel)]="selectedFilter">
-        <mat-button-toggle *ngFor="let item of filters" [value]="item.id" (click)=" filterAssigned(item)">{{item.label}}
+        <mat-button-toggle *ngFor="let item of filters" [value]="item.id" (click)="filterAssigned(item)">{{item.label}}
           - {{item.call(userSites)}}</mat-button-toggle>
       </mat-button-toggle-group>
     </div>

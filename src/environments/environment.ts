@@ -1,6 +1,6 @@
 const dev_url: string = "https://usstaging.ivisecurity.com";
 // const dev_url: string = "https://preprod.ivisecurity.com";
-// const local_url: string = "http://192.168.0.103";
+// const local_url: string = "http://192.168.0.225:3004";
 
 
 export const environment = {
@@ -14,6 +14,9 @@ export const environment = {
   // sensorUrl:`${dev_url}:8947`,
   // faqUrl: `${dev_url}:8928`,
   // genericUrl: `${dev_url}:8925/generic`
+
+
+ 
 
   authUrl: `${dev_url}/userDetails`,
   sitesUrl: `${dev_url}/vipsites`,

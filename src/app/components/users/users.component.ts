@@ -75,17 +75,22 @@ export class UsersComponent implements OnInit {
     private siteSer: SiteService,
     private http: HttpClient,
     private fb: FormBuilder
-  ) { }
+  ) {
+
+   }
 
   showLoader = false;
   userData: any;
   siteData: any
+
+
   ngOnInit(): void {
     this.userData = this.storageSer.get('user');
     this.siteData = this.storageSer.get('siteIds');
     this.listUsers();
     // this.userDetailslistRoles_1_0();
     this.userDepartments();
+ 
   }
 
   public isAdmin(data: any): boolean {
@@ -106,6 +111,7 @@ export class UsersComponent implements OnInit {
     this.userSer.listUsers(userId).pipe(map((response: any) => {
       if(response.statusCode === 200) {
         return response.users.filter((item: any) => item.status == "IVISUSA");
+        //  return response.users;
       }
     })).subscribe((res: any) => {
       this.showLoader = false;
@@ -118,6 +124,7 @@ export class UsersComponent implements OnInit {
   userInfo: any;
   getUserInfoForUserId(data: any) {
     // this.rowIndex = this.userTableData.indexOf(data);
+    this.userInfo=null;
     this.userSer.getUserInfoForUserId({ userId: data?.user_id }).subscribe((res: any) => {
       if (res.Status == 'Failed') {
         this.userInfo = null;
@@ -256,7 +263,8 @@ export class UsersComponent implements OnInit {
   }
 
   searchSites() {
-    return this.newUserSites.filter((item: any) => Object.keys(item).some((key) => String(item[key])!.toLowerCase().includes(this.assignText!.toLowerCase())));
+    return this.newUserSites.filter((item: any) => Object.keys(item).some((key) => String(item[key])!.toLowerCase().includes(this.assignText!.toLowerCase()) || item.assigned ) );
+
   }
 
   toggleAllIndividual() {
@@ -268,6 +276,7 @@ export class UsersComponent implements OnInit {
     this.selectAllSites = false;
     this.assignText = '';
     this.newUserSites = [];
+    this.userSites=[];
     this.storageSer.login_loader_sub.next(true);
     this.selectedFilter = 1;
     this.currentItem = data;
@@ -292,7 +301,7 @@ export class UsersComponent implements OnInit {
     if (this.selectedFilter == 2) {
       if (!isChecked) return this.alertSer.error('Please select atleast one site');
 
-      this.alertSer.confirmDialog("Would you like to unassign all the sites?").then((msg) => {
+      this.alertSer.confirmDialog("Would you like to unassign the sites?").then((msg) => {
         if (msg.isConfirmed) {
           this.userSer.unassignSiteForUser({ userId: this.currentItem?.user_id, siteId: Array.from(this.searchSites().filter((el: any) => el['assigned']), (item: any) => item.siteId) }).subscribe({
             next: (res: any) => {
@@ -312,8 +321,7 @@ export class UsersComponent implements OnInit {
       })
     } else if (this.selectedFilter == 3) {
       if (!isChecked) return this.alertSer.error('Please select atleast one site');
-
-      this.alertSer.confirmDialog("Would you like to assign all the sites?").then((msg) => {
+      this.alertSer.confirmDialog("Would you like to assign the sites?").then((msg) => {
         if (msg.isConfirmed) {
           this.userSer.applySitesMapping({ userId: this.currentItem?.user_id, siteList: Array.from(this.searchSites().filter((el: any) => el['assigned']), (item: any) => item.siteId) }).subscribe({
             next: (res: any) => {
@@ -599,6 +607,19 @@ export class UsersComponent implements OnInit {
     }, (err: any) => {
       // this.alertSer.error(err);
     });
+
+  }
+userPwd:any;
+  getUserPasswordForUserName(data:any){
+
+    this.userPwd=null;
+
+    this.userSer.getPasswordbyUser(data).subscribe((res:any)=>{
+ 
+      if(res.statusCode==200){
+        this.userPwd=res.data;
+      }
+    })
 
   }
 }
