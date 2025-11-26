@@ -192,7 +192,7 @@
               <a (click)="openS3(cust)" >
                 <img src="assets/icons/add.svg" width="40">
               </a>
-            </td> 
+            </td>
               <td><a class="mx-1 pointer" (click)="openEditCentralBox(cust)" matTooltip="Edit"><img
                 src="assets/icons/edit.svg"></a></td>
           </tr>
@@ -219,14 +219,14 @@
 		<label >
 			<input class="radio-input" type="radio" name="engine" (click)="radioselection(1)" [checked]="radiocheck==1">
 				<span class="radio-tile">
-					
+
 					<span class="radio-label">Create Centralbox</span>
 				</span>
 		</label>
 		<label>
 			<input  class="radio-input" type="radio" name="engine" (click)="radioselection(2)" [checked]="radiocheck==2">
 			<span class="radio-tile">
-		
+
 				<span class="radio-label">Migrate Centralbox</span>
 			</span>
 		</label>
@@ -270,10 +270,10 @@
 
 
 
-  
 
 
- 
+
+
 
 
 
@@ -1146,7 +1146,7 @@
     margin: 0 10px 10px 0;" (click)="addService2()">Assign & Save</button>
     </div>
     <div>
-      <button style="background-color:#084982; color: white;  width: 140px; 
+      <button style="background-color:#084982; color: white;  width: 140px;
     padding: 6px 0;
     border-radius: 5px;
     border-width: 0;
@@ -1333,7 +1333,7 @@
     <div class="col-lg-6 col-sm-12">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>unitId</mat-label>
-        <input matInput [(ngModel)]="centralBoxupdate.unitId" >
+        <input matInput [(ngModel)]="centralBoxupdate.unitId" disabled>
       </mat-form-field>
     </div>
 
@@ -1362,7 +1362,7 @@
             </mat-select>
         </mat-form-field>
       </div>
- 
+
      <div class="col-lg-6 col-sm-12">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>noOfActiveCameras</mat-label>
@@ -1406,7 +1406,7 @@
         <input matInput [(ngModel)]="centralBoxupdate.requestName" >
       </mat-form-field>
     </div>
-    
+
             <div class="col-lg-6 col-sm-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>folder</mat-label>
@@ -1421,7 +1421,7 @@
       </mat-form-field>
     </div>
 
-  
+
 
         <div class="col-lg-6 col-sm-12">
       <mat-form-field appearance="outline" class="w-100">
@@ -1451,7 +1451,7 @@
       </mat-form-field>
     </div>
 
-    
+
 
 
      <div class="d-flex align-items-center justify-content-end">
