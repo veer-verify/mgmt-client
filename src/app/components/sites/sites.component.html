@@ -165,6 +165,7 @@
             </th>
             <th class="text-center">Add Camera</th>
             <th class="text-center">Add S3 defaultPath</th>
+            <th class="text-center">Status</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
@@ -193,6 +194,7 @@
                 <img src="assets/icons/add.svg" width="40">
               </a>
             </td>
+            <td class="text-center">{{cust?.status}}</td>
               <td><a class="mx-1 pointer" (click)="openEditCentralBox(cust)" matTooltip="Edit"><img
                 src="assets/icons/edit.svg"></a></td>
           </tr>
