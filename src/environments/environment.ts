@@ -26,5 +26,6 @@ export const environment = {
   sensorUrl:`${dev_url}/sensors`,
   faqUrl: `${dev_url}/faq`,
   inventoryUrl: `${dev_url}/inventory`,
-  genericUrl: `${dev_url}/supportRequests`
+  genericUrl: `${dev_url}/supportRequests`,
+  eventsData: `${dev_url}/events_data`
 };

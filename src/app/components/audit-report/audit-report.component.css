@@ -1,0 +1,45 @@
+.audit-container {
+  padding: 20px;
+}
+
+table * {
+  text-align: center;
+}
+
+.row > * {
+  max-width: 10%;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+form {
+  padding: 0 !important;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+}
+
+.no-container {
+  position: absolute;
+  top: 65%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  color: #ed3237;
+  font-size: 28px;
+  font-weight: 800;
+  text-align: center;
+  text-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}

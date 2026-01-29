@@ -1,0 +1,197 @@
+<div class="audit-container">
+  <div class="row">
+    <div class="col-lg-4 d-flex justify-content-start w-200">
+      <div class="vl-blue"></div>
+      <div class="mx-2">
+        <div class="status">Web Logins</div>
+        <div class="count">{{ totalPortalCount }}</div>
+      </div>
+    </div>
+    <div class="col-lg-4 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Mobile Logins</div>
+        <!-- <div class="count">{{activeUsers.length}}</div> -->
+        <div class="count">{{ totalAppCount }}</div>
+      </div>
+    </div>
+    <div class="col-lg-4 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Total Logins</div>
+        <!-- <div class="count">{{activeUsers.length}}</div> -->
+        <div class="count">{{ totalLoginCount }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <form [formGroup]="filterForm" class="filters">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label for="client">Select client</mat-label>
+        <mat-select
+          id="client"
+          formControlName="client"
+          (selectionChange)="onFilterChange()"
+        >
+          <mat-option value="">All</mat-option>
+          <mat-option
+            *ngFor="let client of clientsList"
+            [value]="client.userId"
+          >
+            {{ client.userName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline" class="w-100">
+        <mat-label for="client">Select Device</mat-label>
+        <mat-select
+          id="client"
+          formControlName="device"
+          (selectionChange)="onFilterChange()"
+        >
+          <mat-option value="">All</mat-option>
+          <mat-option value="portal">Web</mat-option>
+          <mat-option value="app">Mobile</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label for="date">From Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="fromDate"
+          (dateChange)="onFilterChange()"
+          [max]="endDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <!-- <mat-datepicker #picker1>
+          <mat-datepicker-actions>
+            <button mat-button matDateRangePickerCancel>Clear</button>
+            <button mat-raised-button color="primary" matDateRangePickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker> -->
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label for="date">To Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="toDate"
+          (dateChange)="onFilterChange()"
+          [max]="today"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      <div class="w-25"></div>
+    </form>
+  </div>
+
+  <div class="table-resp">
+    <table class="table" id="my-table">
+      <thead>
+        <tr class="form1">
+          <th (click)="sort('date')" class="pointer">
+            Date
+            <img
+              class="pointer ms-1"
+              src="assets/icons/sorticon.svg"
+              width="15px"
+            />
+          </th>
+          <th (click)="sort('userName')" class="pointer">
+            Client Name
+            <img
+              class="pointer ms-1"
+              src="assets/icons/sorticon.svg"
+              width="15px"
+            />
+          </th>
+          <!-- <th>Device</th> -->
+          <th (click)="sort('portalCount')" class="pointer">
+            Web Count
+            <img
+              class="pointer ms-1"
+              src="assets/icons/sorticon.svg"
+              width="15px"
+            />
+          </th>
+          <th (click)="sort('appCount')" class="pointer">
+            App Count
+            <img
+              class="pointer ms-1"
+              src="assets/icons/sorticon.svg"
+              width="15px"
+            />
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngIf="!showLoader">
+          <!-- <ng-container *ngIf="all">
+            <ng-container *ngFor="let data of auditData">
+              <tr>
+                <td>{{ data.date }}</td>
+                <td>{{ data.userName }}</td>
+                <td>Web</td>
+                <td>{{ data.portalCount }}</td>
+              </tr>
+              <tr>
+                <td>{{ data.date }}</td>
+                <td>{{ data.userName }}</td>
+                <td>Mobile</td>
+                <td>{{ data.appCount }}</td>
+              </tr>
+            </ng-container>
+          </ng-container> -->
+
+          <ng-container>
+            <tr *ngFor="let data of auditData">
+              <td>{{ data.date }}</td>
+              <td>{{ data.userName }}</td>
+              <!-- <td>{{ data.portalCount !== 0 ? "Web" : "Mobile" }}</td> -->
+              <td>
+                {{ data.portalCount }}
+              </td>
+              <td>
+                {{ data.appCount }}
+              </td>
+            </tr>
+          </ng-container>
+          <!-- <div *ngIf="auditData.length === 0" class="no-container">No Data</div> -->
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- error info -->
+  <div
+    class="err-info"
+    style="height: 45vh"
+    *ngIf="auditData.length == 0 && !showLoader"
+  >
+    <h1 class="text-secondary">No Data</h1>
+  </div>
+
+  <div
+    *ngIf="showLoader"
+    class="d-flex justify-content-center align-items-center"
+    style="height: 45vh"
+  >
+    <app-loader></app-loader>
+  </div>
+</div>
