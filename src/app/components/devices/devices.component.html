@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
   <!-- header -->
   <!-- <div class="d-flex justify-content-between align-items-center">
     <div class="users-header">
@@ -13,63 +12,73 @@
   </div> -->
 
   <!-- count -->
- <div class="row my-2">
-  
-  <div class="d-flex justify-content-between">
+  <div class="row my-2">
     <div class="d-flex justify-content-between">
-      <div class="col-lg-1 d-flex justify-content-start">
-      <div class="vl-green"></div>
-      <div class="mx-2">
-        <div class="status">Total Devices</div>
-        <div class="count">{{ statusCounts.length }}</div>
+      <div class="d-flex justify-content-between">
+        <div class="col-lg-1 d-flex justify-content-start">
+          <div class="vl-green"></div>
+          <div class="mx-2">
+            <div class="status">Total Devices</div>
+            <div class="count">{{ statusCounts.length }}</div>
+          </div>
+        </div>
+        <div class="col-lg-1 d-flex justify-content-start">
+          <div class="vl-green"></div>
+          <div class="mx-2">
+            <div class="status">Online</div>
+            <div class="count">
+              {{ statusCounts | count: "deviceStatus" : "ONLINE" }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-1 d-flex justify-content-start">
+          <div class="vl-red"></div>
+          <div class="mx-2">
+            <div class="status">Offline</div>
+            <div class="count">
+              {{ statusCounts | count: "deviceStatus" : "offline" }}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-lg-1 d-flex justify-content-start">
-      <div class="vl-green"></div>
-      <div class="mx-2">
-        <div class="status">Online</div>
-        <div class="count">{{ statusCounts | count: 'deviceStatus' : 'ONLINE' }}</div>
-      </div>
-    </div>
-    <div class="col-lg-1 d-flex justify-content-start">
-      <div class="vl-red"></div>
-      <div class="mx-2">
-        <div class="status">Offline</div>
-        <div class="count">{{ statusCounts | count: 'deviceStatus' : 'offline' }}</div>
-      </div>
-    </div>
-    </div>
 
-
-    <div class="col-lg-3 d-flex justify-content-end">
-      <mat-form-field class="example-form-field w-100" appearance="outline">
-        <mat-label>Search</mat-label>
-        <input matInput type="text" [(ngModel)]="searchText">
-        <button matSuffix mat-icon-button>
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
+      <div class="col-lg-3 d-flex justify-content-end">
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" [(ngModel)]="searchText" />
+          <button matSuffix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
     </div>
   </div>
-
-
-</div>
-
 
   <!-- filter -->
   <div class="row">
     <div class="col-lg-3">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Site</mat-label>
-        <input matInput #siteIdInput [matAutocomplete]="site" [(ngModel)]="paramBody.siteId"
-          (keyup)="searchSites($event)">
+        <input
+          matInput
+          #siteIdInput
+          [matAutocomplete]="site"
+          [(ngModel)]="paramBody.siteId"
+          (keyup)="searchSites($event)"
+        />
         <button matSuffix mat-icon-button>
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-autocomplete #site="matAutocomplete">
-          <mat-option value="All" (click)="getStatus(paramBody)">All</mat-option>
-          <mat-option *ngFor="let item of newTableData | search: siteSearch" [value]="item.siteId"
-            (click)="getStatus(paramBody)">{{item.siteId}}-{{item.siteName}}</mat-option>
+          <mat-option value="All" (click)="getStatus(paramBody)"
+            >All</mat-option
+          >
+          <mat-option
+            *ngFor="let item of newTableData | search: siteSearch"
+            [value]="item.siteId"
+            (click)="getStatus(paramBody)"
+            >{{ item.siteId }}-{{ item.siteName }}</mat-option
+          >
         </mat-autocomplete>
       </mat-form-field>
     </div>
@@ -78,9 +87,15 @@
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Age/Duration</mat-label>
         <mat-select [(ngModel)]="paramBody.time">
-          <mat-option value="All" (click)="getStatus(paramBody)">All</mat-option>
-          <mat-option *ngFor="let item of timeSearches" [value]="item.keyId"
-            (click)="getStatus(paramBody)">{{item.value}}</mat-option>
+          <mat-option value="All" (click)="getStatus(paramBody)"
+            >All</mat-option
+          >
+          <mat-option
+            *ngFor="let item of timeSearches"
+            [value]="item.keyId"
+            (click)="getStatus(paramBody)"
+            >{{ item.value }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
@@ -89,20 +104,26 @@
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Status</mat-label>
         <mat-select [(ngModel)]="paramBody.status">
-          <mat-option value="All" (click)="getStatus(paramBody)">All</mat-option>
-          <mat-option *ngFor="let item of deviceStatus" [value]="item.keyId"
-            (click)="getStatus(paramBody)">{{item.value}}</mat-option>
+          <mat-option value="All" (click)="getStatus(paramBody)"
+            >All</mat-option
+          >
+          <mat-option
+            *ngFor="let item of deviceStatus"
+            [value]="item.keyId"
+            (click)="getStatus(paramBody)"
+            >{{ item.value }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
 
-  
-
     <div class="col-lg-2">
-      <app-pagination [totalPages]="totalPages" (emitPage)="getPaginatedData($event)"></app-pagination>
-   </div>
+      <app-pagination
+        [totalPages]="totalPages"
+        (emitPage)="getPaginatedData($event)"
+      ></app-pagination>
+    </div>
   </div>
-
 
   <!-- <div class="status-tile row py-2 mx-1 mb-3 d-lg-flex d-none">
     <div class="col-lg-1">
@@ -203,9 +224,15 @@
         <tr class="form1">
           <th *ngFor="let header of columns">
             <div class="d-inline-flex">
-              <p class="text-nowrap">{{ header.label | titlecase}}</p>
-              <img (click)="sort(header.id);" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px" alt=""
-                *ngIf="header.sort">
+              <p class="text-nowrap">{{ header.label | titlecase }}</p>
+              <img
+                (click)="sort(header.id)"
+                class="pointer ms-1"
+                src="assets/icons/sorticon.svg"
+                width="15px"
+                alt=""
+                *ngIf="header.sort"
+              />
             </div>
           </th>
           <th>Info</th>
@@ -213,7 +240,9 @@
       </thead>
 
       <tbody *ngIf="!showLoader">
-        <ng-container *ngFor="let item of newDeviceData | search : searchText; let i = index">
+        <ng-container
+          *ngFor="let item of newDeviceData | search: searchText; let i = index"
+        >
           <ng-container *ngFor="let el of item.devicesData; let first = first">
             <tr>
               <!-- <td *ngIf="first" [attr.rowspan]="item.devicesData.length">
@@ -227,39 +256,54 @@
                 <p>{{ el.deviceId }}</p>
               </td>
               <td>
-                <p>{{ el.installationDate | date: 'mediumDate' }}</p>
+                <p>{{ el.installationDate | date: "mediumDate" }}</p>
               </td>
               <td>
-                <p>{{ el.siteLocalTime | date: 'medium' }}</p>
+                <p>{{ el.siteLocalTime | date: "medium" }}</p>
               </td>
               <td>
-                <p>{{ el.latestReconnectedTime | date: 'medium' }}</p>
+                <p>{{ el.latestReconnectedTime | date: "medium" }}</p>
               </td>
               <!-- <td>
                 <p>{{ el.latestUpOrDowntime }}
                   <img *ngIf="el.latestUpOrDowntime" [src]="el.status === 'ONLINE' ? 'assets/icons/up-arrow.png' : 'assets/icons/down-arrow.png'" width="16" alt=""> -->
-                <!-- </p> -->
+              <!-- </p> -->
               <!-- </td> -->
               <!-- <td>
                 <p [style.color]="el.deviceStatus === 'ONLINE' ? 'green' : 'red'">{{ el.deviceStatus }}</p>
               </td>
               <td>
               <p>{{ el.latestUpOrDowntime  }}</p>
-            </td>
+            </td> -->
               <td>
-                <p [style.color]="el.status === 'ONLINE' ? 'green' : 'red'">{{ el.totalUptime }}</p>
+                <p
+                  [style.color]="el.deviceStatus === 'ONLINE' ? 'green' : 'red'"
+                >
+                  {{ el.deviceStatus | titlecase }}
+                </p>
+              </td>
+              <!-- <td>
+                <p>{{ el.totalDowntime }}</p>
               </td> -->
               <td>
-                <p>{{ el.totalDowntime }}</p>
+                <p class="text-primary pointer" (click)="openEditPopup(el)">
+                  View
+                </p>
               </td>
               <td>
-                <p class="text-primary pointer" (click)="openEditPopup(el)">View</p>
+                <img
+                  src="assets/icons/info-outline.svg"
+                  class="pointer"
+                  [title]="
+                    'Latest re-connected time: ' +
+                    el.latestReconnectedTime +
+                    '\n' +
+                    'Latest up / down time: ' +
+                    el.latestUpOrDowntime
+                  "
+                  alt=""
+                />
               </td>
-              <td>
-                <img src="assets/icons/info-outline.svg" class="pointer" [title]="
-                'Latest re-connected time: ' + el.latestReconnectedTime + '\n' +
-                'Latest up / down time: ' + el.latestUpOrDowntime" alt="">
-                </td>
               <!-- <td >
                 <p>{{ el.downTime }}</p>
               </td> -->
@@ -288,20 +332,29 @@
       </tbody>
     </table>
     <!-- error info -->
-    <div class="err-info" style="height: 40vh;" *ngIf="newDeviceData.length == 0 && !showLoader">
+    <div
+      class="err-info"
+      style="height: 40vh"
+      *ngIf="newDeviceData.length == 0 && !showLoader"
+    >
       <h1 class="text-secondary">No Devices</h1>
     </div>
 
     <!-- loader -->
-    <div *ngIf="showLoader" class="d-flex justify-content-center align-items-center" style="height: 40vh;">
+    <div
+      *ngIf="showLoader"
+      class="d-flex justify-content-center align-items-center"
+      style="height: 40vh"
+    >
       <app-loader></app-loader>
     </div>
   </div>
-
 </div>
 
 <div *ngIf="showAddDevice">
-  <app-add-new-device (newItemEvent)="closenow('device'); listDeviceAdsInfo()"></app-add-new-device>
+  <app-add-new-device
+    (newItemEvent)="closenow('device'); listDeviceAdsInfo()"
+  ></app-add-new-device>
 </div>
 
 <div *ngIf="showDeviceInfo">
@@ -310,17 +363,23 @@
 
 <ng-template #editSiteDialog>
   <!-- <app-edit-device-form [currentItem]="currentItem"></app-edit-device-form> -->
-  <div class="dialog-title">{{currentItem?.deviceId}}</div>
+  <div class="dialog-title">{{ currentItem?.deviceId }}</div>
 
-  <div class="dialog-content" style="height: 50vh;">
+  <div class="dialog-content" style="height: 50vh">
     <div class="row">
       <div class="col-lg-12">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Age/Duration</mat-label>
           <mat-select [(ngModel)]="downParams.days">
-            <mat-option value="All" (click)="downtimesForDeviceId()">All</mat-option>
-            <mat-option *ngFor="let item of timeSearches" [value]="item.keyId"
-              (click)="downtimesForDeviceId()">{{item.value}}</mat-option>
+            <mat-option value="All" (click)="downtimesForDeviceId()"
+              >All</mat-option
+            >
+            <mat-option
+              *ngFor="let item of timeSearches"
+              [value]="item.keyId"
+              (click)="downtimesForDeviceId()"
+              >{{ item.value }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>
@@ -332,9 +391,15 @@
           <tr class="form1">
             <th *ngFor="let header of subColumns">
               <div class="d-inline-flex">
-                <p class="text-nowrap">{{ header.label | titlecase}}</p>
-                <img (click)="sort(header.id);" class="pointer ms-1" src="assets/icons/sorticon.svg" width="15px" alt=""
-                  *ngIf="header.sort">
+                <p class="text-nowrap">{{ header.label | titlecase }}</p>
+                <img
+                  (click)="sort(header.id)"
+                  class="pointer ms-1"
+                  src="assets/icons/sorticon.svg"
+                  width="15px"
+                  alt=""
+                  *ngIf="header.sort"
+                />
               </div>
             </th>
           </tr>
@@ -343,20 +408,20 @@
         <tbody>
           <tr *ngFor="let cam of downTimes; let i = index">
             <td>
-              <p>{{cam.first_connected}}</p>
+              <p>{{ cam.first_connected }}</p>
             </td>
             <td>
-              <p>{{cam.lasttime_last_connected}}</p>
+              <p>{{ cam.lasttime_last_connected }}</p>
             </td>
             <td>
-              <p>{{cam.down_time}}</p>
+              <p>{{ cam.down_time }}</p>
             </td>
           </tr>
         </tbody>
       </table>
 
       <ng-container *ngIf="downTimes.length === 0">
-        <p class="text-center" style="height: 20vh;">No DATA!</p>
+        <p class="text-center" style="height: 20vh">No DATA!</p>
       </ng-container>
     </div>
   </div>
@@ -367,7 +432,7 @@
 </ng-template>
 
 <ng-template #rebootDeviceDialog>
-  <div style="background-color: #084982;">
+  <div style="background-color: #084982">
     <p class="dialog-title">reboot device</p>
   </div>
 
@@ -380,7 +445,13 @@
       <button class="dialog-close-btn" mat-dialog-close>Close</button>
     </div>
     <div>
-      <button class="dialog-submit-btn" mat-dialog-close (click)="rebootDevice(currentItem.deviceId)">Reboot</button>
+      <button
+        class="dialog-submit-btn"
+        mat-dialog-close
+        (click)="rebootDevice(currentItem.deviceId)"
+      >
+        Reboot
+      </button>
     </div>
   </div>
 </ng-template>
@@ -394,13 +465,17 @@
 
   <div class="d-flex justify-content-start">
     <div class="users-header mt-2 mx-3">
-      <p class="m-0 mb-2">Sensors - <span>{{ newGetDataForDevice?.length }}</span></p>
+      <p class="m-0 mb-2">
+        Sensors - <span>{{ newGetDataForDevice?.length }}</span>
+      </p>
     </div>
     <div class="users-header mt-2 mx-3">
-      <p class="m-0 mb-2">Zones - <span>{{ newGetDataForDevice?.length }}</span></p>
+      <p class="m-0 mb-2">
+        Zones - <span>{{ newGetDataForDevice?.length }}</span>
+      </p>
     </div>
   </div>
-  <div class="dialog-content" style="min-width: 950px; min-height: 300px;">
+  <div class="dialog-content" style="min-width: 950px; min-height: 300px">
     <!-- <div class="row"> -->
     <!-- <app-filter [filterType]="'sensors'" (tableDataFromChild)="getDevicesFromChild1($event)">
     </app-filter> -->
@@ -410,8 +485,12 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Site</mat-label>
           <mat-select [(ngModel)]="paramBody.siteId">
-            <mat-option *ngFor="let item of tableData" [value]="item.siteId" (click)="getData(item)">{{ item.siteId }} -
-              {{item.siteName}}</mat-option>
+            <mat-option
+              *ngFor="let item of tableData"
+              [value]="item.siteId"
+              (click)="getData(item)"
+              >{{ item.siteId }} - {{ item.siteName }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>
@@ -419,8 +498,12 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Device</mat-label>
           <mat-select [(ngModel)]="deviceId">
-            <mat-option *ngFor="let item of deviceData" [value]="item.deviceId" (click)="getData(item)">{{ item.deviceId
-              }}</mat-option>
+            <mat-option
+              *ngFor="let item of deviceData"
+              [value]="item.deviceId"
+              (click)="getData(item)"
+              >{{ item.deviceId }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>
@@ -444,35 +527,59 @@
         <div class="device-item mb-3" *ngFor="let item of newGetDataForDevice">
           <mat-card>
             <div class="d-flex justify-content-around align-items-center mx-3">
-              <h2 class="text-center mt-3">ZONE:&nbsp;{{item?.zoneId}}</h2>
+              <h2 class="text-center mt-3">ZONE:&nbsp;{{ item?.zoneId }}</h2>
               <!-- <h2>SiteId:&nbsp;{{item?.site_id}}</h2> -->
             </div>
           </mat-card>
           <div class="d-flex justify-content-around align-items-center">
-            <h2 class=" heading dialog-title  mb-1" style=" width: 100px;"><span class="">Device</span></h2>
-            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Name</span></h2>
-            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Type</span></h2>
-            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Status</span></h2>
-            <h2 class="heading dialog-title mb-1" style=" width: 100px;"><span class="">Time</span></h2>
+            <h2 class="heading dialog-title mb-1" style="width: 100px">
+              <span class="">Device</span>
+            </h2>
+            <h2 class="heading dialog-title mb-1" style="width: 100px">
+              <span class="">Name</span>
+            </h2>
+            <h2 class="heading dialog-title mb-1" style="width: 100px">
+              <span class="">Type</span>
+            </h2>
+            <h2 class="heading dialog-title mb-1" style="width: 100px">
+              <span class="">Status</span>
+            </h2>
+            <h2 class="heading dialog-title mb-1" style="width: 100px">
+              <span class="">Time</span>
+            </h2>
           </div>
           <div *ngFor="let val of item.devices_data">
             <div class="d-flex justify-content-around align-items-center">
-              <p class="dialog-title" style="width: 100px;">{{val.sensorDeviceId}} </p>
-              <p class="dialog-title" style="width: 100px;">{{val.sensorId}}</p>
-              <p class="dialog-title" style="width: 100px;">{{val.sensorType}}</p>
-              <p class="dialog-title" style="width: 100px;">{{val.status}}</p>
-              <p class="dialog-title" style="width: 100px;">{{val.latestTimeStamp | date:'shortTime'}}</p>
+              <p class="dialog-title" style="width: 100px">
+                {{ val.sensorDeviceId }}
+              </p>
+              <p class="dialog-title" style="width: 100px">
+                {{ val.sensorId }}
+              </p>
+              <p class="dialog-title" style="width: 100px">
+                {{ val.sensorType }}
+              </p>
+              <p class="dialog-title" style="width: 100px">{{ val.status }}</p>
+              <p class="dialog-title" style="width: 100px">
+                {{ val.latestTimeStamp | date: "shortTime" }}
+              </p>
             </div>
           </div>
         </div>
       </ng-container>
       <div *ngIf="showLoader1">
-        <app-loader class="d-flex justify-content-center align-items-center" style="height: 30vh;"></app-loader>
+        <app-loader
+          class="d-flex justify-content-center align-items-center"
+          style="height: 30vh"
+        ></app-loader>
       </div>
-      <div class="d-flex justify-content-center align-items-center"
-        style="height: 50vh;font-weight: 600; font-size: larger;" *ngIf="getDataForDevice.length == 0 && !showLoader1">
-        No
-        Data</div>
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="height: 50vh; font-weight: 600; font-size: larger"
+        *ngIf="getDataForDevice.length == 0 && !showLoader1"
+      >
+        No Data
+      </div>
     </div>
     <div class="d-flex justify-content-end mt-2">
       <button class="dialog-close-btn" mat-dialog-close>Close</button>

@@ -47,11 +47,11 @@ export class DevicesComponent implements OnInit {
       label: 'latest connected time',
       sort: true
     },
-    {
-      id: 'siteId',
-      label: 'latest up / down time',
-      sort: true
-    },
+    // {
+    //   id: 'siteId',
+    //   label: 'latest up / down time',
+    //   sort: true
+    // },
     {
       id: 'siteId',
       label: 'device status',
@@ -67,11 +67,11 @@ export class DevicesComponent implements OnInit {
     //   label: 'total down time',
     //   sort: true
     // },
-    {
-      id: 'siteId',
-      label: 'Up or Downtime',
-      sort: true
-    },
+    // {
+    //   id: 'siteId',
+    //   label: 'Up or Downtime',
+    //   sort: true
+    // },
     {
       id: '',
       label: 'device downtimes',
@@ -214,17 +214,17 @@ export class DevicesComponent implements OnInit {
   upTime: any;
   newData: any = [];
   statusCounts: any = [];
-  devicecounts:any=[]
+  devicecounts: any = []
   getStatus(data?: any) {
     this.showLoader = true;
-    this.assetSer.getHealth({data, page: this.currentPage ?? 1 }).subscribe((res) => {
+    this.assetSer.getHealth({ data, page: this.currentPage ?? 1 }).subscribe((res) => {
       this.showLoader = false;
-      if(res.statusCode === 200) {
+      if (res.statusCode === 200) {
         this.statusCounts = res.DeviceHealthData.flatMap((item: any) => item.devicesData);
-      
+
         this.deviceData = res.DeviceHealthData;
         this.newDeviceData = this.deviceData;
-        this.totalPages=res.totalPages;
+        this.totalPages = res.totalPages;
         this.timeSearches = this.storageSer.getMetaDataArray('DeviceHealth_Down_Time');
         this.deviceStatus = this.storageSer.getMetaDataArray('Device_Health_Status');
       } else {
@@ -350,7 +350,7 @@ export class DevicesComponent implements OnInit {
 
     this.downParams.deviceId = this.currentItem.deviceId;
     this.assetSer.downtimesForDeviceId(this.downParams).subscribe((res: any) => {
-      if(res.statusCode === 200) {
+      if (res.statusCode === 200) {
         this.downTimes = res.DeviceHealthData;
       } else {
         this.downTimes = [];
@@ -370,13 +370,13 @@ export class DevicesComponent implements OnInit {
     }
   }
 
-   currentPage: any;
-     totalPages: any;
+  currentPage: any;
+  totalPages: any;
   getPaginatedData(data: number) {
 
     this.currentPage = data + 1;
     this.getStatus();
-    
+
   }
 
 }

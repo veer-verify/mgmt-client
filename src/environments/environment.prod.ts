@@ -18,8 +18,9 @@ export const environment = {
   metadataUrl: `${prod_url}/metadata`,
   adsUrl: `${prod_url}/proximityAdsMain`,
   rulesUrl: `${prod_url}/proximityAdsRules `,
-  sensorUrl:`${prod_url}/sensors`,
+  sensorUrl: `${prod_url}/sensors`,
   faqUrl: `${prod_url}/faq`,
   inventoryUrl: `${prod_url}/inventory`,
-  genericUrl: `${prod_url}/supportRequests`
+  genericUrl: `${prod_url}/supportRequests`,
+  eventsData: `${prod_url}/events_data`
 };

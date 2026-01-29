@@ -1,5 +1,13 @@
 <div class="audit-container">
   <div class="row">
+    <div class="col-lg-4 d-flex justify-content-start">
+      <div class="vl-green"></div>
+      <div class="mx-2">
+        <div class="status">Total Logins</div>
+        <!-- <div class="count">{{activeUsers.length}}</div> -->
+        <div class="count">{{ totalLoginCount }}</div>
+      </div>
+    </div>
     <div class="col-lg-4 d-flex justify-content-start w-200">
       <div class="vl-blue"></div>
       <div class="mx-2">
@@ -13,14 +21,6 @@
         <div class="status">Mobile Logins</div>
         <!-- <div class="count">{{activeUsers.length}}</div> -->
         <div class="count">{{ totalAppCount }}</div>
-      </div>
-    </div>
-    <div class="col-lg-4 d-flex justify-content-start">
-      <div class="vl-green"></div>
-      <div class="mx-2">
-        <div class="status">Total Logins</div>
-        <!-- <div class="count">{{activeUsers.length}}</div> -->
-        <div class="count">{{ totalLoginCount }}</div>
       </div>
     </div>
   </div>
