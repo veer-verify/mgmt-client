@@ -42,7 +42,7 @@ export class SitesComponent implements OnInit {
       keyword: 'unitId',
       sort: true
     },
-     
+
     // {
     //   key: 'centralBoxStatus',
     //   label: 'centralBoxStatus',
@@ -188,8 +188,8 @@ export class SitesComponent implements OnInit {
     private metaSer: MetadataService,
     private http: HttpClient,
     private adver:AdvertisementsService
-  ) { 
-    
+  ) {
+
   }
 
   status:any="";
@@ -208,7 +208,7 @@ export class SitesComponent implements OnInit {
   roleDetails:any =[]
   adminData:any = []
   type:any = 1
-  currentRole:any 
+  currentRole:any
   userName:any
   ngOnInit(): void {
     this.user = this.storageSer.get('user');
@@ -235,7 +235,7 @@ export class SitesComponent implements OnInit {
       description: new FormControl(''),
       password: new FormControl(''),
       centeralBoxUrl: new FormControl(''),
-      noOfActiveCameras: new FormControl(0),
+      noOfActiveCameras: new FormControl(1),
       remarks: new FormControl('')
     })
   }
@@ -254,9 +254,9 @@ export class SitesComponent implements OnInit {
       this.siteSer.cameras_sub.next(response);
       this.siteSer.cameras_sub.subscribe((res) => this.cameras = res);
     });
-  
+
   }
-  
+
   currentCamera: any;
   dropdownFields_camera: any = [
     {
@@ -351,12 +351,14 @@ export class SitesComponent implements OnInit {
 
   @ViewChild('addCentralBoxDialog') addCentralBoxDialog = {} as TemplateRef<any>;
   openAddCentralbox() {
-    this.createCenteralBox.reset()
+    this.createCenteralBox.reset({
+  noOfActiveCameras: 1
+});
     this.dialog.open(this.addCentralBoxDialog)
     this.siteSer.getCentralbox(this.currentItem).subscribe((res: any) => {
       })
     }
-    
+
   @ViewChild('viewCentralBoxDialog') viewCentralBoxDialog = {} as TemplateRef<any>;
   onGetCentralboxDetail: any = [];
   getCentalBox(data: any) {
@@ -371,6 +373,7 @@ export class SitesComponent implements OnInit {
   createCentralBox() {
     if(!this.createCenteralBox.valid) return;
     this.createCenteralBox.value.siteId = this.currentItem.siteId;
+
     this.siteSer.addCentralBox(this.createCenteralBox.value).subscribe((res: any) => {
       if(res.statusCode === 200) {
         this.alertSer.success(res.message);
@@ -426,7 +429,7 @@ export class SitesComponent implements OnInit {
         this.validationChecklistDataNew = this.validationChecklistData?.devices;
         this.sortValidationChecklists()
       }
-    
+
     })
     this.dialog.open(this.viewSiteValidation)
   }
@@ -452,8 +455,8 @@ export class SitesComponent implements OnInit {
       // console.error('validationChecklistDataNew is undefined or not an array.');
     }
   }
-  
-  
+
+
   siteHistoryData:any = [];
   @ViewChild('viewSiteHistory') viewSiteHistory = {} as TemplateRef<any>;
   listSiteCheckListHistory(device: any, data: any) {
@@ -534,7 +537,7 @@ export class SitesComponent implements OnInit {
     this.myObj.assignedTo = null
 
   }
-  
+
   validationChecklistDat:any = [];
   get() {
     // this.validationQuestions = [];
@@ -549,7 +552,7 @@ export class SitesComponent implements OnInit {
     this.siteSer.getValidationCheckListForCategory(item).subscribe((res:any) => {
       // console.log(res);
       this.validationData = res.validationChecklist
-      
+
     })
   }
 
@@ -597,7 +600,7 @@ export class SitesComponent implements OnInit {
     { id: 20, name: 'Other Service' },
 
   ];
-  
+
   serviceSubCategories = [
     { id: 104, name: 'Review' },
     { id: 105, name: 'Inspection' }
@@ -639,12 +642,12 @@ onDeviceChange(selectedValue: string) {
         break;
       case 1:
         this.myObj.sentToReview = 'false';
-        
+
         if (this.myObj.assignedTo && typeof this.myObj.assignedTo === 'object') {
           this.myObj.assignedToMail = this.myObj.assignedTo.email || null;
           this.myObj.assignedTo = this.myObj.assignedTo.UserId || null;
           this.myObj.ccMails = null;
-        } 
+        }
         break;
         case 2:
           this.myObj.sentToReview = 'true';
@@ -660,19 +663,19 @@ onDeviceChange(selectedValue: string) {
       default:
         break;
     }
-  
+
     // Check if device is selected
     if (!this.myObj.deviceId) {
       this.alertSer.error('Please select Device');
       return;
     }
-  
+
     // Check if "Assign To" is selected when type is 'assign'
     if (type === 'assign' && !this.myObj.assignedTo) {
       this.alertSer.error('Please select Assign To');
       return;
     }
-  
+
     let data: any = JSON.parse(JSON.stringify(this.validationData));
     data.map((item: any) => {
       if (item.scope === false) {
@@ -685,8 +688,8 @@ onDeviceChange(selectedValue: string) {
       delete item.active;
       delete item.category;
     });
-  
-    
+
+
     this.myObj.siteId = this.currentItem.siteId;
     this.myObj.checklists = data;
     this.myObj.remarks = this.currentItem.remarks;
@@ -722,21 +725,21 @@ onDeviceChange(selectedValue: string) {
   // If at least one scope is unchecked, allow enabling the button
   if (uncheckedScopes.length > 0) {
     // Ensure all checked scopes meet the conditions
-    return checkedScopes.every((item: any) => 
-      item.working === true && 
+    return checkedScopes.every((item: any) =>
+      item.working === true &&
       item.configured === true &&
       item.reviewStatus === true
     );
   }
 
   // If all scopes are checked, follow the original rule (everything must be true)
-  return checkedScopes.length === totalScopes && checkedScopes.every((item: any) => 
-    item.working === true && 
+  return checkedScopes.length === totalScopes && checkedScopes.every((item: any) =>
+    item.working === true &&
     item.configured === true &&
     item.reviewStatus === true
   );
   }
-  
+
 
   myObjForEdit:any = {
     deviceId:null,
@@ -746,7 +749,7 @@ onDeviceChange(selectedValue: string) {
     // reviewStatus:null,
     status:null,
     sentToReview: null,
-    siteId:null,  
+    siteId:null,
     checklists: [],
     ccMails: []
   }
@@ -776,7 +779,7 @@ onDeviceChange(selectedValue: string) {
           item.working = false;
         }
       });
-      
+
       this.myObjForEdit.siteId = this.currentItem.siteId;
       this.myObjForEdit.deviceId = this.currentDevice;
       // this.myObjForEdit.checklists = this.editCheckList.filter((item: any) => item.isChanged == true);
@@ -785,15 +788,15 @@ onDeviceChange(selectedValue: string) {
       this.dialog.open(this.editSiteCheckListForm);
       // this.listSupportAdminUsers();
     })
-    
+
   }
 
 
 
   @ViewChild('editSiteCheckListForm') editSiteCheckListForm = {} as TemplateRef<any>;
   updateSiteCheckListFor(value:any) {
-      // this.editData.forEach((device:any) => device.edit = false); 
-    
+      // this.editData.forEach((device:any) => device.edit = false);
+
   // ✅ Check if all items have scope === false
   const allScopeFalse = this.editCheckList.every((item: any) => item.scope === false);
 
@@ -818,9 +821,9 @@ onDeviceChange(selectedValue: string) {
             this.myObjForEdit.assignedToMail = this.myObjForEdit.assignedTo.email || null;
             this.myObjForEdit.assignedTo = this.myObjForEdit.assignedTo.UserId || null;
             this.myObjForEdit.ccMails = null;
-          } 
+          }
         break;
-        case 2: 
+        case 2:
         this.myObjForEdit.sentToReview = 'true';
         this.myObjForEdit.status = 3;
         if (this.myObjForEdit.assignedTo && typeof this.myObjForEdit.assignedTo === 'object') {
@@ -844,7 +847,7 @@ onDeviceChange(selectedValue: string) {
           default:
           break;
       }
- 
+
         // ✅ Loop over checklist and set configured & working false where scope is false
   this.editCheckList.forEach((item: any) => {
     if (item.scope === false) {
@@ -857,7 +860,7 @@ onDeviceChange(selectedValue: string) {
       //   this.myObjForEdit.assignedToMail = this.myObjForEdit.assignedTo.email ? this.myObjForEdit.assignedTo.email : null
       //   this.myObjForEdit.assignedTo = this.myObjForEdit.assignedTo.UserId? this.myObjForEdit.assignedTo.UserId : null;
       //   this.myObjForEdit.ccMail= this.newAdminData ?this.newAdminData : null
-      // } 
+      // }
 
 
       this.myObjForEdit.checklists = this.editCheckList.filter((item: any) => item.isChanged == true);
@@ -872,7 +875,7 @@ onDeviceChange(selectedValue: string) {
         }
       })
     // }
-  
+
   }
 
 
@@ -946,8 +949,8 @@ onDeviceChange(selectedValue: string) {
     this.myObj.assignedTo = null;
     this.dialog.open(this.assignFirstForReview)
   }
-  
-  
+
+
   @ViewChild('assignSecond') assignSecond = {} as TemplateRef<any>;
   addService2() {
     this.myObjForEdit.assignedTo = null;
@@ -959,7 +962,7 @@ onDeviceChange(selectedValue: string) {
     this.myObjForEdit.assignedTo = null;
     this.dialog.open(this.assignSecondForReview)
   }
-  
+
 
 
   /* searches */
@@ -999,7 +1002,7 @@ onDeviceChange(selectedValue: string) {
       this.dialog.closeAll();
       this.currentItem1 = type;
     }
-    if(value == 'event') {  
+    if(value == 'event') {
       this.showEvent = true;
       this.formType = type;
     }
@@ -1102,7 +1105,7 @@ onDeviceChange(selectedValue: string) {
   }
 
 
-  detailsForSecond:any 
+  detailsForSecond:any
   eventViewDialog(cust:any) {
     // this.dialog.closeAll();
     this.detailsForSecond = cust;
@@ -1354,7 +1357,7 @@ centralBoxupdate:any;
 
     this.siteSer.updateCentralbox(payload).subscribe((res:any)=>{
 
-    
+
       if(res.statusCode==200){
         this.alertSer.success(res.message);
         // this.getCentalBox(this.currentItem);
@@ -1365,7 +1368,7 @@ centralBoxupdate:any;
     },(err:any)=>{
 
     })
-    
+
   }
 
 @ViewChild('s3Default')  s3Default = {} as TemplateRef<any>;
@@ -1385,10 +1388,10 @@ s3select:any;
     this.siteSer.getS3BucketNames().subscribe((res:any)=>{
       if(res.statusCode==200){
         this.s3defaultpath=res.s3BucketNames;
-       
+
       }
     });
-    
+
 
   }
 
@@ -1418,7 +1421,7 @@ switch(i) {
 this.radiocheck=2;
     break;
   default:
-  
+
 }
 
 }

@@ -47,8 +47,8 @@ export class AddNewCameraComponent {
     private storageService: StorageService,
     private alertSer: AlertService,
     public dialog: MatDialog,
-  ) { 
-    
+  ) {
+
   }
 
   createCamera!: FormGroup;
@@ -64,11 +64,11 @@ export class AddNewCameraComponent {
       password: new FormControl('123456', Validators.required),
       width: new FormControl(null),
       height: new FormControl(null),
-      fps: new FormControl(0),
+      fps: new FormControl(1),
       hlsTunnel: new FormControl(`https://${this.centeralBoxFrom.unitId}hlslive-repo.pitunnel.com`),
       ptz: new FormControl('F'),
       priority: new FormControl(''),
-      active: new FormControl(''),
+      active: new FormControl('Y'),
       httpTunnel: new FormControl(''),
       videoServerName: new FormControl(`https://${this.centeralBoxFrom.unitId}live-repo.pitunnel.com`),
       portNo: new FormControl(0),
