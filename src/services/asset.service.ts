@@ -49,7 +49,7 @@ export class AssetService {
       params = params.set('deviceId', payload?.deviceId);
     }
 
-    return this.http.get(url, {params: params});
+    return this.http.get(url, {params});
   }
 
   getAssetBySiteId(siteId: any) {
@@ -357,7 +357,7 @@ export class AssetService {
 
   getHealth(payload?: any): Observable<any> {
 
-    console.log(payload.data)
+    // console.log(payload.data)
 
     let url = environment.sitesUrl + '/generateDeviceHealthstats_2_0';
     // let url = 'http://192.168.0.237:8002/getDeviceHealth_2_0'

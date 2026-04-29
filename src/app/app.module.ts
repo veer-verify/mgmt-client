@@ -75,7 +75,6 @@ import { AddDeviceFormComponent } from './main-dashboard/add-device-form/add-dev
 import { EditDeviceFormComponent } from './main-dashboard/edit-device-form/edit-device-form.component';
 import { SensorDataComponent } from './components/sensor-data/sensor-data.component';
 import { CamerasComponent } from './components/cameras/cameras.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DefenderComponent } from './components/defender/defender.component';
 import { AddDefenderCamComponent } from './main-dashboard/add-defender-cam/add-defender-cam.component';
 import { AddDefenderRouterComponent } from './main-dashboard/add-defender-router/add-defender-router.component';
@@ -108,6 +107,7 @@ import { ImagePipe } from './utilities/pipes/image.pipe';
 import { SanitizePipe } from './utilities/pipes/sanitize.pipe';
 import { PaginationComponent } from './pagination/pagination.component';
 import { CameraTransferComponent } from './camera-transfer/camera-transfer.component';
+import { AuditReportComponent } from './components/audit-report/audit-report.component';
 
 
 
@@ -130,6 +130,7 @@ import { CameraTransferComponent } from './camera-transfer/camera-transfer.compo
     AddAdditionalSiteComponent,
     TicketsComponent,
     InventoryComponent,
+    AuditReportComponent,
     AddDeviceComponent,
     AddNewAssetComponent,
     VerticalsComponent,
@@ -213,11 +214,10 @@ import { CameraTransferComponent } from './camera-transfer/camera-transfer.compo
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    MatDatepickerModule,
     NgCircleProgressModule,
 
-     // Specify ng-circle-progress as an import
-     NgCircleProgressModule.forRoot({
+    // Specify ng-circle-progress as an import
+    NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 6,
       innerStrokeWidth: 2,

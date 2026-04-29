@@ -41,6 +41,7 @@ import { DeviceStatusComponent } from './device-status/device-status.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ConfigurationComponent } from 'src/app/components/configuration/configuration.component';
+import { AuditReportComponent } from './components/audit-report/audit-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -49,14 +50,14 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
-      { path: 'main-dashboard', component: MainDashboardComponent },
+      { path: 'main-dashboard', loadComponent: () => import('./main-dashboard/main-dashboard.component').then((c) => c.MainDashboardComponent) },
       { path: 'verticals', component: VerticalsComponent },
       { path: 'add-new-site', component: AddNewSiteComponent },
       { path: 'add-new-camera', component: AddNewCameraComponent },
       { path: 'add-new-customer', component: AddNewCustomerComponent },
       { path: 'add-new-user', component: AddNewUserComponent },
       { path: 'add-new-business', component: AddNewBusinessVerticalComponent },
-      { path: 'sites', component: SitesComponent },
+      { path: 'sites', loadComponent: () => import('./components/sites/sites.component').then((c) => c.SitesComponent) },
       { path: 'devices', component: DevicesComponent },
       { path: 'device-status', component: DeviceStatusComponent },
       { path: 'analytics', component: AnalyticsComponent },
@@ -68,6 +69,7 @@ const routes: Routes = [
       { path: 'indents', component: IndentsComponent },
       { path: 'tickets', component: TicketsComponent },
       { path: 'ticket-reports', component: TicketReportsComponent },
+      { path: 'audit-report', component: AuditReportComponent },
       { path: 'fr', component: FrComponent },
       { path: 'advertisements', component: AdvertisementsComponent },
       { path: 'meta', component: MetaDataComponent },
@@ -85,7 +87,7 @@ const routes: Routes = [
       { path: 'general', component: GeneralComponent },
       { path: 'Faqs', component: FaqComponent },
       { path: 'admin-panel', component: AdminPanelComponent },
-        { path: 'config', component: ConfigurationComponent }
+      { path: 'config', component: ConfigurationComponent }
     ],
   },
   { path: '**', component: ErrorPageComponent },
@@ -96,4 +98,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [AuthGuard],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,6 +1,4 @@
-import { Component, inject, isDevMode } from '@angular/core';
-import { StorageService } from 'src/services/storage.service';
-import { UserService } from 'src/services/user.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +6,5 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'management-server';
+  title = 'Management-Server';
 }
