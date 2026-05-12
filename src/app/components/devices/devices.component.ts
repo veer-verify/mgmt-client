@@ -44,9 +44,19 @@ export class DevicesComponent implements OnInit {
     },
     {
       id: 'siteId',
-      label: 'latest connected time',
+      label: 'up time',
       sort: true
     },
+    {
+      id: 'siteId',
+      label: 'down time',
+      sort: true
+    },
+    // {
+    //   id: 'siteId',
+    //   label: 'latest connected time',
+    //   sort: true
+    // },
     // {
     //   id: 'siteId',
     //   label: 'latest up / down time',

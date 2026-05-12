@@ -42,14 +42,14 @@ export class AssetService {
   listAssets1(payload: any) {
     let url = environment.adsUrl + "/listAssets_1_0";
     let params = new HttpParams();
-    if(payload?.siteId) {
+    if (payload?.siteId) {
       params = params.set('siteId', payload?.siteId);
     }
-    if(payload?.deviceId) {
+    if (payload?.deviceId) {
       params = params.set('deviceId', payload?.deviceId);
     }
 
-    return this.http.get(url, {params});
+    return this.http.get(url, { params });
   }
 
   getAssetBySiteId(siteId: any) {
@@ -146,29 +146,29 @@ export class AssetService {
   listDeviceAdsInfo1(payload: any) {
     let url = environment.adsUrl + "/listDeviceAdsInfo_1_0";
     let params = new HttpParams();
-    if(payload?.siteId) {
+    if (payload?.siteId) {
       params = params.set('siteId', payload?.siteId);
     }
-    if(payload?.deviceId) {
+    if (payload?.deviceId) {
       params = params.set('deviceId', payload?.deviceId);
     }
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   listDeviceBySiteId(payload: any) {
     let url = environment.adsUrl + '/listDeviceAdsInfo_1_0';
     let params = new HttpParams();
-    if(payload?.siteId) {
+    if (payload?.siteId) {
       params = params.set('siteId', payload?.siteId);
     }
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   listDeviceByDeviceId(deviceId: any) {
     let url = environment.adsUrl + '/listDeviceAdsInfo_1_0';
     let params = new HttpParams().set('deviceId', deviceId)
 
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   updateRebootDevice(id: any) {
@@ -195,7 +195,7 @@ export class AssetService {
       'deviceId': payload,
       'modifiedBy': payload
     }
-    return this.http.delete(url, {body: myObj})
+    return this.http.delete(url, { body: myObj })
   }
 
 
@@ -230,41 +230,41 @@ export class AssetService {
     let url = this.reportUrl + '/search';
     let params = new HttpParams();
 
-    if(payload.siteId) {
+    if (payload.siteId) {
       params = params.set('siteId', payload.siteId)
     }
-    if(payload.deviceId) {
+    if (payload.deviceId) {
       params = params.set('deviceId', payload.deviceId)
     }
-    if(payload.from_date) {
+    if (payload.from_date) {
       params = params.set('from_date', payload.from_date)
     }
-    if(payload.to_date) {
+    if (payload.to_date) {
       params = params.set('to_date', payload.to_date)
     }
 
-    return this.http.get(url, {params: params})
+    return this.http.get(url, { params: params })
   }
 
 
   filteBody(payload: any) {
     let url = this.reportUrl + `/getListBySearchPM_1_0?`;
-    return this.http.get(url, {params: payload});
+    return this.http.get(url, { params: payload });
   }
 
-  GetWifiStats(payload:any) {
+  GetWifiStats(payload: any) {
     let url = environment.adsUrl + `/wifiDetails/GetWifiStats_1_0`;
     let params = new HttpParams();
-    if(payload?.time_connected) {
+    if (payload?.time_connected) {
       params = params.set('time_connected', payload?.time_connected);
     }
-    if(payload?.date) {
+    if (payload?.date) {
       params = params.set('date', payload?.date);
     }
-    if(payload?.device_name) {
+    if (payload?.device_name) {
       params = params.set('device_name', payload?.device_name);
     }
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   GetWifiStats1(payload: any) {
@@ -272,24 +272,24 @@ export class AssetService {
     return this.http.get(url)
   }
 
-  secondView(payload:any) {
+  secondView(payload: any) {
     let url = environment.adsUrl + '/wifiDetails/GetHourStats_1_0';
-    let params = new HttpParams().set('time_connected',payload?.finalTime).set('device_name',payload.device)
-    return this.http.get(url, {params:params})
+    let params = new HttpParams().set('time_connected', payload?.finalTime).set('device_name', payload.device)
+    return this.http.get(url, { params: params })
   }
 
 
-  dayWiseStats(payload?:any) {
+  dayWiseStats(payload?: any) {
     let url = environment.adsUrl + '/dayWiseStats_1_0';
     let params = new HttpParams();
-    if(payload?.device_name) {
+    if (payload?.device_name) {
       params = params.set('deviceName', payload?.device_name)
     }
-    if(payload?.doif) {
-      params = params.set('doif', formatDate(payload?.doif, 'yyyy-MM-dd','en-us' ))
+    if (payload?.doif) {
+      params = params.set('doif', formatDate(payload?.doif, 'yyyy-MM-dd', 'en-us'))
     }
-    if(payload?.doit) {
-      params = params.set('doit', formatDate(payload?.doit, 'yyyy-MM-dd','en-us' ))
+    if (payload?.doit) {
+      params = params.set('doit', formatDate(payload?.doit, 'yyyy-MM-dd', 'en-us'))
     }
     // if(payload?.page) {
     //   params= params.set('page',payload?.page)
@@ -297,55 +297,55 @@ export class AssetService {
     // if(payload?.pagesize) {
     //   params = params.set('pagesize',payload?.pagesize)
     // }
-    if(payload?.siteId) {
-      params = params.set('siteId',payload?.siteId)
+    if (payload?.siteId) {
+      params = params.set('siteId', payload?.siteId)
     }
-    return this.http.get(url, {params: params})
+    return this.http.get(url, { params: params })
   }
- 
 
-  
 
-  hourWiseStats(payload?:any) {
+
+
+  hourWiseStats(payload?: any) {
     let url = environment.adsUrl + '/hourWiseStats_1_0';
     let params = new HttpParams();
 
-    if(payload?.device_name) {
-      params = params.set('deviceName',payload?.device_name)
+    if (payload?.device_name) {
+      params = params.set('deviceName', payload?.device_name)
     }
-    if(payload?.date_connected) {
+    if (payload?.date_connected) {
       params = params.set('doi', payload?.date_connected)
     }
-    if(payload?.pagesize) {
-      params = params.set('pagesize',payload?.pagesize)
+    if (payload?.pagesize) {
+      params = params.set('pagesize', payload?.pagesize)
     }
-    if(payload?.page) {
-      params= params.set('page',payload?.page)
+    if (payload?.page) {
+      params = params.set('page', payload?.page)
     }
 
-    return this.http.get(url, {params: params})
+    return this.http.get(url, { params: params })
   }
 
-  deviceWiseStats(payload?:any) {
+  deviceWiseStats(payload?: any) {
     let url = environment.adsUrl + '/deviceWiseStats_1_0';
     let params = new HttpParams();
-    if(payload?.deviceName) {
-      params = params.set('deviceName',payload?.deviceName)
+    if (payload?.deviceName) {
+      params = params.set('deviceName', payload?.deviceName)
     }
-    if(payload?.doi) {
+    if (payload?.doi) {
       // console.log(payload)
       params = params.set('doi', payload.doi)
     }
-    if(payload?.time_connected) {
-      params = params.set('toi' ,payload.time_connected)
+    if (payload?.time_connected) {
+      params = params.set('toi', payload.time_connected)
     }
-    if(payload?.pagesize) {
-      params = params.set('pagesize',payload.pagesize)
+    if (payload?.pagesize) {
+      params = params.set('pagesize', payload.pagesize)
     }
-    if(payload?.page) {
-      params= params.set('page',payload.page)
+    if (payload?.page) {
+      params = params.set('page', payload.page)
     }
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   getAnalytics(payload: any) {
@@ -356,31 +356,28 @@ export class AssetService {
 
 
   getHealth(payload?: any): Observable<any> {
-
-    // console.log(payload.data)
-
-    let url = environment.sitesUrl + '/generateDeviceHealthstats_2_0';
-    // let url = 'http://192.168.0.237:8002/getDeviceHealth_2_0'
+    // let url = environment.sitesUrl + '/generateDeviceHealthstats_2_0';
+    let url = 'http://192.168.0.237:1234/generateDeviceHealthstats_2_0'
     let user = this.storageSer.get('user');
     let params = new HttpParams();
-    if(user) {
+    if (user) {
       params = params.set('user_name', user.UserName);
     }
-    if(payload?.data?.siteId && payload?.data?.siteId != 'All') {
+    if (payload?.data?.siteId && payload?.data?.siteId != 'All') {
       params = params.set('site_id', payload.data?.siteId);
     }
-    if(payload?.data?.time && payload?.data?.time != 'All') {
+    if (payload?.data?.time && payload?.data?.time != 'All') {
       params = params.set('time', payload.data?.time);
     }
-    if(payload?.data?.status && payload?.data?.status != 'All') {
+    if (payload?.data?.status && payload?.data?.status != 'All') {
       params = params.set('status', payload.data?.status);
     }
-     if(payload?.page ) {
+    if (payload?.page) {
       params = params.set('pageno', payload.page);
     }
-     params = params.set('pagesize', 10);
+    params = params.set('pagesize', 10);
 
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   downtimesForDeviceId(payload?: any): Observable<any> {
@@ -389,13 +386,13 @@ export class AssetService {
     // if(payload?.siteId) {
     //   params = params.set('site_id', payload.siteId);
     // }
-    if(payload?.deviceId) {
+    if (payload?.deviceId) {
       params = params.set('device_id', payload.deviceId);
     }
-    if(payload?.days && payload?.days != 'All') {
+    if (payload?.days && payload?.days != 'All') {
       params = params.set('days', payload.days);
     }
-    return this.http.get(url, {params: params});
+    return this.http.get(url, { params: params });
   }
 
   devicesStatus() {

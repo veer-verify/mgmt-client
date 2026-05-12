@@ -262,6 +262,12 @@
                 <p>{{ el.siteLocalTime | date: "medium" }}</p>
               </td>
               <td>
+                <p>{{ el.uptime }}</p>
+              </td>
+              <td>
+                <p>{{ el.downtime }}</p>
+              </td>
+              <td>
                 <p>{{ el.latestReconnectedTime | date: "medium" }}</p>
               </td>
               <!-- <td>
@@ -290,7 +296,7 @@
                   View
                 </p>
               </td>
-              <td>
+              <!-- <td>
                 <img
                   src="assets/icons/info-outline.svg"
                   class="pointer"
@@ -303,7 +309,7 @@
                   "
                   alt=""
                 />
-              </td>
+              </td> -->
               <!-- <td >
                 <p>{{ el.downTime }}</p>
               </td> -->

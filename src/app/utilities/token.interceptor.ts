@@ -32,12 +32,12 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(request, next);
-        } else {
-          return throwError(() => error);
-        }
-      })
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        return this.handle401Error(request, next);
+      } else {
+        return throwError(() => error);
+      }
+    })
     );
   }
 
@@ -70,7 +70,7 @@ export class TokenInterceptor implements HttpInterceptor {
         catchError((err) => {
           // this.storageService.table_loader_sub.next(false);
           this.isRefreshing = false;
-          // this.authSer.logout();
+          this.authSer.logout();
           return throwError(() => err);
         })
       );
